@@ -4,15 +4,15 @@ import { createPinia, setActivePinia } from "pinia";
 
 import { useSkeletonStore } from "~/stores/skeleton";
 
-import Skeleton from "~/components/Skeleton.vue";
+import PageSkeleton from "~/components/PageSkeleton.vue";
 
-describe("Skeleton", () => {
+describe("PageSkeleton", () => {
   let wrapper: VueWrapper;
 
   beforeEach(() => {
     setActivePinia(createPinia());
 
-    wrapper = mount(Skeleton, {
+    wrapper = mount(PageSkeleton, {
       slots: {
         page: "Page content",
       },
@@ -57,7 +57,7 @@ describe("Skeleton", () => {
   });
 
   it("'s skeleton slot template may be overridden", async () => {
-    wrapper = mount(Skeleton, {
+    wrapper = mount(PageSkeleton, {
       slots: {
         skeleton: "Skeleton content",
       },

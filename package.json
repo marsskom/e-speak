@@ -38,6 +38,8 @@
     "nuxt": "^3.7.3",
     "prettier": "^3.0.2",
     "typescript": "^5.1.6",
+    "unplugin-auto-import": "^0.16.6",
+    "unplugin-vue-components": "^0.25.2",
     "vitest": "^0.34.2"
   },
   "dependencies": {

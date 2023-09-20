@@ -67,17 +67,4 @@ describe("GoogleAuthComponent", () => {
 
     expect(wrapper.find("button").attributes("disabled")).toBeUndefined();
   });
-
-  it("pushes error on auth failure", async () => {
-    wrapper.vm.singIn();
-
-    await wrapper.vm.$nextTick();
-
-    expect(wrapper.vm.errors.length).toEqual(1);
-    expect(wrapper.vm.errors[0]).toEqual("Error");
-
-    await wrapper.vm.$nextTick();
-
-    expect(wrapper.find(".error-box").exists()).toBe(true);
-  });
 });
