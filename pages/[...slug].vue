@@ -1,15 +1,11 @@
-<script setup lang="ts">
-definePageMeta({
-  middleware: "auth",
-});
-</script>
+<script setup lang="ts"></script>
 
 <template>
   <main
-    id="index-page"
+    id="text-page"
     class="h-screen flex flex-col items-center justify-center prose dark:prose-dark max-w-full lg:prose-xl"
   >
-    Index Page
+    <ContentDoc />
   </main>
 </template>
 

@@ -1,5 +1,10 @@
-export default defineNuxtRouteMiddleware((to, from) => {
-  if (true /* false === isAuthenticated() */) {
-    return navigateTo("/login");
+export default defineNuxtRouteMiddleware((to) => {
+  if (useIsGuest()) {
+    return navigateTo({
+      path: "/login",
+      query: {
+        redirect: to.fullPath,
+      },
+    });
   }
 });
