@@ -7,6 +7,7 @@ export default defineNuxtConfig({
     "@tailvue/nuxt",
     "@nuxt/content",
   ],
+  plugins: [{ src: "~/plugins/fontawesome.js", mode: "client" }],
   pinia: {
     autoImports: [
       // automatically imports `defineStore`
@@ -28,6 +29,7 @@ export default defineNuxtConfig({
       appId: process.env.FIREBASE_APP_ID,
     },
   },
+  css: ["@fortawesome/fontawesome-svg-core/styles.css"],
   runtimeConfig: {},
   $development: {
     devtools: { enabled: true },

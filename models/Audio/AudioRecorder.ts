@@ -1,0 +1,100 @@
+export default class AudioRecorder {
+  #mediaRecorder: null | MediaRecorder = null;
+  #audioBlobList: Blob[] = [];
+  #stream: null | MediaStream = null;
+
+  async start(): Promise<void> {
+    if (!(navigator.mediaDevices && navigator.mediaDevices.getUserMedia)) {
+      return Promise.reject(
+        new Error(
+          "mediaDevices API or getUserMedia method is not supported in this browser.",
+        ),
+      );
+    }
+
+    try {
+      return await navigator.mediaDevices
+        .getUserMedia({ audio: true })
+        .then((stream) => {
+          this.#stream = stream;
+          this.#mediaRecorder = new MediaRecorder(stream);
+          this.#audioBlobList = [];
+
+          this.#mediaRecorder.addEventListener(
+            "dataavailable",
+            (event: BlobEvent) => {
+              this.#audioBlobList.push(event.data);
+            },
+          );
+
+          this.#mediaRecorder.start();
+        });
+    } catch (error) {
+      return Promise.reject(error);
+    }
+  }
+
+  stop(): Promise<void | Blob> {
+    return new Promise((resolve) => {
+      const mimeType = this.#mediaRecorder?.mimeType;
+
+      this.#mediaRecorder?.addEventListener("stop", () => {
+        const audioBlob = new Blob(this.#audioBlobList, { type: mimeType });
+
+        resolve(audioBlob);
+      });
+
+      this.#mediaRecorder?.stop();
+      this.#stopStream();
+      this.#resetRecordingProperties();
+    });
+  }
+
+  #stopStream(): void {
+    this.#stream
+      ?.getTracks()
+      .forEach((track: MediaStreamTrack) => track.stop());
+  }
+
+  #resetRecordingProperties(): void {
+    this.#mediaRecorder = null;
+    this.#stream = null;
+  }
+
+  cancel(): void {
+    this.#mediaRecorder?.stop();
+    this.#stopStream();
+    this.#resetRecordingProperties();
+  }
+
+  getErrorMessage(error: Error): string {
+    switch (error.name) {
+      case "AbortError": // error from navigator.mediaDevices.getUserMedia
+        return "An AbortError has occured.";
+
+      case "NotAllowedError": // error from navigator.mediaDevices.getUserMedia
+        return "A NotAllowedError has occured. User might have denied permission.";
+
+      case "NotFoundError": // error from navigator.mediaDevices.getUserMedia
+        return "A NotFoundError has occured.";
+
+      case "NotReadableError": // error from navigator.mediaDevices.getUserMedia
+        return "A NotReadableError has occured.";
+
+      case "SecurityError": // error from navigator.mediaDevices.getUserMedia or from the MediaRecorder.start
+        return "A SecurityError has occured.";
+
+      case "TypeError": // error from navigator.mediaDevices.getUserMedia
+        return "A TypeError has occured.";
+
+      case "InvalidStateError": // error from the MediaRecorder.start
+        return "An InvalidStateError has occured.";
+
+      case "UnknownError": // error from the MediaRecorder.start
+        return "An UnknownError has occured.";
+
+      default:
+        return error.message;
+    }
+  }
+}
