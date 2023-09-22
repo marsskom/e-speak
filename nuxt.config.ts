@@ -17,7 +17,7 @@ export default defineNuxtConfig({
   },
   vuefire: {
     appCheck: {
-      debug: process.env.NODE_ENV !== 'production',
+      debug: process.env.NODE_ENV !== "production",
       isTokenAutoRefreshEnabled: true,
       provider: "ReCaptchaV3",
       key: process.env.GOOGLE_RECAPTCHA_KEY,
@@ -36,7 +36,11 @@ export default defineNuxtConfig({
     },
   },
   css: ["@fortawesome/fontawesome-svg-core/styles.css"],
-  runtimeConfig: {},
+  runtimeConfig: {
+    openAi: {
+      secretKey: "",
+    },
+  },
   $development: {
     devtools: { enabled: true },
   },

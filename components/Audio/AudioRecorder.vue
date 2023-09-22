@@ -33,7 +33,7 @@ const startRecording = () => {
   if (isRecording.value) {
     recorder
       .stop()
-      .then(acceptAudio)
+      .then(storeAudio)
       .catch((error) => {
         switch (error.name) {
           case "InvalidStateError":
@@ -66,7 +66,7 @@ const startRecording = () => {
     });
 };
 
-const acceptAudio = (audioAsBlob: void | Blob): void => {
+const storeAudio = (audioAsBlob: void | Blob): void => {
   setState(AudioRecorderState.Idle);
   clearTimeout(timeoutId);
 
@@ -78,7 +78,11 @@ const acceptAudio = (audioAsBlob: void | Blob): void => {
 
   const audio = AudioFileFactory.createAudioFile(audioAsBlob, "audio/webm");
 
-  const mountainFileRef = storageRef(storage, `audio/${audio.name}`);
+  const user = useGetUser();
+  const mountainFileRef = storageRef(
+    storage,
+    `user/${user.uid}/audio/${audio.name}`,
+  );
   const { upload } = useStorageFile(mountainFileRef);
 
   upload(audio)

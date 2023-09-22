@@ -1,5 +1,10 @@
 # E-Speak
 
+## Contributors
+
+- Andrii Prakapas - **owner**
+- [Copilot](https://github.com/features/copilot) - **contributor**
+
 ## Instalation
 
 ## Snippets
