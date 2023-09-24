@@ -4,8 +4,8 @@ import { AudioTranscriptionRequest } from "~/types/Api/Request.d";
 import { Message } from "~/types/Dialog/Message.d";
 
 export interface MessageFactory {
-  static createEmpty(): Message;
-  static createFromTranscription(
+  createEmpty(): Message;
+  createFromTranscription(
     data: AudioTranscriptionRequest,
     transcription: Transcription,
   ): Message;
