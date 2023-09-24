@@ -2,27 +2,39 @@
 import { ref as storageRef } from "firebase/storage";
 import { useFirebaseStorage, useStorageFile } from "vuefire";
 import { useToast } from "tailvue";
+import { Transcription } from "openai/resources/audio";
 
 import { useAudioRecorderStore } from "~/stores/Audio/recorder";
 
+import { AudioTranscriptionRequest } from "~/types/Api/Request.d";
 import { AudioRecorderState } from "~/types/Audio/AudioRecorder.d";
+import { AudioFileFactoryParams } from "~/types/Audio/AudioFileFactory.d";
 import { AudioFileFactory } from "~/models/Audio/AudioFileFactory";
 import AudioRecorder from "~/models/Audio/AudioRecorder";
+import MessageFactory from "~/models/Dialog/MessageFactory";
 
-const storage = useFirebaseStorage();
+import { useDialogStore } from "~/stores/Dialog/dialog";
+const { addMessage } = useDialogStore();
+
 const toast = useToast();
 
 const audioRecorderStore = useAudioRecorderStore();
 const isRecording = computed(() => audioRecorderStore.isRecording);
 const canBeActivated = computed(() => audioRecorderStore.canBeActivated);
-const { setState, activate, deactivate } = audioRecorderStore;
-const seconds = ref(0);
+const { setState, deactivate: deactivateRecorder } = audioRecorderStore;
 const recorder: AudioRecorder = new AudioRecorder();
+const seconds = ref(0);
 
 let timeoutId: ReturnType<typeof setTimeout>;
 
+const setIdleState = () => {
+  setState(AudioRecorderState.Idle);
+  clearTimeout(timeoutId);
+  seconds.value = 0;
+};
+
 const calcSeconds = () => {
-  seconds.value++;
+  ++seconds.value;
 
   timeoutId = setTimeout(() => {
     calcSeconds();
@@ -67,42 +79,66 @@ const startRecording = () => {
 };
 
 const storeAudio = (audioAsBlob: void | Blob): void => {
-  setState(AudioRecorderState.Idle);
-  clearTimeout(timeoutId);
+  setIdleState();
 
   if (!audioAsBlob) {
     return;
   }
 
-  deactivate();
+  deactivateRecorder();
 
-  const audio = AudioFileFactory.createAudioFile(audioAsBlob, "audio/webm");
+  const audioFileParams = {
+    mime: "audio/webm",
+  } as AudioFileFactoryParams;
+  const audio: File = AudioFileFactory.createAudioFile(
+    audioAsBlob,
+    audioFileParams,
+  );
 
   const user = useGetUser();
-  const mountainFileRef = storageRef(
-    storage,
-    `user/${user.uid}/audio/${audio.name}`,
-  );
-  const { upload } = useStorageFile(mountainFileRef);
+  const storage = useFirebaseStorage();
+  const fileFullPath = `user/${user.uid}/audio/${audio.name}`;
+  const audioFileRef = storageRef(storage, fileFullPath);
+  const { upload } = useStorageFile(audioFileRef);
+  let audioTranscriptionRequestData: AudioTranscriptionRequest;
 
   upload(audio)
-    .then(() => {
-      toast.success("Audio uploaded successfully.");
+    .then(async () => {
+      audioTranscriptionRequestData = {
+        filename: fileFullPath,
+        mimeType: audioFileParams.mimeType,
+        fileBase64: await AudioFileFactory.audioToBase64(audio),
+      } as AudioTranscriptionRequest;
+
+      return fetch("/api/transcription", {
+        method: "POST",
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(audioTranscriptionRequestData),
+      });
+    })
+    .then(async (response) => {
+      if (!response.ok) {
+        throw new Error("An error occured while fetching the transcription.");
+      }
+
+      return await response.json();
+    })
+    .then((transcription: Transcription) => {
+      addMessage(MessageFactory.createFromTranscription(audioTranscriptionRequestData, transcription));
     })
     .catch((error: Error) => {
       toast.danger(error.message);
     })
     .finally(() => {
-      activate();
+      audioRecorderStore.activate();
     });
 };
 
 const stopRecording = () => {
   recorder.cancel();
-
-  setState(AudioRecorderState.Idle);
-  clearTimeout(timeoutId);
-  seconds.value = 0;
+  setIdleState();
 };
 
 const getTime = computed(() => {
@@ -130,22 +166,13 @@ const secondsAcceptLabel = computed(() => {
     <div class="w-full flex items-center justify-center px-2 py-2">
       <div class="relative mx-2 my-2 px-4 py-4 w-1/4">
         <div class="w-full items-center justify-center text-center">
-          <button
-            class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-3 rounded-full"
-            :class="{ 'animate-pulse': isRecording }"
-            @click="startRecording"
-          >
-            <fa
-              :icon="['fas', 'fa-microphone-alt']"
-              size="2x"
-              class="px-2 py-2"
-            />
+          <button class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-3 rounded-full"
+            :class="{ 'animate-pulse': isRecording }" @click="startRecording">
+            <fa :icon="['fas', 'fa-microphone-alt']" size="2x" class="px-2 py-2" />
           </button>
-          <button
-            v-if="isRecording"
+          <button v-if="isRecording"
             class="bg-red-500 hover:bg-red-600 px-3 py-2 text-white font-bold absolute top-2 right-2 rounded-lg"
-            @click="stopRecording"
-          >
+            @click="stopRecording">
             <fa :icon="['fas', 'fa-stop']" size="lg" />
           </button>
         </div>
