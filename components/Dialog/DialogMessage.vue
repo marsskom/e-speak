@@ -59,13 +59,17 @@ const isUserMessage: ComputedRef<boolean> = computed(() => {
       "
     >
       <div class="inline-block w-full px-2 py-2">
-        <p>{{ content }}</p>
+        <p class="text-sm">{{ content }}</p>
         <hr
           v-if="isUserMessage"
           class="border-b border-pink-300 mt-3 mb-1 rounded-full"
         />
         <div v-if="isUserMessage">
           <AudioPlayer :message="props.message" />
+
+          <span class="text-xs text-gray-500 float-right py-1">{{
+            props.message.createdAt.toISOString()
+          }}</span>
         </div>
       </div>
 

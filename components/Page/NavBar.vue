@@ -4,7 +4,9 @@ import UserDataLink from "~/components/Page/NavBar/UserDataLink.vue";
 </script>
 
 <template>
-  <nav class="bg-white border-gray-200 dark:bg-gray-900">
+  <nav
+    class="flex-1 w-full bg-white border-gray-200 dark:bg-gray-900 min-h-[64px]"
+  >
     <div
       class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4"
     >

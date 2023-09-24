@@ -28,8 +28,10 @@ onMounted(() => {
 
 <template>
   <NuxtLayout>
-    <NavBar />
+    <div class="relative flex flex-grow flex-col h-screen">
+      <NavBar />
 
-    <NuxtPage />
+      <NuxtPage />
+    </div>
   </NuxtLayout>
 </template>

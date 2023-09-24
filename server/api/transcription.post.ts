@@ -16,7 +16,7 @@ export default defineEventHandler(async (event): Promise<Transcription> => {
   let result: Transcription = {
     text: "Lorem Ipsum",
   } as Transcription;
-  if (config.openAi.whisper.enabled) {
+  if (config.openAi.whisperEnabled) {
     result = await getTranscription(audio);
   }
 

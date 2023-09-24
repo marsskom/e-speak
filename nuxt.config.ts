@@ -39,9 +39,7 @@ export default defineNuxtConfig({
   runtimeConfig: {
     openAi: {
       secretKey: "",
-      whisper: {
-        enabled: true,
-      },
+      whisperEnabled: true,
     },
   },
   $development: {
