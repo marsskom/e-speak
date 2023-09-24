@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { Message, OpenAIRole } from "~/types/Dialog/Message.d";
+import AudioPlayer from "~/components/Audio/AudioPlayer.vue";
 
 const props = defineProps({
   message: {
@@ -40,18 +41,42 @@ const isUserMessage: ComputedRef<boolean> = computed(() => {
 </script>
 
 <template>
-  <div class="flex items-center mb-4 w-4/6 my-5" :class="isUserMessage ? 'flex-row-reverse float-right' : ''">
-    <div class="flex-none flex flex-col items-center space-y-1" :class="isUserMessage ? 'ml-4' : 'mr-4'">
-      <img :src="avatar" :alt="author" class="w-10 h-10 rounded-full">
+  <div
+    class="flex items-center mb-4 w-4/6 my-5"
+    :class="isUserMessage ? 'flex-row-reverse float-right' : ''"
+  >
+    <div
+      class="flex-none flex flex-col items-center space-y-1"
+      :class="isUserMessage ? 'ml-4' : 'mr-4'"
+    >
+      <img :src="avatar" :alt="author" class="w-10 h-10 rounded-full" />
       <span class="block text-xs">{{ author }}</span>
     </div>
-    <div class="flex min-w-[20rem] p-2 rounded-lg mb-2 relative"
-      :class="isUserMessage ? 'bg-pink-200 text-gray-800' : 'bg-pink-400 text-white'">
-      <div class="inline-block w-auto px-2 py-2">{{ content }}</div>
-
-      <div v-if="!isUserMessage" class="absolute left-0 top-1/2 transform -translate-x-1/2 rotate-45 w-2 h-2 bg-pink-400">
+    <div
+      class="flex min-w-[20rem] p-2 rounded-lg mb-2 relative"
+      :class="
+        isUserMessage ? 'bg-pink-200 text-gray-800' : 'bg-pink-400 text-white'
+      "
+    >
+      <div class="inline-block w-full px-2 py-2">
+        <p>{{ content }}</p>
+        <hr
+          v-if="isUserMessage"
+          class="border-b border-pink-300 mt-3 mb-1 rounded-full"
+        />
+        <div v-if="isUserMessage">
+          <AudioPlayer :message="props.message" />
+        </div>
       </div>
-      <div v-else class="absolute right-0 top-1/2 transform translate-x-1/2 rotate-45 w-2 h-2 bg-pink-200"></div>
+
+      <div
+        v-if="!isUserMessage"
+        class="absolute left-0 top-1/2 transform -translate-x-1/2 rotate-45 w-2 h-2 bg-pink-400"
+      ></div>
+      <div
+        v-else
+        class="absolute right-0 top-1/2 transform translate-x-1/2 rotate-45 w-2 h-2 bg-pink-200"
+      ></div>
     </div>
   </div>
 </template>

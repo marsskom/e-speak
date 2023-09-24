@@ -113,7 +113,7 @@ const storeAudio = (audioAsBlob: void | Blob): void => {
       return fetch("/api/transcription", {
         method: "POST",
         headers: {
-          'Content-Type': 'application/json'
+          "Content-Type": "application/json",
         },
         body: JSON.stringify(audioTranscriptionRequestData),
       });
@@ -126,7 +126,12 @@ const storeAudio = (audioAsBlob: void | Blob): void => {
       return await response.json();
     })
     .then((transcription: Transcription) => {
-      addMessage(MessageFactory.createFromTranscription(audioTranscriptionRequestData, transcription));
+      addMessage(
+        MessageFactory.createFromTranscription(
+          audioTranscriptionRequestData,
+          transcription,
+        ),
+      );
     })
     .catch((error: Error) => {
       toast.danger(error.message);
@@ -166,17 +171,26 @@ const secondsAcceptLabel = computed(() => {
     <div class="w-full flex items-center justify-center px-2 py-2">
       <div class="relative mx-2 my-2 px-4 py-4 w-1/4">
         <div class="w-full items-center justify-center text-center">
-          <button class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-3 rounded-full"
-            :class="{ 'animate-pulse': isRecording }" @click="startRecording">
-            <fa :icon="['fas', 'fa-microphone-alt']" size="2x" class="px-2 py-2" />
+          <button
+            class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-3 rounded-full"
+            :class="{ 'animate-pulse': isRecording }"
+            @click="startRecording"
+          >
+            <fa
+              :icon="['fas', 'fa-microphone-alt']"
+              size="2x"
+              class="px-2 py-2"
+            />
           </button>
-          <button v-if="isRecording"
+          <button
+            v-if="isRecording"
             class="bg-red-500 hover:bg-red-600 px-3 py-2 text-white font-bold absolute top-2 right-2 rounded-lg"
-            @click="stopRecording">
+            @click="stopRecording"
+          >
             <fa :icon="['fas', 'fa-stop']" size="lg" />
           </button>
         </div>
-        <div class="mt-4 text-center">
+        <div class="mt-4 text-center h-[24px]">
           <span v-show="seconds > 0" class="text-green-500">
             {{ isRecording ? secondsLabel : secondsAcceptLabel }}
           </span>
