@@ -28,6 +28,7 @@ auto-imports.d.ts
 components.d.ts
 
 # VisualStudioCode
-.vscode/**/*
+.vscode/*
+!.vscode/snippets
 !.vscode/tasks.json
 !.vscode/launch.json

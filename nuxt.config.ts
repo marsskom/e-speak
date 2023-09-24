@@ -7,6 +7,7 @@ export default defineNuxtConfig({
     "@tailvue/nuxt",
     "@nuxt/content",
   ],
+  plugins: [{ src: "~/plugins/fontawesome.js", mode: "client" }],
   pinia: {
     autoImports: [
       // automatically imports `defineStore`
@@ -15,6 +16,12 @@ export default defineNuxtConfig({
     ],
   },
   vuefire: {
+    appCheck: {
+      debug: process.env.NODE_ENV !== "production",
+      isTokenAutoRefreshEnabled: true,
+      provider: "ReCaptchaV3",
+      key: process.env.GOOGLE_RECAPTCHA_KEY,
+    },
     auth: {
       enabled: true,
       sessionCookie: true,
@@ -28,7 +35,12 @@ export default defineNuxtConfig({
       appId: process.env.FIREBASE_APP_ID,
     },
   },
-  runtimeConfig: {},
+  css: ["@fortawesome/fontawesome-svg-core/styles.css"],
+  runtimeConfig: {
+    openAi: {
+      secretKey: "",
+    },
+  },
   $development: {
     devtools: { enabled: true },
   },

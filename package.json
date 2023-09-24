@@ -6,6 +6,7 @@
     "dev": "nuxt dev",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
+    "typecheck": "nuxi typecheck",
     "postinstall": "nuxt prepare",
     "lint:js": "eslint --ext \".ts,.vue\" --ignore-path .gitignore .",
     "lint:prettier": "prettier --check .",
@@ -43,12 +44,20 @@
     "vitest": "^0.34.2"
   },
   "dependencies": {
+    "@fortawesome/fontawesome-free": "^6.4.2",
+    "@fortawesome/fontawesome-svg-core": "^6.4.2",
+    "@fortawesome/free-brands-svg-icons": "^6.4.2",
+    "@fortawesome/free-regular-svg-icons": "^6.4.2",
+    "@fortawesome/free-solid-svg-icons": "^6.4.2",
+    "@fortawesome/vue-fontawesome": "^3.0.3",
     "@pinia/nuxt": "^0.4.11",
     "firebase": "^10.4.0",
     "firebase-admin": "^11.10.1",
     "nuxt-vuefire": "^0.3.0",
+    "openai": "^4.10.0",
     "pinia": "^2.1.6",
     "sass": "^1.66.1",
+    "uuid": "^9.0.1",
     "vuefire": "^3.1.17"
   }
 }

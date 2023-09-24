@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { useLoginFormStore } from "~/stores/Form/login-form";
 
+import { EventChange } from "~/types/Form/Input/Checkbox";
 import FormCheckbox from "~/components/Form/Input/Checkbox/FormCheckbox.vue";
-import { EventChange } from "~/models/Form/Input/Checkbox";
 
 const loginFormStore = useLoginFormStore();
 const { acceptAgreement, declineAgreement } = loginFormStore;

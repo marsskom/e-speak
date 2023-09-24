@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { EventChange, Props } from "~/models/Form/Input/Checkbox";
+import { EventChange, Props } from "~/types/Form/Input/Checkbox";
 
 const props = withDefaults(defineProps<Props>(), {
   id: "",
