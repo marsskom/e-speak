@@ -38,7 +38,8 @@ export default class MessageFactory {
     )[0];
 
     message.role =
-      getKeyByValue(OpenAIRole, choice.message.role) || OpenAIRole.System;
+      getKeyByValue(OpenAIRole, choice.message.role)?.toLowerCase() ||
+      OpenAIRole.System;
     message.content = choice.message.content || "";
 
     return message;

@@ -15,7 +15,7 @@ export const useDialogStore = defineStore("dialog", () => {
 
     const resolver = new MessageResolver(dialog.value.messages);
 
-    resolver.askOpenAI().then(() => {
+    resolver.askOpenAI().finally(() => {
       const audioRecorderStore = useAudioRecorderStore();
       const { activate: activateRecorder } = audioRecorderStore;
 

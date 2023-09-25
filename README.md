@@ -7,6 +7,20 @@
 > The main purpose of this project is to learn Vue.js 3 and TypeScript with OpenAI, so I'm not sure that I will support it in the future. Now I'm working on it in my free time, but I'm not sure that I will have enough time for it in the future.
 > Basically, I'm trying to create MVP.
 
+## Node Version
+
+The project works on no version 16.20.2.
+
+Firstly, I used to use version 18 latest, but I had some problems with `fetch` to OpenAI API. I tried to fix it, but I didn't find any solution. So I decided to downgrade node version to 16.20.2 and it helped.
+
+Except, you should install dependencies with `yarn install --ignore-engines` command, since latest version of `vuefire` doesn't support node version 16. Older `vuefire` doesn't work.
+
+## Docker
+
+Unfortunately, docker is not working yet.
+
+The problem some kind of strange, since nuxt doesn't use 3000 port and choses it randomly. I tried to use `EXPOSE` and `PORT` environment variable, but it didn't help.
+
 ## Contributors
 
 - Andrii Prakapas - **owner**
