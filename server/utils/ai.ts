@@ -17,7 +17,7 @@ export const getChatStream = async (
     temperature: 0.7,
   } as ChatCompletionCreateParamsStreaming;
 
-  const result = await fetch("https://api.openai.com/v1/chat/completions", {
+  return await fetch("https://api.openai.com/v1/chat/completions", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -25,14 +25,16 @@ export const getChatStream = async (
     },
     body: JSON.stringify(params),
   })
-    .then((result) => {
-      return result.json();
+    .then(async (response) => {
+      if (!response.ok) {
+        throw new Error("An error occured while fetching OpenAI API");
+      }
+
+      return await response.json();
     })
     .then((json) => {
       return Promise.resolve(json as ChatCompletion);
     });
-
-  return result;
 };
 
 export const getTranscription = async (audio: File): Promise<Transcription> => {
@@ -42,19 +44,21 @@ export const getTranscription = async (audio: File): Promise<Transcription> => {
   formData.append("temperature", "0.5");
   formData.append("response_format", "json");
 
-  const result = await fetch("https://api.openai.com/v1/audio/transcriptions", {
+  return await fetch("https://api.openai.com/v1/audio/transcriptions", {
     method: "POST",
     headers: {
       Authorization: `Bearer ${config.openAi.secretKey}`,
     },
     body: formData,
   })
-    .then((result) => {
-      return result.json();
+    .then(async (response) => {
+      if (!response.ok) {
+        throw new Error("An error occured while fetching Whisper API");
+      }
+
+      return await response.json();
     })
     .then((json) => {
       return Promise.resolve(json as Transcription);
     });
-
-  return result;
 };
