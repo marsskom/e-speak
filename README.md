@@ -1,5 +1,12 @@
 # E-Speak
 
+## Disclaimer
+
+> I'm newbie in Vue.js 3 and TypeScript, so I'm not sure that I'm doing everything right. If you have any suggestions, please, let me know.
+> Moreover, work still in progress, so I'm not sure that everything is working as expected.
+> The main purpose of this project is to learn Vue.js 3 and TypeScript with OpenAI, so I'm not sure that I will support it in the future. Now I'm working on it in my free time, but I'm not sure that I will have enough time for it in the future.
+> Basically, I'm trying to create MVP.
+
 ## Contributors
 
 - Andrii Prakapas - **owner**

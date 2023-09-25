@@ -4,8 +4,6 @@ import { AudioTranscriptionRequest } from "~/types/Api/Request.d";
 import { AudioFileFactory } from "~/models/Audio/AudioFileFactory";
 import { getTranscription } from "~/server/utils/ai";
 
-const config = useRuntimeConfig();
-
 export default defineEventHandler(async (event): Promise<Transcription> => {
   const data: AudioTranscriptionRequest = await readBody(event);
   const audio: File = AudioFileFactory.base64ToAudio(
@@ -13,12 +11,10 @@ export default defineEventHandler(async (event): Promise<Transcription> => {
     data.mimeType,
   );
 
-  let result: Transcription = {
-    text: "Lorem Ipsum",
-  } as Transcription;
-  if (config.openAi.whisper.enabled) {
-    result = await getTranscription(audio);
-  }
+  // const result: Transcription = {
+  //   text: "Let's talk about something interesting!",
+  // } as Transcription;
+  const result = await getTranscription(audio);
 
   if (!result.text || result.text.length === 0) {
     throw new Error("Transcription failed");

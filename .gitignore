@@ -32,3 +32,6 @@ components.d.ts
 !.vscode/snippets
 !.vscode/tasks.json
 !.vscode/launch.json
+
+# Cert
+*.pem

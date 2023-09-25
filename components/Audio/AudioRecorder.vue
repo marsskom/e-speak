@@ -6,6 +6,7 @@ import { Transcription } from "openai/resources/audio";
 
 import { useAudioRecorderStore } from "~/stores/Audio/recorder";
 
+import { Settings } from "~/types/Settings";
 import { AudioTranscriptionRequest } from "~/types/Api/Request.d";
 import { AudioRecorderState } from "~/types/Audio/AudioRecorder.d";
 import { AudioFileFactoryParams } from "~/types/Audio/AudioFileFactory.d";
@@ -18,10 +19,16 @@ const { addMessage } = useDialogStore();
 
 const toast = useToast();
 
+const settings: Settings = useGetSettings();
+
 const audioRecorderStore = useAudioRecorderStore();
 const isRecording = computed(() => audioRecorderStore.isRecording);
 const canBeActivated = computed(() => audioRecorderStore.canBeActivated);
-const { setState, deactivate: deactivateRecorder } = audioRecorderStore;
+const {
+  setState,
+  activate: activateRecorder,
+  deactivate: deactivateRecorder,
+} = audioRecorderStore;
 const recorder: AudioRecorder = new AudioRecorder();
 const seconds = ref(0);
 
@@ -45,15 +52,36 @@ const startRecording = () => {
   if (isRecording.value) {
     recorder
       .stop()
+      .then((audioAsBlob: void | Blob) => {
+        if (seconds.value < settings.recorder.minDuration) {
+          setIdleState();
+
+          throw new Error(
+            `The recording must be at least ${settings.recorder.minDuration} seconds long.`,
+          );
+        }
+
+        if (seconds.value > settings.recorder.maxDuration) {
+          setIdleState();
+
+          throw new Error(
+            `The recording must be at most ${settings.recorder.maxDuration} seconds long.`,
+          );
+        }
+
+        return audioAsBlob;
+      })
       .then(storeAudio)
-      .catch((error) => {
+      .catch((error: Error) => {
         switch (error.name) {
           case "InvalidStateError":
             toast.danger("An InvalidStateError has occured.");
             break;
           default:
-            toast.danger("An error occured with the error name " + error.name);
+            toast.danger(error.message);
         }
+
+        activateRecorder();
       });
 
     return;
@@ -75,6 +103,9 @@ const startRecording = () => {
       }
 
       toast.danger(recorder.getErrorMessage(error));
+
+      setIdleState();
+      activateRecorder();
     });
 };
 
@@ -135,9 +166,8 @@ const storeAudio = (audioAsBlob: void | Blob): void => {
     })
     .catch((error: Error) => {
       toast.danger(error.message);
-    })
-    .finally(() => {
-      audioRecorderStore.activate();
+
+      activateRecorder();
     });
 };
 
@@ -164,6 +194,12 @@ const secondsAcceptLabel = computed(() => {
   const time = getTime.value;
   return `Recorded ${time.minutes}:${time.seconds}`;
 });
+
+watch(seconds, (seconds) => {
+  if (seconds >= settings.recorder.maxDuration) {
+    startRecording();
+  }
+});
 </script>
 
 <template>
@@ -174,6 +210,7 @@ const secondsAcceptLabel = computed(() => {
           <button
             class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-3 rounded-full"
             :class="{ 'animate-pulse': isRecording }"
+            :title="isRecording ? 'Accept recording' : 'Start recording'"
             @click="startRecording"
           >
             <fa
@@ -185,13 +222,18 @@ const secondsAcceptLabel = computed(() => {
           <button
             v-if="isRecording"
             class="bg-red-500 hover:bg-red-600 px-3 py-2 text-white font-bold absolute top-2 right-2 rounded-lg"
+            title="Stop recording"
             @click="stopRecording"
           >
             <fa :icon="['fas', 'fa-stop']" size="lg" />
           </button>
         </div>
-        <div class="mt-4 text-center h-[24px]">
-          <span v-show="seconds > 0" class="text-green-500">
+        <p class="my-2 text-xs text-gray-500 text-center w-full">
+          Min: {{ settings.recorder.minDuration }}; Max:
+          {{ settings.recorder.maxDuration }} sec
+        </p>
+        <div class="mt-1 text-center h-[20px]">
+          <span v-show="seconds > 0" class="text-xs text-green-500">
             {{ isRecording ? secondsLabel : secondsAcceptLabel }}
           </span>
         </div>

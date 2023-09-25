@@ -56,7 +56,7 @@ const loadAudioFile = (): void => {
   })
     .then(async (response) => {
       if (!response.ok) {
-        throw new Error("An error occured while fetching the transcription.");
+        throw new Error("An error occured while fetching the audio file.");
       }
 
       return await response.json();

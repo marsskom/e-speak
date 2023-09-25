@@ -9,4 +9,5 @@ export interface MessageFactory {
     data: AudioTranscriptionRequest,
     transcription: Transcription,
   ): Message;
+  createFromChatCompletion(chatCompletion: ChatCompletion): Message;
 }

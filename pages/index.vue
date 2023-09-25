@@ -17,25 +17,28 @@ const currentDialog: ComputedRef<Dialog> = computed(
 </script>
 
 <template>
-  <main id="index-page" class="flex flex-col items-center justify-center">
+  <main
+    id="index-page"
+    class="flex flex-col items-center justify-center h-full"
+  >
     <div
-      class="flex h-[calc(100vh-64px)] w-full divide-x divide-dashed hover:divide-solid"
+      class="flex relative h-full w-full divide-x divide-dashed hover:divide-solid"
     >
       <MenuSidebar />
 
-      <div class="w-3/4 bg-gray-100 flex flex-col">
-        <div class="dialog-container-top flex-1 items-center justify-center">
-          <div class="border-2 border-b-pink-500">
-            <h3 class="text-xl font-bold text-gray-800">
+      <div class="w-4/5 bg-gray-100 flex flex-col">
+        <div class="dialog-container-top flex-1 max-h-14">
+          <div class="border-2 border-b-pink-500 p-2 flex justify-between">
+            <span class="text-xl font-bold text-gray-800">
               {{ currentDialog.name || "New Dialog" }}
-            </h3>
-            <span class="text-xs text-gray-500"
+            </span>
+            <span class="text-xs text-gray-500 float-right self-end"
               >(Created: {{ currentDialog.createdAt.toISOString() }})</span
             >
           </div>
         </div>
 
-        <div class="dialog-container flex-1 p-4">
+        <div class="dialog-container flex-1 p-4 overflow-y-auto h-full">
           <DialogMessage
             v-for="message in currentDialog.messages"
             :key="message.uid"

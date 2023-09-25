@@ -52,6 +52,8 @@ export class AudioFileFactory {
 
     const blob = new Blob([new Uint8Array(byteArrays)], { type: mimeType });
 
-    return AudioFileFactory.createAudioFile(blob, { mimeType });
+    return AudioFileFactory.createAudioFile(blob, {
+      mimeType,
+    } as AudioFileFactoryParams);
   }
 }
