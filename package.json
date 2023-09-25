@@ -4,6 +4,7 @@
   "scripts": {
     "build": "nuxt build",
     "dev": "nuxt dev",
+    "proxy": "mkcert -install && mkcert localhost && npx -y local-ssl-proxy --source 3010 --target 3000 --cert localhost.pem --key localhost-key.pem",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "typecheck": "nuxi typecheck",

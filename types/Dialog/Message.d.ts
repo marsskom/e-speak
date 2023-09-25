@@ -1,3 +1,5 @@
+import { ChatCompletion } from "openai/resources/chat";
+
 export interface Message {
   uid: string;
   content: string;
@@ -6,6 +8,7 @@ export interface Message {
   createdAt: Date;
   updatedAt: Date;
   audioFile?: string;
+  chatCompletion?: ChatCompletion;
 }
 
 export enum OpenAIRole {

@@ -59,13 +59,20 @@ const isUserMessage: ComputedRef<boolean> = computed(() => {
       "
     >
       <div class="inline-block w-full px-2 py-2">
-        <p class="text-sm">{{ content }}</p>
+        <!-- eslint-disable vue/no-v-html -->
+        <p
+          class="text-sm prose"
+          :class="isUserMessage ? 'text-gray-800' : 'text-white'"
+          v-html="content"
+        ></p>
+        <!--eslint-enable-->
+
         <hr
-          v-if="isUserMessage"
+          v-if="isUserMessage; "
           class="border-b border-pink-300 mt-3 mb-1 rounded-full"
         />
-        <div v-if="isUserMessage">
-          <AudioPlayer :message="props.message" />
+        <div v-if=" isUserMessage; ">
+          <AudioPlayer :message=" props.message; " />
 
           <span class="text-xs text-gray-500 float-right py-1">{{
             props.message.createdAt.toISOString()
@@ -74,7 +81,7 @@ const isUserMessage: ComputedRef<boolean> = computed(() => {
       </div>
 
       <div
-        v-if="!isUserMessage"
+        v-if=" !isUserMessage; "
         class="absolute left-0 top-1/2 transform -translate-x-1/2 rotate-45 w-2 h-2 bg-pink-400"
       ></div>
       <div

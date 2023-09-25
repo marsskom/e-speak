@@ -1,0 +1,10 @@
+{
+  "File to Buffer and Save": {
+    "prefix": "ftbu",
+    "body": [
+      "const buffer = Buffer.from(await audio.arrayBuffer());",
+      "fs.writeFileSync('./audio.webm', buffer);"
+    ],
+    "description": "Makes buffer from File object and save it locally"
+  }
+}

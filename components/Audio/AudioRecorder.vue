@@ -24,7 +24,11 @@ const settings: Settings = useGetSettings();
 const audioRecorderStore = useAudioRecorderStore();
 const isRecording = computed(() => audioRecorderStore.isRecording);
 const canBeActivated = computed(() => audioRecorderStore.canBeActivated);
-const { setState, deactivate: deactivateRecorder } = audioRecorderStore;
+const {
+  setState,
+  activate: activateRecorder,
+  deactivate: deactivateRecorder,
+} = audioRecorderStore;
 const recorder: AudioRecorder = new AudioRecorder();
 const seconds = ref(0);
 
@@ -76,6 +80,8 @@ const startRecording = () => {
           default:
             toast.danger(error.message);
         }
+
+        activateRecorder();
       });
 
     return;
@@ -97,6 +103,9 @@ const startRecording = () => {
       }
 
       toast.danger(recorder.getErrorMessage(error));
+
+      setIdleState();
+      activateRecorder();
     });
 };
 
@@ -157,9 +166,8 @@ const storeAudio = (audioAsBlob: void | Blob): void => {
     })
     .catch((error: Error) => {
       toast.danger(error.message);
-    })
-    .finally(() => {
-      audioRecorderStore.activate();
+
+      activateRecorder();
     });
 };
 

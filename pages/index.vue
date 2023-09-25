@@ -26,7 +26,7 @@ const currentDialog: ComputedRef<Dialog> = computed(
     >
       <MenuSidebar />
 
-      <div class="w-3/4 bg-gray-100 flex flex-col">
+      <div class="w-4/5 bg-gray-100 flex flex-col">
         <div class="dialog-container-top flex-1 max-h-14">
           <div class="border-2 border-b-pink-500 p-2 flex justify-between">
             <span class="text-xl font-bold text-gray-800">
