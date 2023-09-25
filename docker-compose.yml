@@ -1,5 +1,8 @@
 version: "3"
 
+volumes:
+  tmpfs:
+
 services:
   app:
     build:
@@ -7,3 +10,5 @@ services:
       dockerfile: ./docker/Dockerfile
     ports:
       - "3000:3000"
+    volumes:
+      - tmpfs:/tmp

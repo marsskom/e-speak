@@ -60,7 +60,7 @@ export default class MessageResolver {
     const lastMessage = messages[messages.length - 1];
 
     lastMessage.content =
-      "Answer should be embedded in html tags. " + lastMessage.content;
+      "Answer should be embedded in html tags.\n\n" + lastMessage.content;
 
     messages[messages.length - 1] = lastMessage;
 
