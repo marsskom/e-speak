@@ -1648,13 +1648,13 @@
     rc9 "^2.1.1"
     std-env "^3.4.3"
 
-"@nuxt/test-utils@^3.6.5":
-  version "3.7.3"
-  resolved "https://registry.yarnpkg.com/@nuxt/test-utils/-/test-utils-3.7.3.tgz#117cc6547071bc1fa11b255e03f8474f61f2eed2"
-  integrity sha512-KHe5NLnPh10gT62tFZtQZ7h40yrlsjxfVYrfpD8WchzdeC4lHtZPMaYFTB8K43il/L6U3m2i+kC7zIFMGEpzWQ==
+"@nuxt/test-utils@^3.7.4":
+  version "3.7.4"
+  resolved "https://registry.yarnpkg.com/@nuxt/test-utils/-/test-utils-3.7.4.tgz#d03afb7e133a9db3a2704e2abd3799cde6635095"
+  integrity sha512-C0OjZQhNob9YqR5ThYFD6sBJywLLFsWYbiJwkTDx1fSEZe10h/4QGy43yxl77Rxypt47y0Qy32LYZnkqip8lyQ==
   dependencies:
-    "@nuxt/kit" "3.7.3"
-    "@nuxt/schema" "3.7.3"
+    "@nuxt/kit" "3.7.4"
+    "@nuxt/schema" "3.7.4"
     consola "^3.2.3"
     defu "^6.1.2"
     execa "^7.2.0"
