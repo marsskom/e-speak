@@ -1,29 +1,28 @@
-import {
-  ChatCompletion,
-  ChatCompletionMessageParam,
-} from "openai/resources/chat/completions";
+import { ChatCompletion } from "openai/resources/chat/completions";
 import { Message, OpenAIRole } from "~/types/Dialog/Message.d";
 
 import MessageTransform from "~/models/Dialog/MessageTransform";
 import MessageFactory from "~/models/Dialog/MessageFactory";
-
-import { useDialogStore } from "~/stores/Dialog/dialog";
+import { usePromptStore } from "~/stores/Dialog/prompt";
 
 export default class MessageResolver {
   // eslint-disable-next-line no-useless-constructor
   constructor(private messageList: Message[]) {}
 
-  askOpenAI(): Promise<void> {
+  askOpenAI(): Promise<Message[]> {
     if (!this.messageList || this.messageList.length === 0) {
-      return Promise.resolve();
+      return Promise.resolve(this.messageList);
     }
 
+    // TODO: maybe sometimes bot can send a couple messages in a row.
     if (!this.verifyUserOfLastMessage()) {
-      return Promise.resolve();
+      return Promise.resolve(this.messageList);
     }
 
-    const openAIMessageList = this.mutateLastMessagePrompt(
-      MessageTransform.messageListToOpenAIMessageList(this.messageList),
+    this.messageList.push(...this.mutateWithPrompts());
+
+    const openAIMessageList = MessageTransform.messageListToOpenAIMessageList(
+      this.messageList,
     );
 
     return fetch("/api/chat", {
@@ -41,10 +40,12 @@ export default class MessageResolver {
         return await response.json();
       })
       .then((chatCompletion: ChatCompletion) => {
-        const { addMessage } = useDialogStore();
-        addMessage(MessageFactory.createFromChatCompletion(chatCompletion));
+        const message = MessageFactory.createFromChatCompletion(chatCompletion);
+        message.content = message.content.replace(/\\n/g, "<br />");
 
-        return Promise.resolve();
+        this.messageList.push(message);
+
+        return Promise.resolve(this.messageList);
       });
   }
 
@@ -54,16 +55,11 @@ export default class MessageResolver {
     return lastMessage.role === OpenAIRole.User;
   }
 
-  private mutateLastMessagePrompt(
-    messages: ChatCompletionMessageParam[],
-  ): ChatCompletionMessageParam[] {
-    const lastMessage = messages[messages.length - 1];
-
-    lastMessage.content =
-      "Answer should be embedded in html tags.\n\n" + lastMessage.content;
-
-    messages[messages.length - 1] = lastMessage;
-
-    return messages;
+  private mutateWithPrompts(): Message[] {
+    return MessageFactory.createFromPrompts(
+      this.messageList.length <= 1
+        ? usePromptStore().promptsOnDialogStart
+        : usePromptStore().promptsOnDialogContinue,
+    );
   }
 }
