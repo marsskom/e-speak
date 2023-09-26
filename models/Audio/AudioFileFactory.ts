@@ -15,7 +15,7 @@ export default class AudioFileFactory {
       .padStart(2, "0")}-${date.getDate().toString().padStart(2, "0")}`;
 
     prefix = prefix
-      .replace("%date%", this.dialogUid)
+      .replace("%date%", dayString)
       .replace("%dialog_uid%", this.dialogUid)
       .replace("%message_uid%", this.messageUid);
 
