@@ -1,4 +1,5 @@
 import { ChatCompletion } from "openai/resources/chat";
+import { Prompt } from "~/types/Dialog/Prompt.d";
 
 export interface Message {
   uid: string;
@@ -9,6 +10,7 @@ export interface Message {
   updatedAt: Date;
   audioFile?: string;
   chatCompletion?: ChatCompletion;
+  prompt?: Prompt;
 }
 
 export enum OpenAIRole {

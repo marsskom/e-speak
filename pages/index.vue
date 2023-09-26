@@ -5,6 +5,7 @@ import { useDialogStore } from "~/stores/Dialog/dialog";
 import MenuSidebar from "~/components/Layout/MenuSidebar.vue";
 import DialogMessage from "~/components/Dialog/DialogMessage.vue";
 import AudioRecorder from "~/components/Audio/AudioRecorder.vue";
+import { Message, OpenAIRole } from "~/types/Dialog/Message.d";
 
 definePageMeta({
   middleware: "auth",
@@ -13,6 +14,13 @@ definePageMeta({
 const dialogStore = useDialogStore();
 const currentDialog: ComputedRef<Dialog> = computed(
   () => dialogStore.currentDialog,
+);
+
+const messages: ComputedRef<Message[]> = computed(() =>
+  dialogStore.currentDialog.messages.filter(
+    (message: Message) =>
+      message.role === OpenAIRole.User || message.role === OpenAIRole.Assistant,
+  ),
 );
 </script>
 
@@ -40,7 +48,7 @@ const currentDialog: ComputedRef<Dialog> = computed(
 
         <div class="dialog-container flex-1 p-4 overflow-y-auto h-full">
           <DialogMessage
-            v-for="message in currentDialog.messages"
+            v-for="message in messages"
             :key="message.uid"
             :message="message"
           />

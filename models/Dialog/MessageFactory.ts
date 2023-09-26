@@ -5,6 +5,7 @@ import { ChatCompletion } from "openai/resources/chat/completions";
 import { AudioTranscriptionRequest } from "~/types/Api/Request.d";
 import { Message, OpenAIRole } from "~/types/Dialog/Message.d";
 import { getKeyByValue } from "~/models/Enum";
+import { Prompt } from "~/types/Dialog/Prompt.d";
 
 export default class MessageFactory {
   static createEmpty(): Message {
@@ -43,5 +44,16 @@ export default class MessageFactory {
     message.content = choice.message.content || "";
 
     return message;
+  }
+
+  static createFromPrompts(prompts: Prompt[]): Message[] {
+    return prompts.map((prompt: Prompt) => {
+      const message = MessageFactory.createEmpty();
+      message.content = prompt.prompt;
+      message.role = OpenAIRole.System;
+      message.prompt = prompt;
+
+      return message;
+    });
   }
 }

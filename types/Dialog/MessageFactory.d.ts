@@ -10,4 +10,5 @@ export interface MessageFactory {
     transcription: Transcription,
   ): Message;
   createFromChatCompletion(chatCompletion: ChatCompletion): Message;
+  createFromPrompts(prompts: Prompt[]): Message[];
 }

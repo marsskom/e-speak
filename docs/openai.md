@@ -12,7 +12,6 @@ Instructions:
 
 ![OpenAI Payment Method](./images/openai/payment-method.png)
 
-
 5. You must pay for the API usage. You can start from 10$ and then increase the amount if you need it. Usage statistic you can find in the [usage section](https://platform.openai.com/account/usage).
 6. You can now start using the OpenAI API with your API key.
 
