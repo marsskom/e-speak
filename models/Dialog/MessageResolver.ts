@@ -1,11 +1,13 @@
 import { ChatCompletion } from "openai/resources/chat/completions";
-import { Message, OpenAIRole } from "~/types/Dialog/Message.d";
 
+import { Message, OpenAIRole } from "~/types/Dialog/Message.d";
 import MessageTransform from "~/models/Dialog/MessageTransform";
 import MessageFactory from "~/models/Dialog/MessageFactory";
 import { usePromptStore } from "~/stores/Dialog/prompt";
 
 export default class MessageResolver {
+  private messageFactory: MessageFactory = new MessageFactory();
+
   // eslint-disable-next-line no-useless-constructor
   constructor(private messageList: Message[]) {}
 
@@ -21,14 +23,14 @@ export default class MessageResolver {
 
     this.messageList.push(...this.mutateWithPrompts());
 
-    const openAIMessageList = MessageTransform.messageListToOpenAIMessageList(
-      this.messageList,
-    );
+    const openAIMessageList =
+      new MessageTransform().messageListToOpenAIMessageList(this.messageList);
 
     return fetch("/api/chat", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        ...useHeaders(),
       },
       body: JSON.stringify({ messages: openAIMessageList }),
     })
@@ -40,7 +42,8 @@ export default class MessageResolver {
         return await response.json();
       })
       .then((chatCompletion: ChatCompletion) => {
-        const message = MessageFactory.createFromChatCompletion(chatCompletion);
+        const message =
+          this.messageFactory.createFromChatCompletion(chatCompletion);
         message.content = message.content.replace(/\\n/g, "<br />");
 
         this.messageList.push(message);
@@ -56,7 +59,7 @@ export default class MessageResolver {
   }
 
   private mutateWithPrompts(): Message[] {
-    return MessageFactory.createFromPrompts(
+    return this.messageFactory.createFromPrompts(
       this.messageList.length <= 1
         ? usePromptStore().promptsOnDialogStart
         : usePromptStore().promptsOnDialogContinue,

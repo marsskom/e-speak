@@ -3,7 +3,7 @@ import { ChatCompletionMessageParam } from "openai/resources/chat/completions";
 import { Message } from "~/types/Dialog/Message.d";
 
 export default class MessageTransform {
-  static messageListToOpenAIMessageList(
+  messageListToOpenAIMessageList(
     messageList: Message[],
   ): ChatCompletionMessageParam[] {
     return messageList.map(

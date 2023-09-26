@@ -6,16 +6,24 @@ import { Transcription } from "openai/resources/audio";
 
 import { useAudioRecorderStore } from "~/stores/Audio/recorder";
 
-import { Settings } from "~/types/Settings";
+import { Settings } from "~/types/Settings.d";
 import { AudioTranscriptionRequest } from "~/types/Api/Request.d";
 import { AudioRecorderState } from "~/types/Audio/AudioRecorder.d";
-import { AudioFileFactoryParams } from "~/types/Audio/AudioFileFactory.d";
-import { AudioFileFactory } from "~/models/Audio/AudioFileFactory";
+import AudioFileFactory from "~/models/Audio/AudioFileFactory";
 import AudioRecorder from "~/models/Audio/AudioRecorder";
+import { Dialog } from "~/types/Dialog/Dialog.d";
+import { Message } from "~/types/Dialog/Message.d";
 import MessageFactory from "~/models/Dialog/MessageFactory";
 
 import { useDialogStore } from "~/stores/Dialog/dialog";
-const { addMessage } = useDialogStore();
+const dialogStore = useDialogStore();
+const currentDialog: ComputedRef<Dialog> = computed(
+  () => dialogStore.currentDialog,
+);
+const currentMessageInProgress: ComputedRef<Message> = computed(() => {
+  return dialogStore.currentMessageInProgress;
+});
+const { addMessage } = dialogStore;
 
 const toast = useToast();
 
@@ -118,33 +126,36 @@ const storeAudio = (audioAsBlob: void | Blob): void => {
 
   deactivateRecorder();
 
-  const audioFileParams = {
-    mime: "audio/webm",
-  } as AudioFileFactoryParams;
-  const audio: File = AudioFileFactory.createAudioFile(
-    audioAsBlob,
-    audioFileParams,
+  const audioFactory: ComputedRef<AudioFileFactory> = computed(
+    () =>
+      new AudioFileFactory(
+        settings.recorder.audioParams,
+        currentDialog.value.uid,
+        currentMessageInProgress.value.uid,
+      ),
   );
+  const audio: File = audioFactory.value.createAudioFile(audioAsBlob);
 
   const user = useGetUser();
   const storage = useFirebaseStorage();
   const fileFullPath = `user/${user.uid}/audio/${audio.name}`;
   const audioFileRef = storageRef(storage, fileFullPath);
   const { upload } = useStorageFile(audioFileRef);
+  const messageFactory: MessageFactory = new MessageFactory();
   let audioTranscriptionRequestData: AudioTranscriptionRequest;
 
   upload(audio)
     .then(async () => {
       audioTranscriptionRequestData = {
         filename: fileFullPath,
-        mimeType: audioFileParams.mimeType,
-        fileBase64: await AudioFileFactory.audioToBase64(audio),
+        fileBase64: await audioFactory.value.audioToBase64(audio),
       } as AudioTranscriptionRequest;
 
       return fetch("/api/transcription", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          ...useHeaders(),
         },
         body: JSON.stringify(audioTranscriptionRequestData),
       });
@@ -158,9 +169,10 @@ const storeAudio = (audioAsBlob: void | Blob): void => {
     })
     .then((transcription: Transcription) => {
       addMessage(
-        MessageFactory.createFromTranscription(
+        messageFactory.fillWithTranscription(
           audioTranscriptionRequestData,
           transcription,
+          currentMessageInProgress.value,
         ),
       );
     })
@@ -176,22 +188,22 @@ const stopRecording = () => {
   setIdleState();
 };
 
-const getTime = computed(() => {
+const getTime = (varSeconds: number) => {
   return {
-    minutes: Math.floor(seconds.value / 60)
+    minutes: Math.floor(varSeconds / 60)
       .toString()
       .padStart(2, "0"),
-    seconds: (seconds.value % 60).toString().padStart(2, "0"),
+    seconds: (varSeconds % 60).toString().padStart(2, "0"),
   };
-});
+};
 
 const secondsLabel = computed(() => {
-  const time = getTime.value;
-  return `Recording for ${time.minutes}:${time.seconds}`;
+  const time = getTime(settings.recorder.maxDuration - seconds.value);
+  return `${time.minutes}:${time.seconds} left`;
 });
 
 const secondsAcceptLabel = computed(() => {
-  const time = getTime.value;
+  const time = getTime(seconds.value);
   return `Recorded ${time.minutes}:${time.seconds}`;
 });
 

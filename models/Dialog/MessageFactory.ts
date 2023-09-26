@@ -4,11 +4,10 @@ import { ChatCompletion } from "openai/resources/chat/completions";
 
 import { AudioTranscriptionRequest } from "~/types/Api/Request.d";
 import { Message, OpenAIRole } from "~/types/Dialog/Message.d";
-import { getKeyByValue } from "~/models/Enum";
 import { Prompt } from "~/types/Dialog/Prompt.d";
 
 export default class MessageFactory {
-  static createEmpty(): Message {
+  createEmpty(): Message {
     return {
       uid: uuidv4(),
       content: "",
@@ -18,11 +17,15 @@ export default class MessageFactory {
     } as Message;
   }
 
-  static createFromTranscription(
+  fillWithTranscription(
     data: AudioTranscriptionRequest,
     transcription: Transcription,
+    message?: Message,
   ): Message {
-    const message = MessageFactory.createEmpty();
+    if (!message) {
+      message = this.createEmpty();
+    }
+
     message.audioFile = data.filename;
     message.content = transcription.text;
     message.role = OpenAIRole.User;
@@ -30,25 +33,23 @@ export default class MessageFactory {
     return message;
   }
 
-  static createFromChatCompletion(chatCompletion: ChatCompletion): Message {
-    const message = MessageFactory.createEmpty();
+  createFromChatCompletion(chatCompletion: ChatCompletion): Message {
+    const message = this.createEmpty();
     message.chatCompletion = chatCompletion;
 
     const choice = chatCompletion.choices.filter(
       (choice) => choice?.message?.content?.length,
     )[0];
 
-    message.role =
-      getKeyByValue(OpenAIRole, choice.message.role)?.toLowerCase() ||
-      OpenAIRole.System;
+    message.role = choice.message.role.toLowerCase() || OpenAIRole.System;
     message.content = choice.message.content || "";
 
     return message;
   }
 
-  static createFromPrompts(prompts: Prompt[]): Message[] {
+  createFromPrompts(prompts: Prompt[]): Message[] {
     return prompts.map((prompt: Prompt) => {
-      const message = MessageFactory.createEmpty();
+      const message = this.createEmpty();
       message.content = prompt.prompt;
       message.role = OpenAIRole.System;
       message.prompt = prompt;

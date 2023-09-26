@@ -3,11 +3,7 @@ import { v4 as uuidv4 } from "uuid";
 import { Prompt, PromptCategory, PrompType } from "~/types/Dialog/Prompt.d";
 
 export default class PromptFactory {
-  static create(
-    prompt: string,
-    type: PrompType,
-    category?: PromptCategory,
-  ): Prompt {
+  create(prompt: string, type: PrompType, category?: PromptCategory): Prompt {
     return {
       id: uuidv4(),
       prompt,
@@ -17,12 +13,12 @@ export default class PromptFactory {
     } as Prompt;
   }
 
-  static createCustom(
+  createCustom(
     prompt: string,
     type: PrompType,
     category?: PromptCategory,
   ): Prompt {
-    const promptObject = PromptFactory.create(prompt, type, category);
+    const promptObject = this.create(prompt, type, category);
     promptObject.isCustom = true;
 
     return promptObject;
@@ -30,7 +26,7 @@ export default class PromptFactory {
 }
 
 export class PromptCategoryFactory {
-  static create(name: string, prompt: string): PromptCategory {
+  create(name: string, prompt: string): PromptCategory {
     return {
       id: uuidv4(),
       name,

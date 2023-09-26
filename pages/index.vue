@@ -22,6 +22,22 @@ const messages: ComputedRef<Message[]> = computed(() =>
       message.role === OpenAIRole.User || message.role === OpenAIRole.Assistant,
   ),
 );
+
+const dialogContainer = ref(null);
+
+watch(
+  messages,
+  () => {
+    if (!dialogContainer.value) {
+      return;
+    }
+
+    dialogContainer.value.lastElementChild?.scrollIntoView({
+      behavior: "smooth",
+    });
+  },
+  { immediate: true },
+);
 </script>
 
 <template>
@@ -46,7 +62,10 @@ const messages: ComputedRef<Message[]> = computed(() =>
           </div>
         </div>
 
-        <div class="dialog-container flex-1 p-4 overflow-y-auto h-full">
+        <div
+          ref="dialogContainer"
+          class="dialog-container flex-1 p-4 overflow-y-auto h-full"
+        >
           <DialogMessage
             v-for="message in messages"
             :key="message.uid"
