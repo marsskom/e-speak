@@ -5,9 +5,10 @@ import { Message } from "~/types/Dialog/Message.d";
 
 export interface MessageFactory {
   createEmpty(): Message;
-  createFromTranscription(
+  fillWithTranscription(
     data: AudioTranscriptionRequest,
     transcription: Transcription,
+    message?: Message,
   ): Message;
   createFromChatCompletion(chatCompletion: ChatCompletion): Message;
   createFromPrompts(prompts: Prompt[]): Message[];

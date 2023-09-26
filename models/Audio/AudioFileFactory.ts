@@ -1,13 +1,25 @@
 import { AudioFileFactoryParams } from "~/types/Audio/AudioFileFactory.d";
 
-export class AudioFileFactory {
-  static generateFileName(extension: string, prefix: string = ""): string {
+export default class AudioFileFactory {
+  // eslint-disable-next-line no-useless-constructor
+  constructor(
+    private readonly params: AudioFileFactoryParams,
+    private readonly dialogUid: string,
+    private readonly messageUid: string,
+  ) {}
+
+  generateFileName(extension: string, prefix: string = ""): string {
     const date = new Date();
     const dayString = `${date.getFullYear()}-${(date.getMonth() + 1)
       .toString()
       .padStart(2, "0")}-${date.getDate().toString().padStart(2, "0")}`;
 
-    return `${prefix}${dayString}_${date
+    prefix = prefix
+      .replace("%date%", this.dialogUid)
+      .replace("%dialog_uid%", this.dialogUid)
+      .replace("%message_uid%", this.messageUid);
+
+    return `${prefix}-${dayString}_${date
       .getHours()
       .toString()
       .padStart(2, "0")}-${date.getMinutes().toString().padStart(2, "0")}-${date
@@ -16,24 +28,17 @@ export class AudioFileFactory {
       .padStart(2, "0")}.${extension}`;
   }
 
-  static createAudioFile(
-    audioBlob: Blob,
-    params: AudioFileFactoryParams = {} as AudioFileFactoryParams,
-  ): File {
-    params.mimeType = params.mimeType || "audio/webm";
-    params.prefix = params.prefix || "audio_";
+  createAudioFile(audioBlob: Blob, filename?: string): File {
+    const mimeType = this.params.mimeType;
+    const prefix = this.params.prefix;
 
     const fileName =
-      params.filename ||
-      AudioFileFactory.generateFileName(
-        params.mimeType.split("/")[1],
-        params.prefix,
-      );
+      filename || this.generateFileName(mimeType!.split("/")[1], prefix);
 
-    return new File([audioBlob], fileName, { type: params.mimeType });
+    return new File([audioBlob], fileName, { type: mimeType });
   }
 
-  static audioToBase64(audio: File): Promise<string> {
+  audioToBase64(audio: File): Promise<string> {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
       reader.readAsDataURL(audio);
@@ -43,17 +48,17 @@ export class AudioFileFactory {
     });
   }
 
-  static base64ToAudio(base64: string, mimeType: string): File {
+  base64ToAudio(base64: string): File {
     const byteCharacters = atob(base64.split(",")[1]); // remove data:audio/webm;base64,
     const byteArrays = [];
     for (let i = 0; i < byteCharacters.length; i++) {
       byteArrays.push(byteCharacters.charCodeAt(i));
     }
 
-    const blob = new Blob([new Uint8Array(byteArrays)], { type: mimeType });
+    const blob = new Blob([new Uint8Array(byteArrays)], {
+      type: this.params.mimeType,
+    });
 
-    return AudioFileFactory.createAudioFile(blob, {
-      mimeType,
-    } as AudioFileFactoryParams);
+    return this.createAudioFile(blob);
   }
 }
