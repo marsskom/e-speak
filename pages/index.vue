@@ -28,11 +28,11 @@ const dialogContainer = ref(null);
 watch(
   messages,
   () => {
-    if (!dialogContainer.value) {
+    if (!dialogContainer.value || !dialogContainer.value.lastElementChild) {
       return;
     }
 
-    dialogContainer.value.lastElementChild?.scrollIntoView({
+    dialogContainer.value.lastElementChild.scrollIntoView({
       behavior: "smooth",
     });
   },
@@ -51,7 +51,7 @@ watch(
       <MenuSidebar />
 
       <div class="w-4/5 bg-gray-100 flex flex-col">
-        <div class="dialog-container-top flex-1 max-h-14">
+        <div class="dialog-container-top flex-1 max-h-14 box-shadow-bottom">
           <div class="border-2 border-b-pink-500 p-2 flex justify-between">
             <span class="text-xl font-bold text-gray-800">
               {{ currentDialog.name || "New Dialog" }}
@@ -64,7 +64,7 @@ watch(
 
         <div
           ref="dialogContainer"
-          class="dialog-container flex-1 p-4 overflow-y-auto h-full"
+          class="dialog-container flex-1 p-4 overflow-y-auto h-full scroll-smooth hover:scroll-auto"
         >
           <DialogMessage
             v-for="message in messages"
@@ -73,7 +73,7 @@ watch(
           />
         </div>
 
-        <div class="flex-none items-end">
+        <div class="flex-none items-end bg-gray-200 box-shadow-top">
           <AudioRecorder />
         </div>
       </div>
@@ -81,4 +81,12 @@ watch(
   </main>
 </template>
 
-<style scoped></style>
+<style scoped>
+.box-shadow-bottom {
+  box-shadow: 0px 15px 10px -15px rgba(32, 33, 36, 0.28);
+}
+
+.box-shadow-top {
+  box-shadow: 0px -15px 10px -15px rgba(32, 33, 36, 0.28);
+}
+</style>

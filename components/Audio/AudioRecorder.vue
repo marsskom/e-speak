@@ -240,10 +240,6 @@ watch(seconds, (seconds) => {
             <fa :icon="['fas', 'fa-stop']" size="lg" />
           </button>
         </div>
-        <p class="my-2 text-xs text-gray-500 text-center w-full">
-          Min: {{ settings.recorder.minDuration }}; Max:
-          {{ settings.recorder.maxDuration }} sec
-        </p>
         <div class="mt-1 text-center h-[20px]">
           <span v-show="seconds > 0" class="text-xs text-green-500">
             {{ isRecording ? secondsLabel : secondsAcceptLabel }}

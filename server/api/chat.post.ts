@@ -10,22 +10,26 @@ export default defineEventHandler(async (event) => {
 
   let result: ChatCompletion;
   if (customHeaders.isDummyChatDriver) {
-    result = {
-      id: "dummy",
-      object: "text_completion",
-      created: Date.now(),
-      model: "dummy",
-      choices: [
-        {
-          message: {
-            content: "Dummy: Something interesting!",
-            role: "assistant",
-          },
-          index: 0,
-          finish_reason: "stop",
-        },
-      ],
-    } as ChatCompletion;
+    result = await new Promise((resolve) => {
+      setTimeout(() => {
+        resolve({
+          id: "dummy",
+          object: "text_completion",
+          created: Date.now(),
+          model: "dummy",
+          choices: [
+            {
+              message: {
+                content: "Dummy: Something interesting!",
+                role: "assistant",
+              },
+              index: 0,
+              finish_reason: "stop",
+            },
+          ],
+        } as ChatCompletion);
+      }, 1000);
+    });
   } else {
     result = await getChatStream(messages);
   }
