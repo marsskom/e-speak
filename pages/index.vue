@@ -2,10 +2,11 @@
 import { Dialog } from "~/types/Dialog/Dialog.d";
 import { useDialogStore } from "~/stores/Dialog/dialog";
 
+import { Message, OpenAIRole } from "~/types/Dialog/Message.d";
 import MenuSidebar from "~/components/Layout/MenuSidebar.vue";
 import DialogMessage from "~/components/Dialog/DialogMessage.vue";
 import AudioRecorder from "~/components/Audio/AudioRecorder.vue";
-import { Message, OpenAIRole } from "~/types/Dialog/Message.d";
+import AppSettings from "~/components/AppSettings.vue";
 
 definePageMeta({
   middleware: "auth",
@@ -78,6 +79,8 @@ watch(
         </div>
       </div>
     </div>
+
+    <AppSettings />
   </main>
 </template>
 

@@ -3,6 +3,7 @@ import { AudioFileFactoryParams } from "~/types/Audio/AudioFileFactory.d";
 export interface Settings {
   recorder: AudioRecorderSettings;
   chat: ChatSettings;
+  advanced: AdvancedSettings;
 }
 
 export interface AudioRecorderSettings {
@@ -18,4 +19,8 @@ export interface ChatSettings {
 export enum ChatDriver {
   Dummy = "dummy",
   OpenAI = "openai",
+}
+
+export interface AdvancedSettings {
+  enabled: boolean;
 }

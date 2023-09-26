@@ -17,9 +17,9 @@ import MessageFactory from "~/models/Dialog/MessageFactory";
 
 import { useDialogStore } from "~/stores/Dialog/dialog";
 const dialogStore = useDialogStore();
-const currentDialog: ComputedRef<Dialog> = computed(
-  () => dialogStore.currentDialog,
-);
+const currentDialog: ComputedRef<Dialog> = computed(() => {
+  return dialogStore.currentDialog;
+});
 const currentMessageInProgress: ComputedRef<Message> = computed(() => {
   return dialogStore.currentMessageInProgress;
 });
