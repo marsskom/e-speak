@@ -1,4 +1,4 @@
-export default interface PromptFactory {
+export declare interface PromptFactory {
   create(prompt: string, type: PrompType, category?: PromptCategory): Prompt;
   createCustom(
     prompt: string,
@@ -7,6 +7,6 @@ export default interface PromptFactory {
   ): Prompt;
 }
 
-export interface PromptCategoryFactory {
+export declare interface PromptCategoryFactory {
   create(name: string, prompt: string): PromptCategory;
 }

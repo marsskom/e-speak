@@ -6,7 +6,7 @@
 
 ## Disclaimer
 
-> I'm newbie in Vue.js 3 and TypeScript, so I'm not sure that I'm doing everything right. If you have any suggestions, please, let me know.
+> I'm newbie in Nuxt.js 3 and TypeScript, so I'm not sure that I'm doing everything right. If you have any suggestions, please, let me know.
 
 > Moreover, work still in progress, so I'm not sure that everything is working as expected.
 

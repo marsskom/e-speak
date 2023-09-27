@@ -2,26 +2,34 @@
 import { Dialog } from "~/types/Dialog/Dialog.d";
 import { useDialogStore } from "~/stores/Dialog/dialog";
 
+import { Message, OpenAIRole } from "~/types/Dialog/Message.d";
+import CopyLink from "~/components/Page/CopyLink.vue";
 import MenuSidebar from "~/components/Layout/MenuSidebar.vue";
 import DialogMessage from "~/components/Dialog/DialogMessage.vue";
 import AudioRecorder from "~/components/Audio/AudioRecorder.vue";
-import { Message, OpenAIRole } from "~/types/Dialog/Message.d";
+import AppSettings from "~/components/AppSettings.vue";
 
 definePageMeta({
   middleware: "auth",
 });
+
+const isAdvancedMode: ComputedRef<boolean> = useIsAdvancedMode();
 
 const dialogStore = useDialogStore();
 const currentDialog: ComputedRef<Dialog> = computed(
   () => dialogStore.currentDialog,
 );
 
-const messages: ComputedRef<Message[]> = computed(() =>
-  dialogStore.currentDialog.messages.filter(
+const messages: ComputedRef<Message[]> = computed(() => {
+  if (isAdvancedMode.value) {
+    return dialogStore.currentDialog.messages;
+  }
+
+  return dialogStore.currentDialog.messages.filter(
     (message: Message) =>
       message.role === OpenAIRole.User || message.role === OpenAIRole.Assistant,
-  ),
-);
+  );
+});
 
 const dialogContainer = ref(null);
 
@@ -51,14 +59,34 @@ watch(
       <MenuSidebar />
 
       <div class="w-4/5 bg-gray-100 flex flex-col">
-        <div class="dialog-container-top flex-1 max-h-14 box-shadow-bottom">
-          <div class="border-2 border-b-pink-500 p-2 flex justify-between">
+        <div
+          class="dialog-container-top flex-1 h-auto max-h-16 box-shadow-bottom border-2 border-b-pink-500"
+        >
+          <div class="p-2 flex justify-between">
             <span class="text-xl font-bold text-gray-800">
               {{ currentDialog.name || "New Dialog" }}
             </span>
-            <span class="text-xs text-gray-500 float-right self-end"
-              >(Created: {{ currentDialog.createdAt.toISOString() }})</span
-            >
+            <span class="text-xs text-gray-500 float-right self-end">
+              <ul>
+                <li v-if="isAdvancedMode">
+                  <strong>UID:</strong>&nbsp;
+                  <span class="float-right"
+                    >{{ currentDialog.uid }}
+                    <CopyLink :content="currentDialog.uid" />
+                  </span>
+                </li>
+                <li>
+                  <strong>Created:</strong>&nbsp;<span class="float-right"
+                    >{{ currentDialog.createdAt.toISOString() }}
+                  </span>
+                </li>
+                <li v-if="isAdvancedMode">
+                  <strong>Updated:</strong>&nbsp;<span class="float-right"
+                    >{{ currentDialog.updatedAt.toISOString() }}
+                  </span>
+                </li>
+              </ul>
+            </span>
           </div>
         </div>
 
@@ -78,6 +106,8 @@ watch(
         </div>
       </div>
     </div>
+
+    <AppSettings />
   </main>
 </template>
 

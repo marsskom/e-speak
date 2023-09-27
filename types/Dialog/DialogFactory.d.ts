@@ -1,5 +1,5 @@
 import { Dialog } from "~/types/Dialog/Dialog.d";
 
-export interface DialogFactory {
+export declare interface DialogFactory {
   createEmpty(): Dialog;
 }

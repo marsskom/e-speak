@@ -1,6 +1,9 @@
 <script setup lang="ts">
 import { Message, OpenAIRole } from "~/types/Dialog/Message.d";
+import PopupModal from "~/components/Page/PopupModal.vue";
 import AudioPlayer from "~/components/Audio/AudioPlayer.vue";
+import CopyLink from "~/components/Page/CopyLink.vue";
+import PreJson from "~/components/Page/Text/PreJson.vue";
 
 const props = defineProps({
   message: {
@@ -8,6 +11,8 @@ const props = defineProps({
     required: true,
   },
 });
+
+const isAdvancedMode: ComputedRef<boolean> = useIsAdvancedMode();
 
 const avatar: ComputedRef<string> = computed((): string => {
   switch (props.message.role) {
@@ -38,10 +43,34 @@ const author: ComputedRef<string> = computed(() => {
 const isUserMessage: ComputedRef<boolean> = computed(() => {
   return props.message.role === OpenAIRole.User;
 });
+const isSystemMessage: ComputedRef<boolean> = computed(() => {
+  return props.message.role === OpenAIRole.System;
+});
+
+const messagePopup: Ref<null | typeof PopupModal> = ref(null);
+
+const togglePopupVisibility = () => {
+  if (!messagePopup.value) {
+    return;
+  }
+
+  messagePopup.value.toggleVisibility();
+};
 </script>
 
 <template>
   <div
+    v-if="isSystemMessage"
+    class="flex w-full m-2 transition-all duration-300"
+  >
+    <p class="text-xs text-gray-500 w-full">
+      <i class="text-center text-red-800 text-sm">System:</i><br />
+      <span class="text-left mx-4">{{ message.content }}</span>
+    </p>
+  </div>
+
+  <div
+    v-if="!isSystemMessage"
     class="flex items-center mb-4 w-4/6 my-5"
     :class="isUserMessage ? 'flex-row-reverse float-right' : ''"
   >
@@ -95,12 +124,93 @@ const isUserMessage: ComputedRef<boolean> = computed(() => {
           v-if="isUserMessage"
           class="border-b border-pink-300 mt-3 mb-1 rounded-full"
         />
-        <div v-if="isUserMessage">
-          <AudioPlayer :message="props.message" />
+        <div>
+          <AudioPlayer v-if="isUserMessage" :message="props.message" />
+          <div class="float-right">
+            <PopupModal
+              v-if="isAdvancedMode"
+              ref="messagePopup"
+              title="Message Details"
+              width="max-w-4xl"
+            >
+              <template #button>
+                <a
+                  href="#"
+                  class="text-sm text-violet-500 inline-block float-right"
+                  title="Message Information"
+                  @click="togglePopupVisibility"
+                >
+                  <fa :icon="['fas', 'info-circle']" />
+                </a>
+              </template>
 
-          <span class="text-xs text-gray-500 float-right py-1">{{
-            props.message.createdAt.toISOString()
-          }}</span>
+              <template #content>
+                <div class="flex flex-col text-sm">
+                  <div class="flex flex-row flex-wrap">
+                    <div class="w-1/6 font-bold px-4 py-2">UID:</div>
+                    <div class="w-5/6 border px-4 py-2">
+                      <CopyLink :content="message.uid" />&nbsp;{{ message.uid }}
+                    </div>
+                  </div>
+                  <div class="flex flex-row flex-wrap">
+                    <div class="w-1/6 font-bold px-4 py-2">Content:</div>
+                    <div class="w-5/6 border px-4 py-2">
+                      {{ message.content }}
+                    </div>
+                  </div>
+                  <div class="flex flex-row flex-wrap">
+                    <div class="w-1/6 font-bold px-4 py-2">
+                      Corrected Content:
+                    </div>
+                    <div class="w-5/6 border px-4 py-2">
+                      {{ message.correctedContent || "" }}
+                    </div>
+                  </div>
+                  <div class="flex flex-row flex-wrap">
+                    <div class="w-1/6 font-bold px-4 py-2">Role:</div>
+                    <div class="w-5/6 border px-4 py-2">{{ message.role }}</div>
+                  </div>
+                  <div class="flex flex-row flex-wrap">
+                    <div class="w-1/6 font-bold px-4 py-2">Created At:</div>
+                    <div class="w-5/6 border px-4 py-2">
+                      {{ message.createdAt.toISOString() }}
+                    </div>
+                  </div>
+                  <div class="flex flex-row flex-wrap">
+                    <div class="w-1/6 font-bold px-4 py-2">Updated At:</div>
+                    <div class="w-5/6 border px-4 py-2">
+                      {{ message.updatedAt.toISOString() }}
+                    </div>
+                  </div>
+                  <div class="flex flex-row flex-wrap">
+                    <div class="w-1/6 font-bold px-4 py-2">Audio File:</div>
+                    <div class="w-5/6 border px-4 py-2">
+                      <CopyLink :content="message.audioFile || ''" />&nbsp;
+                      {{ message.audioFile || "" }}
+                    </div>
+                  </div>
+                  <div class="flex flex-row flex-wrap">
+                    <div class="w-1/6 font-bold px-4 py-2">
+                      Chat Completion:
+                    </div>
+                    <div class="w-5/6 border px-4 py-2">
+                      <PreJson :content="message.chatCompletion || ''" />
+                    </div>
+                  </div>
+                  <div class="flex flex-row flex-wrap">
+                    <div class="w-1/6 font-bold px-4 py-2">Prompt:</div>
+                    <div class="w-5/6 border px-4 py-2">
+                      <PreJson :content="message.promptList || ''" />
+                    </div>
+                  </div>
+                </div>
+              </template>
+            </PopupModal>
+
+            <span class="text-xs text-gray-500 float-right py-1">{{
+              props.message.createdAt.toISOString()
+            }}</span>
+          </div>
         </div>
       </div>
 

@@ -3,7 +3,7 @@ import { Transcription } from "openai/resources/audio";
 import { AudioTranscriptionRequest } from "~/types/Api/Request.d";
 import { Message } from "~/types/Dialog/Message.d";
 
-export interface MessageFactory {
+export declare interface MessageFactory {
   createEmpty(): Message;
   fillWithTranscription(
     data: AudioTranscriptionRequest,

@@ -7,9 +7,7 @@ import UserDataLink from "~/components/Page/NavBar/UserDataLink.vue";
   <nav
     class="flex-1 w-full bg-white border-gray-200 dark:bg-gray-900 min-h-[64px]"
   >
-    <div
-      class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4"
-    >
+    <div class="flex flex-wrap items-center justify-between mx-auto p-4">
       <NuxtLink to="/" class="flex items-center">
         <svg
           class="h-8 w-8 text-pink-500"

@@ -1,4 +1,4 @@
-export interface AudioFileFactory {
+export declare interface AudioFileFactory {
   generateFileName(extension: string, prefix: string = ""): string;
   createAudioFile(audioBlob: Blob, filename?: string): File;
   audioToBase64(audio: File): Promise<string>;
