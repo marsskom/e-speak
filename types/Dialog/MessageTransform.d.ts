@@ -1,6 +1,6 @@
 import { ChatCompletionMessageParam } from "openai/resources/chat/completions";
 
-export default interface MessageTransform {
+export declare interface MessageTransform {
   messageListToOpenAIMessageList(
     messageList: Message[],
   ): ChatCompletionMessageParam[];

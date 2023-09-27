@@ -3,7 +3,7 @@ export enum AudioRecorderState {
   Recording = "Recording",
 }
 
-export interface AudioRecorder {
+export declare interface AudioRecorder {
   start(): Promise<MediaStream>;
   stop(): Promise<void | Blob>;
   cancel(): void;

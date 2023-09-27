@@ -11,7 +11,7 @@ export const usePromptStore = defineStore("prompt", () => {
       PrompType.StartDialog,
     ),
     promptFactory.create(
-      "Answer like Enligh native speaker with C1 level, corrections you may add after answer like small list. Format answer using HTML tags.",
+      "Answer like Enligh native speaker with C1 level, corrections you may add after answer formatted like a small list. Format answer using HTML tags.",
       PrompType.ContinueDialog,
     ),
   ]);

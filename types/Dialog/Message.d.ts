@@ -10,7 +10,7 @@ export interface Message {
   updatedAt: Date;
   audioFile?: string;
   chatCompletion?: ChatCompletion;
-  prompt?: Prompt;
+  promptList?: Prompt[];
 }
 
 export enum OpenAIRole {

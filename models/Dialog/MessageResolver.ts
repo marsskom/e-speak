@@ -1,6 +1,7 @@
 import { ChatCompletion } from "openai/resources/chat/completions";
 
 import { Message, OpenAIRole } from "~/types/Dialog/Message.d";
+import { Prompt } from "~/types/Dialog/Prompt.d";
 import MessageTransform from "~/models/Dialog/MessageTransform";
 import MessageFactory from "~/models/Dialog/MessageFactory";
 import { usePromptStore } from "~/stores/Dialog/prompt";
@@ -45,6 +46,7 @@ export default class MessageResolver {
         const message =
           this.messageFactory.createFromChatCompletion(chatCompletion);
         message.content = message.content.replace(/\\n/g, "<br />");
+        message.promptList = this.getPrompts();
 
         this.messageList.push(message);
 
@@ -59,10 +61,12 @@ export default class MessageResolver {
   }
 
   private mutateWithPrompts(): Message[] {
-    return this.messageFactory.createFromPrompts(
-      this.messageList.length <= 1
-        ? usePromptStore().promptsOnDialogStart
-        : usePromptStore().promptsOnDialogContinue,
-    );
+    return this.messageFactory.createFromPrompts(this.getPrompts());
+  }
+
+  private getPrompts(): Prompt[] {
+    return this.messageList.length <= 1
+      ? usePromptStore().promptsOnDialogStart
+      : usePromptStore().promptsOnDialogContinue;
   }
 }
