@@ -4,6 +4,7 @@ export interface Settings {
   recorder: AudioRecorderSettings;
   chat: ChatSettings;
   advanced: AdvancedSettings;
+  updatedAt?: Date;
 }
 
 export interface AudioRecorderSettings {

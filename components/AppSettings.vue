@@ -66,12 +66,13 @@ onBeforeUnmount(() => {
         </button>
       </h2>
       <hr class="border-1 border-pink-500" />
+
       <div class="flex">
         <div class="flex-1">
           <div class="flex p-2">
             <label class="relative inline-flex items-center cursor-pointer">
               <input
-                v-model="settings.advanced.enabled"
+                v-model.lazy="settings.advanced.enabled"
                 type="checkbox"
                 class="sr-only peer"
                 :checked="isAdvancedMode"
@@ -110,7 +111,7 @@ onBeforeUnmount(() => {
               >
               <input
                 id="recorder-min-duration"
-                v-model="settings.recorder.minDuration"
+                v-model.lazy="settings.recorder.minDuration"
                 type="number"
                 min="1"
                 max="995"
@@ -124,7 +125,7 @@ onBeforeUnmount(() => {
               >
               <input
                 id="recorder-max-duration"
-                v-model="settings.recorder.maxDuration"
+                v-model.lazy="settings.recorder.maxDuration"
                 type="number"
                 min="5"
                 max="999"
@@ -140,7 +141,7 @@ onBeforeUnmount(() => {
               >
               <select
                 id="recorder-audio-mime-type"
-                v-model="settings.recorder.audioParams.mimeType"
+                v-model.lazy="settings.recorder.audioParams.mimeType"
                 class="border border-gray-300 rounded p-1 text-sm bg-white disabled:bg-gray-300"
                 :disabled="!isAdvancedMode"
               >
@@ -157,7 +158,7 @@ onBeforeUnmount(() => {
               >
               <input
                 id="recorder-audio-prefix"
-                v-model="settings.recorder.audioParams.prefix"
+                v-model.lazy="settings.recorder.audioParams.prefix"
                 type="text"
                 :disabled="!isAdvancedMode"
                 class="border border-gray-300 rounded p-1 text-sm disabled:bg-gray-300"
@@ -185,7 +186,7 @@ onBeforeUnmount(() => {
               >
               <select
                 id="chat-driver"
-                v-model="settings.chat.driver"
+                v-model.lazy="settings.chat.driver"
                 class="border border-gray-300 rounded p-1 text-sm bg-white disabled:bg-gray-300"
                 :disabled="!isAdvancedMode"
               >
