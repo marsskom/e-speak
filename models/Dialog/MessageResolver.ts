@@ -10,7 +10,10 @@ export default class MessageResolver {
   private messageFactory: MessageFactory = new MessageFactory();
 
   // eslint-disable-next-line no-useless-constructor
-  constructor(private messageList: Message[]) {}
+  constructor(
+    private dialogUid: string,
+    private messageList: Message[],
+  ) {}
 
   askOpenAI(): Promise<Message[]> {
     if (!this.messageList || this.messageList.length === 0) {
@@ -46,6 +49,7 @@ export default class MessageResolver {
         const message =
           this.messageFactory.createFromChatCompletion(chatCompletion);
         message.content = message.content.replace(/\\n/g, "<br />");
+        message.dialogUid = this.dialogUid;
         message.promptList = this.getPrompts();
 
         this.messageList.push(message);
@@ -61,7 +65,11 @@ export default class MessageResolver {
   }
 
   private mutateWithPrompts(): Message[] {
-    return this.messageFactory.createFromPrompts(this.getPrompts());
+    return this.messageFactory
+      .createFromPrompts(this.getPrompts())
+      .map((message: Message) =>
+        Object.assign(message, { dialogUid: this.dialogUid }),
+      );
   }
 
   private getPrompts(): Prompt[] {

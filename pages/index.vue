@@ -46,6 +46,14 @@ watch(
   },
   { immediate: true },
 );
+
+watch(useIsDialogLoading(), (isLoading) => {
+  if (isLoading) {
+    document.getElementById("app-loading")?.classList.remove("hidden");
+  } else {
+    document.getElementById("app-loading")?.classList.add("hidden");
+  }
+});
 </script>
 
 <template>
