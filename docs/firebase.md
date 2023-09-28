@@ -89,9 +89,21 @@ service cloud.firestore {
 
 ![Firestore Rules](./images/firebase/firestore-rules.png)
 
-[WIP] 6. Next you should create collections: settings, dialogs, messages; 7. Here our collections structure:
+6. Next you should create collections: settings, dialogs, messages. You can do it in the Firebase Console > Cloud Firestore > Data. Also, during collection creation you must set some dummy document what you can delete right after collection was created.
+
+![Firestore Collection](./images/firebase/firestore-collection.png)
+![Firestore Document](./images/firebase/firestore-collection-default-document.png)
+![Firestore Delete Document](./images/firebase/firestore-delete-document.png)
 
 8. And add indices:
+
+![Firestore Indices](./images/firebase/firestore-indices.png)
+
+Dialogs collection: **userUid**: *ASC* and **uid**: *ASC*.
+
+Messages collection: **dialogUid**: *ASC* and **createdAt**: *ASC*.
+
+You should wait until indices will be created.
 
 ## Firebase Service Account
 

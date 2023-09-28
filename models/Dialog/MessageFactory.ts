@@ -52,7 +52,6 @@ export default class MessageFactory {
       const message = this.createEmpty();
       message.content = prompt.prompt;
       message.role = OpenAIRole.System;
-      message.prompt = prompt;
 
       return message;
     });

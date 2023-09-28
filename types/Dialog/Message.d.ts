@@ -2,6 +2,7 @@ import { ChatCompletion } from "openai/resources/chat";
 import { Prompt } from "~/types/Dialog/Prompt.d";
 
 export interface Message {
+  dialogUid: string;
   uid: string;
   content: string;
   correctedContent: string;
