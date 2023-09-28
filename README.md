@@ -2,7 +2,7 @@
 
 - [Firebase Docs](./docs/firebase.md)
 - [OpenAI Docs](./docs/openai.md)
-- [Instalation](./docs/installation.md)
+- [Installation](./docs/installation.md)
 
 ## Disclaimer
 
