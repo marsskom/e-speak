@@ -1,6 +1,8 @@
+import { User } from "firebase/auth";
+
 import { useAuthStore } from "~/stores/Auth/auth";
 
-export default function () {
+export default function (): User {
   const authStore = useAuthStore();
 
   return computed(() => authStore.getUser).value;

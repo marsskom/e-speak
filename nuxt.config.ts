@@ -20,7 +20,7 @@ export default defineNuxtConfig({
       debug: process.env.NODE_ENV !== "production",
       isTokenAutoRefreshEnabled: true,
       provider: "ReCaptchaV3",
-      key: process.env.GOOGLE_RECAPTCHA_KEY,
+      key: process.env.GOOGLE_RECAPTCHA_KEY || "",
     },
     auth: {
       enabled: true,
