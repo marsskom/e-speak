@@ -140,18 +140,22 @@ export const useDialogStore = defineStore("dialog", () => {
           ),
       )
       .then((querySnapshot: QuerySnapshot<Message>) => {
+        const messages: Message[] = [];
+
         querySnapshot.forEach((docSnap: DocumentSnapshot<Message>) => {
-          dialog.value.messages.push(docSnap.data() as Message);
+          messages.push(docSnap.data() as Message);
         });
+
+        dialog.value.messages = messages;
       })
       .finally(() => (isLoadingInProgress.value = false));
   };
 
-  onMounted(() => {
+  const init = () => {
     const dialogUid = localStorage.getItem("dialogUid");
 
     loadDialog(dialogUid || dialog.value.uid);
-  });
+  };
 
   const createEmptyDialog = (): void => {
     isLoadingInProgress.value = true;
@@ -206,6 +210,7 @@ export const useDialogStore = defineStore("dialog", () => {
     currentDialog,
     currentMessageInProgress,
 
+    init,
     addMessage,
     loadDialog,
     updateDialog,

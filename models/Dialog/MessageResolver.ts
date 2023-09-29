@@ -17,12 +17,12 @@ export default class MessageResolver {
 
   askOpenAI(): Promise<Message[]> {
     if (!this.messageList || this.messageList.length === 0) {
-      return Promise.resolve(this.messageList);
+      return Promise.resolve([]);
     }
 
     // TODO: maybe sometimes bot can send a couple messages in a row.
     if (!this.verifyUserOfLastMessage()) {
-      return Promise.resolve(this.messageList);
+      return Promise.reject(new Error("Last message was not from user."));
     }
 
     this.messageList.push(...this.mutateWithPrompts());
@@ -47,7 +47,9 @@ export default class MessageResolver {
       })
       .then((chatCompletion: ChatCompletion) => {
         const date = new Date();
-        date.setSeconds(date.getSeconds() + 4);
+        date.setMilliseconds(
+          date.getMilliseconds() + (this.getPrompts().length + 5),
+        );
 
         const message =
           this.messageFactory.createFromChatCompletion(chatCompletion);
@@ -71,9 +73,9 @@ export default class MessageResolver {
   private mutateWithPrompts(): Message[] {
     return this.messageFactory
       .createFromPrompts(this.getPrompts())
-      .map((message: Message): Message => {
+      .map((message: Message, index: number): Message => {
         const date = new Date();
-        date.setSeconds(date.getSeconds() + 2);
+        date.setMilliseconds(date.getMilliseconds() + (index + 2));
 
         return Object.assign(message, {
           dialogUid: this.dialogUid,
