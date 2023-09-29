@@ -8,12 +8,12 @@ export const usePromptStore = defineStore("prompt", () => {
 
   const promptFactory = new PromptFactory();
 
-  const promptBank: ComputedRef<Prompt[]> = computed(
+  const promptList: ComputedRef<Prompt[]> = computed(
     () => settingsStore.getSettings.promptList || [],
   );
 
   const init = () => {
-    if (promptBank.value && !promptBank.value.length) {
+    if (promptList.value && !promptList.value.length) {
       // Init prompts.
       setPromptList([
         promptFactory.create(
@@ -29,20 +29,19 @@ export const usePromptStore = defineStore("prompt", () => {
   };
 
   const promptsOnDialogStart: ComputedRef<Prompt[]> = computed((): Prompt[] =>
-    promptBank.value.filter(
+    promptList.value.filter(
       (prompt: Prompt) => prompt.type === PrompType.StartDialog,
     ),
   );
   const promptsOnDialogContinue: ComputedRef<Prompt[]> = computed(
     (): Prompt[] =>
-      promptBank.value.filter(
+      promptList.value.filter(
         (prompt: Prompt) => prompt.type === PrompType.ContinueDialog,
       ),
   );
 
   return {
-    promptBank,
-
+    promptList,
     promptsOnDialogStart,
     promptsOnDialogContinue,
 

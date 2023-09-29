@@ -1,5 +1,5 @@
 export interface Prompt {
-  id: string;
+  uid: string;
   prompt: string;
   type: PrompType;
   isCustom: boolean;
@@ -12,7 +12,7 @@ export enum PrompType {
 }
 
 export interface PromptCategory {
-  id: string;
+  uid: string;
   name: string;
   prompt: string;
 }

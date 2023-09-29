@@ -5,7 +5,7 @@ import { Prompt, PromptCategory, PrompType } from "~/types/Dialog/Prompt.d";
 export default class PromptFactory {
   create(prompt: string, type: PrompType, category?: PromptCategory): Prompt {
     return {
-      id: uuidv4(),
+      uid: uuidv4(),
       prompt,
       type,
       isCustom: false,
@@ -28,7 +28,7 @@ export default class PromptFactory {
 export class PromptCategoryFactory {
   create(name: string, prompt: string): PromptCategory {
     return {
-      id: uuidv4(),
+      uid: uuidv4(),
       name,
       prompt,
     } as PromptCategory;

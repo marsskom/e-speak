@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import { ChatDriver, Settings } from "~/types/Settings.d";
+import PopupModal from "~/components/Page/PopupModal.vue";
+import PromptEditComponent from "~/components/Dialog/PromptEditComponent.vue";
 import { useSettingsStore } from "~/stores/settings";
 
 const settingsStore = useSettingsStore();
@@ -36,6 +38,15 @@ onMounted(() => {
 onBeforeUnmount(() => {
   document.removeEventListener("click", closeSettings);
 });
+
+const promptPopup: Ref<null | typeof PopupModal> = ref(null);
+const togglePromptPopupVisibility = () => {
+  if (!promptPopup.value) {
+    return;
+  }
+
+  promptPopup.value.toggleVisibility();
+};
 </script>
 
 <template>
@@ -177,6 +188,7 @@ onBeforeUnmount(() => {
           </div>
         </div>
 
+        <hr class="mb-2 border-1 border-pink-500" />
         <div class="flex flex-col">
           <h3 class="px-2">Chat</h3>
           <div class="px-2">
@@ -199,6 +211,26 @@ onBeforeUnmount(() => {
               </select>
             </div>
           </div>
+        </div>
+
+        <hr class="mb-2 border-1 border-pink-500" />
+        <div class="flex flex-col items-center justify-center">
+          <PopupModal ref="promptPopup" title="Prompt List" width="max-w-7xl">
+            <template #button>
+              <div class="w-full">
+                <button
+                  class="bg-blue-400 hover:bg-blue-300 text-white font-bold py-2 px-4 border-b-4 border-blue-500 hover:border-blue-400 rounded text-sm"
+                  @click="togglePromptPopupVisibility"
+                >
+                  Edit prompts
+                </button>
+              </div>
+            </template>
+
+            <template #content>
+              <PromptEditComponent />
+            </template>
+          </PopupModal>
         </div>
       </div>
 
