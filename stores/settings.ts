@@ -10,6 +10,8 @@ import {
 import { useFirestore } from "vuefire";
 
 import { ChatDriver, Settings } from "~/types/Settings.d";
+import { Prompt } from "~/types/Dialog/Prompt.d";
+import { settingsFirebaseConverter } from "~/models/SettingsFirebaseConverter";
 
 export const useSettingsStore = defineStore("settings", () => {
   const user: User = useGetUser();
@@ -29,10 +31,13 @@ export const useSettingsStore = defineStore("settings", () => {
     advanced: {
       enabled: false,
     },
+    promptList: [],
   } as Settings;
 
   const db = useFirestore();
-  const settingsRef = collection(db, "settings");
+  const settingsRef = collection(db, "settings").withConverter(
+    settingsFirebaseConverter,
+  );
   const document: Ref<null | DocumentReference> = ref(null);
 
   const settings: Ref<Settings> = ref(
@@ -47,13 +52,14 @@ export const useSettingsStore = defineStore("settings", () => {
     (): boolean => isEditableSettings.value,
   );
 
-  const update = (value: Settings): void => {
-    settings.value = useDeepClone(value) as Settings;
-    settings.value.updatedAt = new Date();
-  };
-  const reset = (): void => update(defaultSettings);
-
   let syncTimeoutId: ReturnType<typeof setTimeout>;
+  const syncSettings = (settings: Settings): void => {
+    clearTimeout(syncTimeoutId);
+    syncTimeoutId = setTimeout(() => {
+      setDoc(document.value, settings);
+    }, 1000);
+  };
+
   watch(
     settings,
     (value: Settings) => {
@@ -61,15 +67,12 @@ export const useSettingsStore = defineStore("settings", () => {
         return;
       }
 
-      clearTimeout(syncTimeoutId);
-      syncTimeoutId = setTimeout(() => {
-        setDoc(document.value, value);
-      }, 1000);
+      syncSettings({ ...value, updatedAt: new Date() });
     },
     { deep: true },
   );
 
-  onMounted(async () => {
+  const init = async () => {
     document.value = doc(settingsRef, user.uid);
 
     await getDoc(document.value).then((docSnap: DocumentSnapshot) => {
@@ -79,7 +82,15 @@ export const useSettingsStore = defineStore("settings", () => {
 
       isEditableSettings.value = true;
     });
-  });
+  };
+
+  const reset = (): void => {
+    settings.value = useDeepClone(defaultSettings) as Settings;
+  };
+
+  const setPromptList = (promptList: Prompt[]): void => {
+    settings.value.promptList = promptList;
+  };
 
   return {
     settings,
@@ -88,6 +99,8 @@ export const useSettingsStore = defineStore("settings", () => {
     getSettings,
     isEditable,
 
+    init,
     reset,
+    setPromptList,
   };
 });

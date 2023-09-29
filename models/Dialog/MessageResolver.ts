@@ -17,12 +17,12 @@ export default class MessageResolver {
 
   askOpenAI(): Promise<Message[]> {
     if (!this.messageList || this.messageList.length === 0) {
-      return Promise.resolve(this.messageList);
+      return Promise.resolve([]);
     }
 
     // TODO: maybe sometimes bot can send a couple messages in a row.
     if (!this.verifyUserOfLastMessage()) {
-      return Promise.resolve(this.messageList);
+      return Promise.reject(new Error("Last message was not from user."));
     }
 
     this.messageList.push(...this.mutateWithPrompts());

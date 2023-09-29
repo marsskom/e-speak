@@ -1,9 +1,11 @@
 import { AudioFileFactoryParams } from "~/types/Audio/AudioFileFactory.d";
+import { Prompt } from "~/types/Dialog/Prompt.d";
 
 export interface Settings {
   recorder: AudioRecorderSettings;
   chat: ChatSettings;
   advanced: AdvancedSettings;
+  promptList: Prompt[];
   updatedAt?: Date;
 }
 

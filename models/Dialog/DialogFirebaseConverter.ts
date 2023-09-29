@@ -5,9 +5,9 @@ import {
   WithFieldValue,
 } from "firebase/firestore";
 
-import { Dialog } from "~/types/Dialog/Dialog";
-import { Message } from "~/types/Dialog/Message";
-import { Prompt } from "~/types/Dialog/Prompt";
+import { Dialog } from "~/types/Dialog/Dialog.d";
+import { Message } from "~/types/Dialog/Message.d";
+import { Prompt } from "~/types/Dialog/Prompt.d";
 
 export const dialogFirebaseConverter = {
   fromFirestore: (

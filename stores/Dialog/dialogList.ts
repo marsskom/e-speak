@@ -37,9 +37,9 @@ export const useDialogListStore = defineStore("dialogList", () => {
       .finally(() => (isLoadingInProgress.value = false));
   };
 
-  onMounted(() => {
+  const init = () => {
     loadDialogList();
-  });
+  };
 
   const dialogList = computed(() => dialogs.value);
   const isLoading: ComputedRef<boolean> = computed(
@@ -54,6 +54,7 @@ export const useDialogListStore = defineStore("dialogList", () => {
     dialogList,
     isLoading,
 
+    init,
     refresh,
   };
 });

@@ -5,8 +5,10 @@ import { Dialog } from "~/types/Dialog/Dialog.d";
 import { Message, OpenAIRole } from "~/types/Dialog/Message.d";
 import { EventChange } from "~/types/Form/Text/TextInput.d";
 
+import { useSettingsStore } from "~/stores/settings";
 import { useDialogListStore } from "~/stores/Dialog/dialogList";
 import { useDialogStore } from "~/stores/Dialog/dialog";
+import { usePromptStore } from "~/stores/Dialog/prompt";
 
 import CopyLink from "~/components/Page/CopyLink.vue";
 import MenuSidebar from "~/components/Layout/MenuSidebar.vue";
@@ -21,13 +23,16 @@ definePageMeta({
 
 const toast = useToast();
 
+const { init: initSettings } = useSettingsStore();
+const { init: initPrompt } = usePromptStore();
+
 const isAdvancedMode: ComputedRef<boolean> = useIsAdvancedMode();
 
 const dialogListStore = useDialogListStore();
-const { refresh: refreshDialogList } = dialogListStore;
+const { init: initDialogList, refresh: refreshDialogList } = dialogListStore;
 
 const dialogStore = useDialogStore();
-const { updateDialog } = dialogStore;
+const { init: initDialog, updateDialog } = dialogStore;
 const currentDialog: ComputedRef<Dialog> = computed(
   () => dialogStore.currentDialog,
 );
@@ -66,9 +71,6 @@ watch(
 const isDialogLoading: ComputedRef<boolean> = computed(() =>
   useIsDialogLoading(),
 );
-onMounted(() => {
-  document.getElementById("app-loading")?.classList.remove("hidden");
-});
 watch(isDialogLoading, (isLoading) => {
   if (isLoading) {
     document.getElementById("app-loading")?.classList.remove("hidden");
@@ -87,6 +89,14 @@ const onDialogNameChange = (e: EventChange) => {
   updateDialog(e.value);
   refreshDialogList();
 };
+
+onMounted(() => {
+  document.getElementById("app-loading")?.classList.remove("hidden");
+
+  initSettings().then(() => initPrompt());
+  initDialogList();
+  initDialog();
+});
 </script>
 
 <template>
