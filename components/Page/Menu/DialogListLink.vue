@@ -158,6 +158,9 @@ const onDeleteDialog = (dialog: Dialog): void => {
                 >
                   <td class="border px-4 py-2">
                     {{ dialog.name }}
+                    <p class="mt-1 text-gray-500 text-xs">
+                      {{ dialog.createdAt.toISOString() }}
+                    </p>
                     <p v-if="isAdvancedMode" class="mt-1 text-gray-500 text-xs">
                       <CopyLink :content="dialog.uid" />
                       {{ dialog.uid }}

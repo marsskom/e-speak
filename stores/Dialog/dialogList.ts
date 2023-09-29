@@ -23,12 +23,12 @@ export const useDialogListStore = defineStore("dialogList", () => {
   const isLoadingInProgress: Ref<boolean> = ref(false);
   const dialogs: Ref<Dialog[]> = ref([]);
 
-  const loadDialogList = async () => {
+  const loadDialogList = (): Promise<void> => {
     isLoadingInProgress.value = true;
 
     dialogs.value = [];
 
-    getDocs(query(dialogsRef, where("userUid", "==", user.uid)))
+    return getDocs(query(dialogsRef, where("userUid", "==", user.uid)))
       .then((querySnapshot: QuerySnapshot<Dialog>) => {
         querySnapshot.forEach((docSnap: DocumentSnapshot<Dialog>) => {
           dialogs.value.push(docSnap.data() as Dialog);

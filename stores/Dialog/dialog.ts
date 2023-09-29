@@ -16,7 +16,6 @@ import {
 } from "firebase/firestore";
 import { useFirestore } from "vuefire";
 
-import { set } from "firebase/database";
 import { Dialog } from "~/types/Dialog/Dialog.d";
 import { Message } from "~/types/Dialog/Message.d";
 import DialogFactory from "~/models/Dialog/DialogFactory";
@@ -60,6 +59,7 @@ export const useDialogStore = defineStore("dialog", () => {
 
   const addMessage = (message: Message): void => {
     message.dialogUid = dialog.value.uid;
+    message.createdAt = new Date();
     dialog.value.messages.push(message);
 
     messageInProgress.value = messageFactory.createEmpty();
@@ -112,12 +112,12 @@ export const useDialogStore = defineStore("dialog", () => {
     messageBatch.commit();
   };
 
-  const loadDialog = async (dialogUid: string): Promise<void> => {
+  const loadDialog = (dialogUid: string): Promise<void> => {
     isLoadingInProgress.value = true;
 
     dialogDocument.value = doc(dialogsRef, dialogUid);
 
-    getDoc(dialogDocument.value)
+    return getDoc(dialogDocument.value)
       .then((docSnap: DocumentSnapshot): void => {
         if (!docSnap.exists()) {
           localStorage.setItem("dialogUid", "");

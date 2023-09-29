@@ -64,7 +64,10 @@ const togglePopupVisibility = () => {
     class="flex w-full m-2 transition-all duration-300"
   >
     <p class="text-xs text-gray-500 w-full">
-      <i class="text-center text-red-800 text-sm">System:</i><br />
+      <i class="text-center text-red-800 text-sm">System:</i> (&nbsp;<span
+        class="text-xs text-gray-500"
+        ><i>{{ message.createdAt.toISOString() }}</i></span
+      >&nbsp;)<br />
       <span class="text-left mx-4">{{ message.content }}</span>
     </p>
   </div>
