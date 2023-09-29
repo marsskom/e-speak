@@ -7,4 +7,5 @@ export interface Dialog {
   createdAt: Date;
   updatedAt: Date;
   messages: Message[];
+  isSynced: boolean;
 }

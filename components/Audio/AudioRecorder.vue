@@ -5,6 +5,7 @@ import { useToast } from "tailvue";
 import { Transcription } from "openai/resources/audio";
 
 import { useAudioRecorderStore } from "~/stores/Audio/recorder";
+import { useDialogListStore } from "~/stores/Dialog/dialogList";
 
 import { Settings } from "~/types/Settings.d";
 import { AudioTranscriptionRequest } from "~/types/Api/Request.d";
@@ -28,6 +29,9 @@ const { addMessage } = dialogStore;
 const toast = useToast();
 
 const settings: Settings = useGetSettings();
+
+const dialogListStore = useDialogListStore();
+const { refresh: refreshDialogList } = dialogListStore;
 
 const audioRecorderStore = useAudioRecorderStore();
 const isRecording = computed(() => audioRecorderStore.isRecording);
@@ -167,7 +171,7 @@ const storeAudio = (audioAsBlob: void | Blob): void => {
 
       return await response.json();
     })
-    .then((transcription: Transcription) => {
+    .then((transcription: Transcription): void => {
       addMessage(
         messageFactory.fillWithTranscription(
           audioTranscriptionRequestData,
@@ -175,6 +179,9 @@ const storeAudio = (audioAsBlob: void | Blob): void => {
           currentMessageInProgress.value,
         ),
       );
+    })
+    .then((): void => {
+      refreshDialogList();
     })
     .catch((error: Error) => {
       toast.danger(error.message);

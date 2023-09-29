@@ -1,6 +1,7 @@
 import {
   QueryDocumentSnapshot,
   SnapshotOptions,
+  Timestamp,
   WithFieldValue,
 } from "firebase/firestore";
 
@@ -25,6 +26,8 @@ export const dialogFirebaseConverter = {
     return {
       ...dialog,
       messages: [], // Remove messages from the dialog object before saving it to Firestore.
+      createdAt: Timestamp.fromDate(dialog.createdAt),
+      updatedAte: Timestamp.fromDate(dialog.updatedAt),
     };
   },
 };
@@ -52,6 +55,8 @@ export const messageFirebaseConverter = {
 
     return {
       ...message,
+      createdAt: Timestamp.fromDate(message.createdAt),
+      updatedAte: Timestamp.fromDate(message.updatedAt),
     };
   },
 };

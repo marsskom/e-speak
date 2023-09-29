@@ -46,8 +46,12 @@ export default class MessageResolver {
         return await response.json();
       })
       .then((chatCompletion: ChatCompletion) => {
+        const date = new Date();
+        date.setSeconds(date.getSeconds() + 4);
+
         const message =
           this.messageFactory.createFromChatCompletion(chatCompletion);
+        message.createdAt = date;
         message.content = message.content.replace(/\\n/g, "<br />");
         message.dialogUid = this.dialogUid;
         message.promptList = this.getPrompts();
@@ -67,9 +71,15 @@ export default class MessageResolver {
   private mutateWithPrompts(): Message[] {
     return this.messageFactory
       .createFromPrompts(this.getPrompts())
-      .map((message: Message) =>
-        Object.assign(message, { dialogUid: this.dialogUid }),
-      );
+      .map((message: Message): Message => {
+        const date = new Date();
+        date.setSeconds(date.getSeconds() + 2);
+
+        return Object.assign(message, {
+          dialogUid: this.dialogUid,
+          createdAt: date,
+        });
+      });
   }
 
   private getPrompts(): Prompt[] {

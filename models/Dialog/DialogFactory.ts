@@ -11,6 +11,7 @@ export default class DialogFactory {
       createdAt: new Date(),
       updatedAt: new Date(),
       messages: [],
+      isSynced: false,
     };
   }
 }
