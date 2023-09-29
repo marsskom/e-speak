@@ -53,10 +53,10 @@ export const useSettingsStore = defineStore("settings", () => {
   );
 
   let syncTimeoutId: ReturnType<typeof setTimeout>;
-  const syncSettings = (settings: Settings): void => {
+  const syncSettings = (syncSettingsValue: Settings): void => {
     clearTimeout(syncTimeoutId);
     syncTimeoutId = setTimeout(() => {
-      setDoc(document.value, settings);
+      setDoc(document.value, syncSettingsValue);
     }, 1000);
   };
 
@@ -67,7 +67,7 @@ export const useSettingsStore = defineStore("settings", () => {
         return;
       }
 
-      syncSettings({ ...value, updatedAt: new Date() });
+      syncSettings({ ...useDeepClone(value), updatedAt: new Date() });
     },
     { deep: true },
   );
