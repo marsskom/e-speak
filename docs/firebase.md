@@ -99,9 +99,9 @@ service cloud.firestore {
 
 ![Firestore Indices](./images/firebase/firestore-indices.png)
 
-Dialogs collection: **userUid**: *ASC* and **uid**: *ASC*.
+Dialogs collection: **userUid**: _ASC_ and **uid**: _ASC_.
 
-Messages collection: **dialogUid**: *ASC* and **createdAt**: *ASC*.
+Messages collection: **dialogUid**: _ASC_ and **createdAt**: _ASC_.
 
 You should wait until indices will be created.
 

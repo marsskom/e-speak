@@ -1,7 +1,10 @@
 <script setup lang="ts">
 import { Props } from "~/types/Menu/MenuLink";
 
-const props = defineProps<Props>();
+const props = withDefaults(defineProps<Props>(), {
+  label: "Menu Item",
+  isActive: false,
+});
 </script>
 
 <template>

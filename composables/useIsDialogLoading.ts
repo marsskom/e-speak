@@ -1,7 +1,7 @@
 import { useDialogStore } from "~/stores/Dialog/dialog";
 
-export default function (): ComputedRef<boolean> {
+export default function (): boolean {
   const dialogStore = useDialogStore();
 
-  return computed(() => dialogStore.isLoading);
+  return computed(() => dialogStore.isLoading).value;
 }

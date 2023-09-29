@@ -4,6 +4,10 @@ import { useAuthStore } from "~/stores/Auth/auth";
 
 import NavBar from "~/components/Page/NavBar.vue";
 
+definePageMeta({
+  title: "E-Speak",
+});
+
 const router = useRouter();
 const route = useRoute();
 const user = useCurrentUser();

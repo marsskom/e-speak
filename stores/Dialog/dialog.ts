@@ -12,9 +12,11 @@ import {
   DocumentReference,
   DocumentSnapshot,
   QuerySnapshot,
+  deleteDoc,
 } from "firebase/firestore";
 import { useFirestore } from "vuefire";
 
+import { set } from "firebase/database";
 import { Dialog } from "~/types/Dialog/Dialog.d";
 import { Message } from "~/types/Dialog/Message.d";
 import DialogFactory from "~/models/Dialog/DialogFactory";
@@ -86,6 +88,7 @@ export const useDialogStore = defineStore("dialog", () => {
   const updateDialog = (dialogName: string): void => {
     dialog.value.name = dialogName;
     dialog.value.updatedAt = new Date();
+    dialog.value.isSynced = true;
 
     syncDialog();
   };
@@ -114,7 +117,7 @@ export const useDialogStore = defineStore("dialog", () => {
 
     dialogDocument.value = doc(dialogsRef, dialogUid);
 
-    await getDoc(dialogDocument.value)
+    getDoc(dialogDocument.value)
       .then((docSnap: DocumentSnapshot): void => {
         if (!docSnap.exists()) {
           localStorage.setItem("dialogUid", "");
@@ -127,7 +130,7 @@ export const useDialogStore = defineStore("dialog", () => {
         localStorage.setItem("dialogUid", dialog.value.uid);
       })
       .then(
-        (): Promise<QuerySnapshot> =>
+        (): Promise<QuerySnapshot<Message>> =>
           getDocs(
             query(
               messagesRef,
@@ -136,8 +139,8 @@ export const useDialogStore = defineStore("dialog", () => {
             ),
           ),
       )
-      .then((querySnapshot: QuerySnapshot) => {
-        querySnapshot.forEach((docSnap) => {
+      .then((querySnapshot: QuerySnapshot<Message>) => {
+        querySnapshot.forEach((docSnap: DocumentSnapshot<Message>) => {
           dialog.value.messages.push(docSnap.data() as Message);
         });
       })
@@ -150,6 +153,51 @@ export const useDialogStore = defineStore("dialog", () => {
     loadDialog(dialogUid || dialog.value.uid);
   });
 
+  const createEmptyDialog = (): void => {
+    isLoadingInProgress.value = true;
+
+    updateDialog(dialog.value.name);
+    syncMessages();
+
+    localStorage.setItem("dialogUid", "");
+    dialog.value = dialogFactory.create(user.uid);
+    dialogDocument.value = doc(dialogsRef, dialog.value.uid);
+
+    isLoadingInProgress.value = false;
+  };
+
+  const deleteDialog = async (deleteDialog: Dialog): Promise<void> => {
+    isLoadingInProgress.value = true;
+
+    const dialogDocumentReference: DocumentReference = doc(
+      dialogsRef,
+      deleteDialog.uid,
+    );
+    await deleteDoc(dialogDocumentReference);
+
+    getDocs(
+      query(
+        messagesRef,
+        where("dialogUid", "==", deleteDialog.uid),
+        orderBy("createdAt", "asc"),
+      ),
+    )
+      .then((querySnapshot: QuerySnapshot<Message>) => {
+        querySnapshot.forEach(async (docSnap: DocumentSnapshot<Message>) => {
+          await deleteDoc(doc(messagesRef, docSnap.id));
+        });
+      })
+      .finally(() => (isLoadingInProgress.value = false));
+
+    if (deleteDialog.uid === dialog.value.uid) {
+      localStorage.setItem("dialogUid", "");
+      dialog.value = dialogFactory.create(user.uid);
+      dialogDocument.value = doc(dialogsRef, dialog.value.uid);
+    }
+
+    isLoadingInProgress.value = false;
+  };
+
   return {
     isLoadingInProgress,
     dialog,
@@ -160,5 +208,8 @@ export const useDialogStore = defineStore("dialog", () => {
 
     addMessage,
     loadDialog,
+    updateDialog,
+    createEmptyDialog,
+    deleteDialog,
   };
 });

@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import DashboardLink from "~/components/Page/Menu/DashboardLink.vue";
+import DialogListLink from "~/components/Page/Menu/DialogListLink.vue";
 </script>
 
 <template>
@@ -8,6 +9,10 @@ import DashboardLink from "~/components/Page/Menu/DashboardLink.vue";
       <ul class="list-none text-base p-2">
         <li>
           <DashboardLink />
+        </li>
+
+        <li>
+          <DialogListLink />
         </li>
       </ul>
     </div>
