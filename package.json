@@ -55,7 +55,7 @@
     "@fortawesome/vue-fontawesome": "^3.0.3",
     "@pinia/nuxt": "^0.4.11",
     "firebase": "^10.4.0",
-    "firebase-admin": "^11.10.1",
+    "firebase-admin": "^11.11.0",
     "nuxt-vuefire": "^0.3.0",
     "openai": "^4.11.0",
     "pinia": "^2.1.6",
