@@ -8452,10 +8452,10 @@ nuxi@^3.8.4, nuxi@^3.9.0:
   optionalDependencies:
     fsevents "~2.3.3"
 
-nuxt-vuefire@^0.3.0:
-  version "0.3.0"
-  resolved "https://registry.yarnpkg.com/nuxt-vuefire/-/nuxt-vuefire-0.3.0.tgz#abe144c3d6115176bae613ed6ffb646921988442"
-  integrity sha512-EeshCQ/f916mDoHmNtsoBo5xQwxYPNI5jHdi6+ul5kkYT415CQrgUQjaXyvMpXUYbEXOkrRmlqOS9kDFrG4/pw==
+nuxt-vuefire@^0.4.0:
+  version "0.4.0"
+  resolved "https://registry.yarnpkg.com/nuxt-vuefire/-/nuxt-vuefire-0.4.0.tgz#478594d340233f9ec5737ffd03fb68b583ea90c2"
+  integrity sha512-mxiAzg51pl+BM05FQ7KW70btr/ARiIjezV9y2H39dPGxS3JcpDH3uK3gbsanyG/ebbKcIw1ZIeuvycTtCQOH/Q==
   dependencies:
     "@nuxt/kit" "^3.7.1"
     "@posva/lru-cache" "^10.0.1"
