@@ -14,11 +14,19 @@ const onCheckboxChange = function (event: EventChange) {
 </script>
 
 <template>
-  <FormCheckbox id="agreement-checkbox" value="1" :checked="isAgreementAccepted" :required="true"
-    @change="onCheckboxChange">
+  <FormCheckbox
+    id="agreement-checkbox"
+    value="1"
+    :checked="isAgreementAccepted"
+    :required="true"
+    @change="onCheckboxChange"
+  >
     I agree with the
-    <NuxtLink to="/terms-and-conditions" class="text-blue-600 hover:underline dark:text-blue-500" target="_blank">terms
-      and conditions
+    <NuxtLink
+      to="/terms-and-conditions"
+      class="text-blue-600 hover:underline dark:text-blue-500"
+      target="_blank"
+      >terms and conditions
     </NuxtLink>
   </FormCheckbox>
 </template>
