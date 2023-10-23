@@ -4,11 +4,11 @@ import { useFirebaseStorage, useStorageFileUrl } from "vuefire";
 import { useToast } from "tailvue";
 
 import {
-  AudioDownloadRequest,
-  AudioDownloadResponse,
-} from "~/types/Api/Request.d";
-import { AudioPlayerState } from "~/types/Audio/AudioPlayer.d";
-import { Message } from "~/types/Dialog/Message.d";
+  type AudioDownloadRequest,
+  type AudioDownloadResponse,
+} from "~/types/Api/Request";
+import { AudioPlayerState } from "~/types/Audio/AudioPlayer";
+import { type Message } from "~/types/Dialog/Message";
 
 const toast = useToast();
 

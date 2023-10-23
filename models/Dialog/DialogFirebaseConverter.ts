@@ -1,13 +1,13 @@
 import {
   QueryDocumentSnapshot,
-  SnapshotOptions,
+  type SnapshotOptions,
   Timestamp,
-  WithFieldValue,
+  type WithFieldValue,
 } from "firebase/firestore";
 
-import { Dialog } from "~/types/Dialog/Dialog.d";
-import { Message } from "~/types/Dialog/Message.d";
-import { Prompt } from "~/types/Dialog/Prompt.d";
+import { type Dialog } from "~/types/Dialog/Dialog";
+import { type Message } from "~/types/Dialog/Message";
+import { type Prompt } from "~/types/Dialog/Prompt";
 
 export const dialogFirebaseConverter = {
   fromFirestore: (

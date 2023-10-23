@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ChatDriver, Settings } from "~/types/Settings.d";
+import { ChatDriver, type Settings } from "~/types/Settings";
 import PopupModal from "~/components/Page/PopupModal.vue";
 import PromptEditComponent from "~/components/Dialog/PromptEditComponent.vue";
 import { useSettingsStore } from "~/stores/settings";

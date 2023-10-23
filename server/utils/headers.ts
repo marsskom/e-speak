@@ -1,5 +1,5 @@
-import CustomHeaders from "~/types/Headers.d";
-import { ChatDriver } from "~/types/Settings.d";
+import type CustomHeaders from "~/types/Headers";
+import { ChatDriver } from "~/types/Settings";
 
 // TODO [STORES]: why stores aren't available on server side?
 export default function (headers: Headers) {

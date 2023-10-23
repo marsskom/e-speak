@@ -1,4 +1,4 @@
-import { User } from "firebase/auth";
+import { type User } from "firebase/auth";
 
 export const useAuthStore = defineStore("auth", () => {
   const user: Ref<User> = ref({} as User);

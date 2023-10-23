@@ -1,8 +1,8 @@
-import { Transcription } from "openai/resources/audio/transcriptions";
+import { type Transcription } from "openai/resources/audio/transcriptions";
 import {
-  ChatCompletionCreateParamsStreaming,
-  ChatCompletionMessageParam,
-  ChatCompletion,
+  type ChatCompletionCreateParamsStreaming,
+  type ChatCompletionMessageParam,
+  type ChatCompletion,
 } from "openai/resources/chat/completions";
 
 const config = useRuntimeConfig();

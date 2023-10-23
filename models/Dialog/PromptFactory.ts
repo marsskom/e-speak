@@ -1,6 +1,10 @@
 import { v4 as uuidv4 } from "uuid";
 
-import { Prompt, PromptCategory, PrompType } from "~/types/Dialog/Prompt.d";
+import {
+  type Prompt,
+  type PromptCategory,
+  PrompType,
+} from "~/types/Dialog/Prompt";
 
 export default class PromptFactory {
   create(prompt: string, type: PrompType, category?: PromptCategory): Prompt {

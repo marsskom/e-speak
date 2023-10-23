@@ -1,4 +1,4 @@
-import { AudioRecorderState } from "~/types/Audio/AudioRecorder.d";
+import { AudioRecorderState } from "~/types/Audio/AudioRecorder";
 
 export const useAudioRecorderStore = defineStore("audioRecorder", () => {
   const state: Ref<AudioRecorderState> = ref(AudioRecorderState.Idle);

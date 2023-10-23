@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { User } from "firebase/auth";
+import { type User } from "firebase/auth";
 
 import LogOutLink from "~/components/Page/NavBar/LogOutLink.vue";
 

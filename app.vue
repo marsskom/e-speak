@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { User } from "firebase/auth";
+import { type User } from "firebase/auth";
 import { useAuthStore } from "~/stores/Auth/auth";
 
 import NavBar from "~/components/Page/NavBar.vue";

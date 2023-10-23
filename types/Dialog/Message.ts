@@ -1,5 +1,11 @@
-import { ChatCompletion } from "openai/resources/chat";
-import { Prompt } from "~/types/Dialog/Prompt.d";
+import { type ChatCompletion } from "openai/resources/chat";
+import { type Prompt } from "~/types/Dialog/Prompt";
+
+export enum OpenAIRole {
+  System = "system",
+  Assistant = "assistant",
+  User = "user",
+}
 
 export interface Message {
   dialogUid: string;
@@ -12,10 +18,4 @@ export interface Message {
   audioFile?: string;
   chatCompletion?: ChatCompletion;
   promptList?: Prompt[];
-}
-
-export enum OpenAIRole {
-  System = "system",
-  Assistant = "assistant",
-  User = "user",
 }

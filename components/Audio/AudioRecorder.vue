@@ -2,18 +2,18 @@
 import { ref as storageRef } from "firebase/storage";
 import { useFirebaseStorage, useStorageFile } from "vuefire";
 import { useToast } from "tailvue";
-import { Transcription } from "openai/resources/audio";
+import { type Transcription } from "openai/resources/audio";
 
 import { useAudioRecorderStore } from "~/stores/Audio/recorder";
 import { useDialogListStore } from "~/stores/Dialog/dialogList";
 
-import { Settings } from "~/types/Settings.d";
-import { AudioTranscriptionRequest } from "~/types/Api/Request.d";
-import { AudioRecorderState } from "~/types/Audio/AudioRecorder.d";
+import { type Settings } from "~/types/Settings";
+import { type AudioTranscriptionRequest } from "~/types/Api/Request";
+import { AudioRecorderState } from "~/types/Audio/AudioRecorder";
 import AudioFileFactory from "~/models/Audio/AudioFileFactory";
 import AudioRecorder from "~/models/Audio/AudioRecorder";
-import { Dialog } from "~/types/Dialog/Dialog.d";
-import { Message } from "~/types/Dialog/Message.d";
+import { type Dialog } from "~/types/Dialog/Dialog";
+import { type Message } from "~/types/Dialog/Message";
 import MessageFactory from "~/models/Dialog/MessageFactory";
 
 import { useDialogStore } from "~/stores/Dialog/dialog";

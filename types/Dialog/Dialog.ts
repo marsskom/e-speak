@@ -1,4 +1,4 @@
-import { Message } from "~/types/Dialog/Message.d";
+import { type Message } from "~/types/Dialog/Message";
 
 export interface Dialog {
   userUid: string;

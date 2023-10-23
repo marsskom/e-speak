@@ -1,6 +1,6 @@
-import { ChatCompletion } from "openai/resources/chat/completions";
+import { type ChatCompletion } from "openai/resources/chat/completions";
 
-import CustomHeaders from "~/types/Headers.d";
+import type CustomHeaders from "~/types/Headers";
 import { getChatStream } from "~/server/utils/ai";
 import useHeaders from "~/server/utils/headers";
 

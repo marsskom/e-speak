@@ -1,10 +1,10 @@
 import { v4 as uuidv4 } from "uuid";
-import { Transcription } from "openai/resources/audio";
-import { ChatCompletion } from "openai/resources/chat/completions";
+import { type Transcription } from "openai/resources/audio";
+import { type ChatCompletion } from "openai/resources/chat/completions";
 
-import { AudioTranscriptionRequest } from "~/types/Api/Request.d";
-import { Message, OpenAIRole } from "~/types/Dialog/Message.d";
-import { Prompt } from "~/types/Dialog/Prompt.d";
+import { type AudioTranscriptionRequest } from "~/types/Api/Request";
+import { type Message, OpenAIRole } from "~/types/Dialog/Message";
+import { type Prompt } from "~/types/Dialog/Prompt";
 
 export default class MessageFactory {
   createEmpty(): Message {

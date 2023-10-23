@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useLoginFormStore } from "~/stores/Form/login-form";
 
-import { EventChange } from "~/types/Form/Input/Checkbox";
+import { type EventChange } from "~/types/Form/Input/Checkbox";
 import FormCheckbox from "~/components/Form/Input/Checkbox/FormCheckbox.vue";
 
 const loginFormStore = useLoginFormStore();
@@ -14,19 +14,11 @@ const onCheckboxChange = function (event: EventChange) {
 </script>
 
 <template>
-  <FormCheckbox
-    id="agreement-checkbox"
-    value="1"
-    :checked="isAgreementAccepted"
-    :required="true"
-    @change="onCheckboxChange"
-  >
+  <FormCheckbox id="agreement-checkbox" value="1" :checked="isAgreementAccepted" :required="true"
+    @change="onCheckboxChange">
     I agree with the
-    <NuxtLink
-      to="/terms-and-conditions"
-      class="text-blue-600 hover:underline dark:text-blue-500"
-      target="_blank"
-      >terms and conditions
+    <NuxtLink to="/terms-and-conditions" class="text-blue-600 hover:underline dark:text-blue-500" target="_blank">terms
+      and conditions
     </NuxtLink>
   </FormCheckbox>
 </template>
