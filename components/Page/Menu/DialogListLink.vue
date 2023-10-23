@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useModal } from "tailvue";
 
-import { Dialog } from "~/types/Dialog/Dialog.d";
+import { type Dialog } from "~/types/Dialog/Dialog";
 import PopupModal from "~/components/Page/PopupModal.vue";
 import CopyLink from "~/components/Page/CopyLink.vue";
 

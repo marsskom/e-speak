@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Props } from "~/types/Menu/MenuLink";
+import { type Props } from "~/types/Menu/MenuLink";
 
 const props = withDefaults(defineProps<Props>(), {
   label: "Menu Item",

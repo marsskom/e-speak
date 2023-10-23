@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { EventChange } from "~/types/Form/Text/TextInput.d";
+import { type EventChange } from "~/types/Form/Text/TextInput";
 
 const props = defineProps({
   text: {

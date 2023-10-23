@@ -1,4 +1,4 @@
-import { User } from "firebase/auth";
+import { type User } from "firebase/auth";
 import {
   collection,
   getDocs,
@@ -9,7 +9,7 @@ import {
 } from "firebase/firestore";
 import { useFirestore } from "vuefire";
 
-import { Dialog } from "~/types/Dialog/Dialog.d";
+import { type Dialog } from "~/types/Dialog/Dialog";
 import { dialogFirebaseConverter } from "~/models/Dialog/DialogFirebaseConverter";
 
 export const useDialogListStore = defineStore("dialogList", () => {

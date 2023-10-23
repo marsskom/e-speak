@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { useToast } from "tailvue";
 
-import { Dialog } from "~/types/Dialog/Dialog.d";
-import { Message, OpenAIRole } from "~/types/Dialog/Message.d";
-import { EventChange } from "~/types/Form/Text/TextInput.d";
+import { type Dialog } from "~/types/Dialog/Dialog";
+import { type Message, OpenAIRole } from "~/types/Dialog/Message";
+import { type EventChange } from "~/types/Form/Text/TextInput";
 
 import { useSettingsStore } from "~/stores/settings";
 import { useDialogListStore } from "~/stores/Dialog/dialogList";

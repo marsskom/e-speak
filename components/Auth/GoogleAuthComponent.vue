@@ -2,7 +2,7 @@
 import {
   GoogleAuthProvider,
   signInWithPopup,
-  UserCredential,
+  type UserCredential,
 } from "firebase/auth";
 import { useFirebaseAuth } from "vuefire";
 import { useToast } from "tailvue";

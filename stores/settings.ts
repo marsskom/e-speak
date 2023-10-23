@@ -1,4 +1,4 @@
-import { User } from "firebase/auth";
+import { type User } from "firebase/auth";
 import {
   collection,
   getDoc,
@@ -9,8 +9,8 @@ import {
 } from "firebase/firestore";
 import { useFirestore } from "vuefire";
 
-import { ChatDriver, Settings } from "~/types/Settings.d";
-import { Prompt } from "~/types/Dialog/Prompt.d";
+import { ChatDriver, type Settings } from "~/types/Settings";
+import { type Prompt } from "~/types/Dialog/Prompt";
 import { settingsFirebaseConverter } from "~/models/SettingsFirebaseConverter";
 
 export const useSettingsStore = defineStore("settings", () => {

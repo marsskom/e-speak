@@ -1,4 +1,4 @@
-import { AudioFileFactoryParams } from "~/types/Audio/AudioFileFactory.d";
+import { type AudioFileFactoryParams } from "~/types/Audio/AudioFileFactory";
 
 export default class AudioFileFactory {
   // eslint-disable-next-line no-useless-constructor

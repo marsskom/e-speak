@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Props } from "~/types/NavBar/NavLink";
+import { type Props } from "~/types/NavBar/NavLink";
 
 const props = defineProps<Props>();
 </script>

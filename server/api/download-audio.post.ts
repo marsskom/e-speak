@@ -1,7 +1,7 @@
 import {
-  AudioDownloadRequest,
-  AudioDownloadResponse,
-} from "~/types/Api/Request.d";
+  type AudioDownloadRequest,
+  type AudioDownloadResponse,
+} from "~/types/Api/Request";
 
 export default defineEventHandler(
   async (event): Promise<AudioDownloadResponse> => {

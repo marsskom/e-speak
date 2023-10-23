@@ -1,4 +1,4 @@
-import { Settings } from "~/types/Settings.d";
+import { type Settings } from "~/types/Settings";
 import { useDialogStore } from "~/stores/Dialog/dialog";
 
 // TODO [STORES]: why stores aren't available on server side?

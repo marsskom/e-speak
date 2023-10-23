@@ -1,4 +1,4 @@
-import { Settings } from "~/types/Settings.d";
+import { type Settings } from "~/types/Settings";
 import { useSettingsStore } from "~/stores/settings";
 
 export default function (): Settings {

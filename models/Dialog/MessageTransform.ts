@@ -1,6 +1,6 @@
-import { ChatCompletionMessageParam } from "openai/resources/chat/completions";
+import { type ChatCompletionMessageParam } from "openai/resources/chat/completions";
 
-import { Message } from "~/types/Dialog/Message.d";
+import { type Message } from "~/types/Dialog/Message";
 
 export default class MessageTransform {
   messageListToOpenAIMessageList(

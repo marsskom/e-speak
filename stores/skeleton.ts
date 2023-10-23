@@ -1,4 +1,4 @@
-import { SkeletonState } from "~/types/Skeleton.d";
+import { SkeletonState } from "~/types/Skeleton";
 
 export const useSkeletonStore = defineStore("skeleton", () => {
   const skeletonState: Ref<SkeletonState> = ref(SkeletonState.PageIsLoading);

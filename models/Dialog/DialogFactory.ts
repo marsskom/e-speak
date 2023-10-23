@@ -1,6 +1,6 @@
 import { v4 as uuidv4 } from "uuid";
 
-import { Dialog } from "~/types/Dialog/Dialog.d";
+import { type Dialog } from "~/types/Dialog/Dialog";
 
 export default class DialogFactory {
   create(userUid: string = ""): Dialog {

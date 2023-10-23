@@ -1,4 +1,4 @@
-import { User } from "firebase/auth";
+import { type User } from "firebase/auth";
 import {
   collection,
   getDoc,
@@ -16,8 +16,8 @@ import {
 } from "firebase/firestore";
 import { useFirestore } from "vuefire";
 
-import { Dialog } from "~/types/Dialog/Dialog.d";
-import { Message } from "~/types/Dialog/Message.d";
+import { type Dialog } from "~/types/Dialog/Dialog";
+import { type Message } from "~/types/Dialog/Message";
 import DialogFactory from "~/models/Dialog/DialogFactory";
 import MessageFactory from "~/models/Dialog/MessageFactory";
 import MessageResolver from "~/models/Dialog/MessageResolver";

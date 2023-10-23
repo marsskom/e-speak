@@ -1,12 +1,12 @@
 import {
   QueryDocumentSnapshot,
-  SnapshotOptions,
+  type SnapshotOptions,
   Timestamp,
-  WithFieldValue,
+  type WithFieldValue,
 } from "firebase/firestore";
 
-import { Settings } from "~/types/Settings.d";
-import { Prompt } from "~/types/Dialog/Prompt.d";
+import { type Settings } from "~/types/Settings";
+import { type Prompt } from "~/types/Dialog/Prompt";
 
 export const settingsFirebaseConverter = {
   fromFirestore: (

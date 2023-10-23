@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Message, OpenAIRole } from "~/types/Dialog/Message.d";
+import { type Message, OpenAIRole } from "~/types/Dialog/Message";
 import PopupModal from "~/components/Page/PopupModal.vue";
 import AudioPlayer from "~/components/Audio/AudioPlayer.vue";
 import CopyLink from "~/components/Page/CopyLink.vue";

@@ -1,4 +1,4 @@
-import { Prompt, PrompType } from "~/types/Dialog/Prompt.d";
+import { type Prompt, PrompType } from "~/types/Dialog/Prompt";
 import PromptFactory from "~/models/Dialog/PromptFactory";
 import { useSettingsStore } from "~/stores/settings";
 
