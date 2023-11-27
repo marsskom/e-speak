@@ -38,7 +38,7 @@
     "eslint-plugin-prettier": "^5.0.1",
     "eslint-plugin-vitest": "0.3.10",
     "jsdom": "^22.1.0",
-    "nuxi": "^3.8.4",
+    "nuxi": "^3.10.0",
     "nuxt": "^3.8.1",
     "prettier": "^3.1.0",
     "typescript": "^5.1.6",
