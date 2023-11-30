@@ -3077,7 +3077,7 @@ acorn-walk@^8.2.0:
   resolved "https://registry.yarnpkg.com/acorn-walk/-/acorn-walk-8.2.0.tgz#741210f2e2426454508853a2f44d0ab83b7f69c1"
   integrity sha512-k+iyHEuPgSw6SbuDpGQM+06HQUa04DZ3o+F6CSzXMvvI5KMvnaEqXe+YVe555R9nn6GPt404fos4wcgpw12SDA==
 
-acorn@8.11.2, acorn@^8.10.0, acorn@^8.6.0, acorn@^8.8.2, acorn@^8.9.0:
+acorn@8.11.2, acorn@^8.10.0, acorn@^8.11.2, acorn@^8.6.0, acorn@^8.8.2, acorn@^8.9.0:
   version "8.11.2"
   resolved "https://registry.yarnpkg.com/acorn/-/acorn-8.11.2.tgz#ca0d78b51895be5390a5903c5b3bdcdaf78ae40b"
   integrity sha512-nc0Axzp/0FILLEVsm4fNwLCwMttvhEI263QtVPQcbpfZZ3ts0hLsZGOpE6czNlid7CJ9MlyH8reXkpsf3YUY4w==
@@ -11135,19 +11135,19 @@ universalify@^2.0.0:
   resolved "https://registry.yarnpkg.com/universalify/-/universalify-2.0.0.tgz#75a4984efedc4b08975c5aeb73f530d02df25717"
   integrity sha512-hAZsKq7Yy11Zu1DE0OzWjw7nnLZmJZYTDZZyEFHZdUhV8FkH5MCfoU1XMaxXovpyW5nq5scPqq0ZDP9Zyl04oQ==
 
-unplugin-auto-import@^0.16.7:
-  version "0.16.7"
-  resolved "https://registry.yarnpkg.com/unplugin-auto-import/-/unplugin-auto-import-0.16.7.tgz#f4f1f7ab3fba24129bc38e47f83782684030d6e4"
-  integrity sha512-w7XmnRlchq6YUFJVFGSvG1T/6j8GrdYN6Em9Wf0Ye+HXgD/22kont+WnuCAA0UaUoxtuvRR1u/mXKy63g/hfqQ==
+unplugin-auto-import@^0.17.1:
+  version "0.17.1"
+  resolved "https://registry.yarnpkg.com/unplugin-auto-import/-/unplugin-auto-import-0.17.1.tgz#95bee6438fd10f01719831a4787a73b1c989e278"
+  integrity sha512-QvdJKtFK0COSuRXzVnwjG3ir870zVhdMg6O8GKG3UO/O5W4fmJm5h71QvzI7Gp8Sx0qfCvC3f+2v0Vm489fnqQ==
   dependencies:
     "@antfu/utils" "^0.7.6"
     "@rollup/pluginutils" "^5.0.5"
-    fast-glob "^3.3.1"
+    fast-glob "^3.3.2"
     local-pkg "^0.5.0"
     magic-string "^0.30.5"
     minimatch "^9.0.3"
-    unimport "^3.4.0"
-    unplugin "^1.5.0"
+    unimport "^3.5.0"
+    unplugin "^1.5.1"
 
 unplugin-vue-components@^0.25.2:
   version "0.25.2"
@@ -11184,15 +11184,15 @@ unplugin-vue-router@^0.7.0:
     unplugin "^1.5.0"
     yaml "^2.3.2"
 
-unplugin@^1.3.1, unplugin@^1.4.0, unplugin@^1.5.0:
-  version "1.5.0"
-  resolved "https://registry.yarnpkg.com/unplugin/-/unplugin-1.5.0.tgz#8938ae84defe62afc7757df9ca05d27160f6c20c"
-  integrity sha512-9ZdRwbh/4gcm1JTOkp9lAkIDrtOyOxgHmY7cjuwI8L/2RTikMcVG25GsZwNAgRuap3iDw2jeq7eoqtAsz5rW3A==
+unplugin@^1.3.1, unplugin@^1.4.0, unplugin@^1.5.0, unplugin@^1.5.1:
+  version "1.5.1"
+  resolved "https://registry.yarnpkg.com/unplugin/-/unplugin-1.5.1.tgz#806688376fa3dcca4d2fa2c5d27cf6cd0370fbef"
+  integrity sha512-0QkvG13z6RD+1L1FoibQqnvTwVBXvS4XSPwAyinVgoOCl2jAgwzdUKmEj05o4Lt8xwQI85Hb6mSyYkcAGwZPew==
   dependencies:
-    acorn "^8.10.0"
+    acorn "^8.11.2"
     chokidar "^3.5.3"
     webpack-sources "^3.2.3"
-    webpack-virtual-modules "^0.5.0"
+    webpack-virtual-modules "^0.6.0"
 
 unstorage@^1.9.0:
   version "1.9.0"
@@ -11645,10 +11645,10 @@ webpack-sources@^3.2.3:
   resolved "https://registry.yarnpkg.com/webpack-sources/-/webpack-sources-3.2.3.tgz#2d4daab8451fd4b240cc27055ff6a0c2ccea0cde"
   integrity sha512-/DyMEOrDgLKKIG0fmvtz+4dUX/3Ghozwgm6iPp8KRhvn+eQf9+Q7GWxVNMk3+uCPWfdXYC4ExGBckIXdFEfH1w==
 
-webpack-virtual-modules@^0.5.0:
-  version "0.5.0"
-  resolved "https://registry.yarnpkg.com/webpack-virtual-modules/-/webpack-virtual-modules-0.5.0.tgz#362f14738a56dae107937ab98ea7062e8bdd3b6c"
-  integrity sha512-kyDivFZ7ZM0BVOUteVbDFhlRt7Ah/CSPwJdi8hBpkK7QLumUqdLtVfm/PX/hkcnrvr0i77fO5+TjZ94Pe+C9iw==
+webpack-virtual-modules@^0.6.0:
+  version "0.6.1"
+  resolved "https://registry.yarnpkg.com/webpack-virtual-modules/-/webpack-virtual-modules-0.6.1.tgz#ac6fdb9c5adb8caecd82ec241c9631b7a3681b6f"
+  integrity sha512-poXpCylU7ExuvZK8z+On3kX+S8o/2dQ/SVYueKA0D4WEMXROXgY8Ez50/bQEUmvoSMMrWcrJqCHuhAbsiwg7Dg==
 
 websocket-driver@>=0.5.1:
   version "0.7.4"
