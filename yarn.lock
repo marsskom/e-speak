@@ -1671,7 +1671,7 @@
     unimport "^3.4.0"
     untyped "^1.4.0"
 
-"@nuxt/kit@3.8.2", "@nuxt/kit@^3.5.0", "@nuxt/kit@^3.7.1", "@nuxt/kit@^3.7.4", "@nuxt/kit@^3.8.0", "@nuxt/kit@^3.8.1", "@nuxt/kit@^3.8.2":
+"@nuxt/kit@3.8.2", "@nuxt/kit@^3.5.0", "@nuxt/kit@^3.7.4", "@nuxt/kit@^3.8.0", "@nuxt/kit@^3.8.1", "@nuxt/kit@^3.8.2":
   version "3.8.2"
   resolved "https://registry.yarnpkg.com/@nuxt/kit/-/kit-3.8.2.tgz#f4548f3449d2566dbd2febe2b84f47060f7c668c"
   integrity sha512-LrXCm8hAkw+zpX8teUSD/LqXRarlXjbRiYxDkaqw739JSHFReWzBFgJbojsJqL4h1XIEScDGGOWiEgO4QO1sMg==
@@ -8560,12 +8560,12 @@ nuxi@^3.10.0:
   optionalDependencies:
     fsevents "~2.3.3"
 
-nuxt-vuefire@^0.4.0:
-  version "0.4.0"
-  resolved "https://registry.yarnpkg.com/nuxt-vuefire/-/nuxt-vuefire-0.4.0.tgz#478594d340233f9ec5737ffd03fb68b583ea90c2"
-  integrity sha512-mxiAzg51pl+BM05FQ7KW70btr/ARiIjezV9y2H39dPGxS3JcpDH3uK3gbsanyG/ebbKcIw1ZIeuvycTtCQOH/Q==
+nuxt-vuefire@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/nuxt-vuefire/-/nuxt-vuefire-1.0.0.tgz#eefcb215b41e094dc13744fe1eb753c2da5a3ca6"
+  integrity sha512-vXehIH44U01aO7/Xy3jeranlryVtWvwAf1BpQMisfARRNGSbvrmbkxrK0jfgpD8v/6Jjetin4T4AZtcYAYIqtw==
   dependencies:
-    "@nuxt/kit" "^3.7.1"
+    "@nuxt/kit" "^3.8.2"
     "@posva/lru-cache" "^10.0.1"
     strip-json-comments "^5.0.1"
 
