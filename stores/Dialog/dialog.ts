@@ -85,6 +85,25 @@ export const useDialogStore = defineStore("dialog", () => {
       });
   };
 
+  const updateMessage = (message: Message): void => {
+    let flag = false;
+
+    for (let i in dialog.value.messages) {
+      if (dialog.value.messages[i].uid === message.uid) {
+        dialog.value.messages[i] = message;
+        flag = true;
+
+        break;
+      }
+    }
+
+    if (!flag) {
+      return;
+    }
+
+    syncMessages();
+  };
+
   const updateDialog = (dialogName: string): void => {
     dialog.value.name = dialogName;
     dialog.value.updatedAt = new Date();
@@ -212,6 +231,7 @@ export const useDialogStore = defineStore("dialog", () => {
 
     init,
     addMessage,
+    updateMessage,
     loadDialog,
     updateDialog,
     createEmptyDialog,
