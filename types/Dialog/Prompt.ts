@@ -1,6 +1,7 @@
 export enum PrompType {
   StartDialog = "StartDialog",
   ContinueDialog = "ContinueDialog",
+  CorrectMessage = "CorrectMessage",
 }
 
 export interface PromptCategory {
