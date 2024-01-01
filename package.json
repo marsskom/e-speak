@@ -56,7 +56,7 @@
     "@pinia/nuxt": "^0.5.1",
     "firebase": "^10.5.2",
     "firebase-admin": "^12.0.0",
-    "nuxt-vuefire": "^0.4.0",
+    "nuxt-vuefire": "^1.0.0",
     "openai": "^4.23.0",
     "pinia": "^2.1.6",
     "sass": "^1.69.5",
