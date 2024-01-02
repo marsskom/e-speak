@@ -15,7 +15,7 @@ export default defineEventHandler(async (event): Promise<Transcription> => {
     customHeaders.dialogUid,
     customHeaders.messageUid,
   );
-  const audio: File = audioFileFactory.base64ToAudio(data.fileBase64);
+  const audioBlob: Blob = audioFileFactory.base64ToAudioBlob(data.fileBase64);
 
   let result: Transcription;
   if (customHeaders.isDummyChatDriver) {
@@ -23,7 +23,7 @@ export default defineEventHandler(async (event): Promise<Transcription> => {
       text: "Dummy: Let's have a conversation about something interesting!",
     } as Transcription;
   } else {
-    result = await getTranscription(audio);
+    result = await getTranscription(audioBlob, customHeaders.audioParams);
   }
 
   if (!result.text || result.text.length === 0) {

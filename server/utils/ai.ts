@@ -4,6 +4,7 @@ import {
   type ChatCompletionMessageParam,
   type ChatCompletion,
 } from "openai/resources/chat/completions";
+import { type AudioFileFactoryParams } from "~/types/Audio/AudioFileFactory";
 
 const config = useRuntimeConfig();
 
@@ -37,9 +38,16 @@ export const getChatStream = async (
     });
 };
 
-export const getTranscription = async (audio: File): Promise<Transcription> => {
+export const getTranscription = async (
+  audioBlob: Blob,
+  audioParams: AudioFileFactoryParams,
+): Promise<Transcription> => {
   const formData = new FormData();
-  formData.append("file", audio, audio.name);
+  formData.append(
+    "file",
+    audioBlob,
+    `audio.${audioParams.mimeType?.split("/")[1] || "webm"}`,
+  );
   formData.append("model", "whisper-1");
   formData.append("temperature", "0.5");
   formData.append("response_format", "json");
@@ -53,7 +61,7 @@ export const getTranscription = async (audio: File): Promise<Transcription> => {
   })
     .then(async (response) => {
       if (!response.ok) {
-        throw new Error("An error occured while fetching Whisper API");
+        throw new Error(response.statusText);
       }
 
       return await response.json();
