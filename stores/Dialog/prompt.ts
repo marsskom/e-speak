@@ -50,6 +50,14 @@ export const usePromptStore = defineStore("prompt", () => {
       ),
   );
 
+  const filter = (
+    type: PrompType,
+    externalPromptList: Prompt[] = [],
+  ): Prompt[] =>
+    (externalPromptList || promptList.value).filter(
+      (prompt: Prompt) => prompt.type === type,
+    );
+
   return {
     promptList,
     promptsOnDialogStart,
@@ -57,5 +65,6 @@ export const usePromptStore = defineStore("prompt", () => {
     promptsOnMessageCorrect,
 
     init,
+    filter,
   };
 });

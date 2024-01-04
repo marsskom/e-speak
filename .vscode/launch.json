@@ -6,7 +6,10 @@
       "request": "launch",
       "name": "client: chrome",
       "url": "http://localhost:3000",
-      "webRoot": "${workspaceFolder}"
+      "webRoot": "${workspaceFolder}",
+      "env": {
+        "NODE_ENV": "development"
+      }
     },
     {
       "type": "node",
@@ -14,13 +17,20 @@
       "name": "server: nuxt",
       "outputCapture": "std",
       "program": "${workspaceFolder}/node_modules/nuxi/bin/nuxi.mjs",
-      "args": ["dev"]
+      "args": ["dev"],
+      "env": {
+        "NODE_ENV": "development",
+        "NUXT_APP_DEBUG": "true"
+      }
     }
   ],
   "compounds": [
     {
       "name": "fullstack: nuxt",
-      "configurations": ["server: nuxt", "client: chrome"]
+      "configurations": ["server: nuxt", "client: chrome"],
+      "env": {
+        "NODE_ENV": "development"
+      }
     }
   ]
 }

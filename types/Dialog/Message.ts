@@ -18,4 +18,5 @@ export interface Message {
   audioFile?: string;
   chatCompletion?: ChatCompletion;
   promptList?: Prompt[];
+  correctedMessageList?: Message[];
 }
