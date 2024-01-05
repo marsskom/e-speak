@@ -48,7 +48,7 @@ export default class AudioFileFactory {
     });
   }
 
-  base64ToAudio(base64: string): File {
+  base64ToAudioBlob(base64: string): Blob {
     const byteCharacters = atob(base64.split(",")[1]); // remove data:audio/webm;base64,
     const byteArrays = [];
     for (let i = 0; i < byteCharacters.length; i++) {
@@ -59,6 +59,6 @@ export default class AudioFileFactory {
       type: this.params.mimeType,
     });
 
-    return this.createAudioFile(blob);
+    return blob;
   }
 }

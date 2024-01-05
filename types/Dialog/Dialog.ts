@@ -1,4 +1,5 @@
 import { type Message } from "~/types/Dialog/Message";
+import { type Prompt } from "~/types/Dialog/Prompt";
 
 export interface Dialog {
   userUid: string;
@@ -8,4 +9,5 @@ export interface Dialog {
   updatedAt: Date;
   messages: Message[];
   isSynced: boolean;
+  promptList?: Prompt[]; // Overridden general prompts for specific dialog.
 }

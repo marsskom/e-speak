@@ -1,10 +1,12 @@
 import { type ChatCompletion } from "openai/resources/chat/completions";
 
 import { type Message, OpenAIRole } from "~/types/Dialog/Message";
-import { type Prompt } from "~/types/Dialog/Prompt";
+import { PrompType, type Prompt } from "~/types/Dialog/Prompt";
 import MessageTransform from "~/models/Dialog/MessageTransform";
 import MessageFactory from "~/models/Dialog/MessageFactory";
 import { usePromptStore } from "~/stores/Dialog/prompt";
+import { useDialogStore } from "~/stores/Dialog/dialog";
+import { type Dialog } from "~/types/Dialog/Dialog";
 
 export default class MessageResolver {
   private messageFactory: MessageFactory = new MessageFactory();
@@ -85,8 +87,29 @@ export default class MessageResolver {
   }
 
   private getPrompts(): Prompt[] {
-    return this.messageList.length <= 1
-      ? usePromptStore().promptsOnDialogStart
+    const dialogStore = useDialogStore();
+    const currentDialog: ComputedRef<Dialog> = computed(() => {
+      return dialogStore.currentDialog;
+    });
+
+    if (this.messageList.length <= 1) {
+      const dialogPromptList = usePromptStore().filter(
+        PrompType.StartDialog,
+        currentDialog.value.promptList,
+      );
+
+      return dialogPromptList.length
+        ? dialogPromptList
+        : usePromptStore().promptsOnDialogStart;
+    }
+
+    const dialogPromptList = usePromptStore().filter(
+      PrompType.ContinueDialog,
+      currentDialog.value.promptList,
+    );
+
+    return dialogPromptList.length
+      ? dialogPromptList
       : usePromptStore().promptsOnDialogContinue;
   }
 }

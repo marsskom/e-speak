@@ -56,6 +56,8 @@
     "@pinia/nuxt": "^0.5.1",
     "firebase": "^10.5.2",
     "firebase-admin": "^12.0.0",
+    "form-data": "^4.0.0",
+    "node-fetch": "^3.3.2",
     "nuxt-vuefire": "^1.0.0",
     "openai": "^4.23.0",
     "pinia": "^2.1.6",

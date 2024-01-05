@@ -4,6 +4,7 @@ import { useLoginFormStore } from "~/stores/Form/login-form";
 import { useSkeletonStore } from "~/stores/skeleton";
 
 import GoogleAuthComponent from "~/components/Auth/GoogleAuthComponent.vue";
+import AnonymousAuthComponent from "~/components/Auth/AnonymousAuthComponent.vue";
 import AgreementCheckbox from "~/components/Form/Input/Checkbox/AgreementCheckbox.vue";
 
 const loginFormStore = useLoginFormStore();
@@ -34,6 +35,7 @@ onMounted(() => {
             </div>
 
             <GoogleAuthComponent />
+            <AnonymousAuthComponent v-if="$config.public.envIsDev" />
           </form>
 
           <div v-else>

@@ -40,6 +40,9 @@ export default defineNuxtConfig({
     openAi: {
       secretKey: "",
     },
+    public: {
+      envIsDev: process.env.NODE_ENV !== "production",
+    },
   },
   $development: {
     devtools: { enabled: true },

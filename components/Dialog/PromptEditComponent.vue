@@ -38,20 +38,31 @@ const onDeletePrompt = (index: number): void => {
       <tbody>
         <tr v-for="(prompt, index) in promptList" :key="prompt.uid">
           <td class="border px-4 py-2">
-            <select v-model.lazy="prompt.type"
-              class="border border-gray-300 rounded p-2 text-sm bg-white disabled:bg-gray-300">
-              <option v-for="type in prompTypeList" :value="type">
+            <select
+              v-model.lazy="prompt.type"
+              class="border border-gray-300 rounded p-2 text-sm bg-white disabled:bg-gray-300"
+            >
+              <option v-for="type in prompTypeList" :key="type" :value="type">
                 {{ type }}
               </option>
             </select>
           </td>
           <td class="border px-4 py-2">
-            <textarea v-model.lazy="prompt.prompt" class="border border-gray-300 rounded p-2 text-sm w-full"></textarea>
+            <textarea
+              v-model.lazy="prompt.prompt"
+              class="border border-gray-300 rounded p-2 text-sm w-full"
+            ></textarea>
           </td>
           <td class="border px-4 py-2">
-            <button class="float-right" title="Remove" @click="onDeletePrompt(index)">
-              <fa :icon="['fas', 'times']"
-                class="w-4 h-4 text-red-600 hover:text-red-800 dark:text-white font-bold text-2xl" />
+            <button
+              class="float-right"
+              title="Remove"
+              @click="onDeletePrompt(index)"
+            >
+              <fa
+                :icon="['fas', 'times']"
+                class="w-4 h-4 text-red-600 hover:text-red-800 dark:text-white font-bold text-2xl"
+              />
             </button>
           </td>
         </tr>
@@ -60,8 +71,10 @@ const onDeletePrompt = (index: number): void => {
 
     <div class="mt-4">
       <button class="float-right mr-4" title="Add prompt" @click="onAddPrompt">
-        <fa :icon="['fas', 'plus']"
-          class="w-4 h-4 text-green-600 hover:text-green-800 dark:text-white font-bold text-2xl" />
+        <fa
+          :icon="['fas', 'plus']"
+          class="w-4 h-4 text-green-600 hover:text-green-800 dark:text-white font-bold text-2xl"
+        />
       </button>
     </div>
   </div>

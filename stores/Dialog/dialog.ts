@@ -88,7 +88,7 @@ export const useDialogStore = defineStore("dialog", () => {
   const updateMessage = (message: Message): void => {
     let flag = false;
 
-    for (let i in dialog.value.messages) {
+    for (const i in dialog.value.messages) {
       if (dialog.value.messages[i].uid === message.uid) {
         dialog.value.messages[i] = message;
         flag = true;
