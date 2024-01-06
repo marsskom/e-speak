@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { ref as storageRef } from "firebase/storage";
 import { useFirebaseStorage, useStorageFile } from "vuefire";
-import { useToast } from "tailvue";
 import { type Transcription } from "openai/resources/audio";
 
 import { useAudioRecorderStore } from "~/stores/Audio/recorder";
@@ -26,7 +25,7 @@ const currentMessageInProgress: ComputedRef<Message> = computed(() => {
 });
 const { addMessage } = dialogStore;
 
-const toast = useToast();
+const { $toast } = useNuxtApp();
 
 const settings: Settings = useGetSettings();
 
@@ -87,10 +86,10 @@ const startRecording = () => {
       .catch((error: Error) => {
         switch (error.name) {
           case "InvalidStateError":
-            toast.danger("An InvalidStateError has occured.");
+            $toast.danger("An InvalidStateError has occured.");
             break;
           default:
-            toast.danger(error.message);
+            $toast.danger(error.message);
         }
 
         activateRecorder();
@@ -111,10 +110,10 @@ const startRecording = () => {
           "mediaDevices API or getUserMedia method is not supported in this browser.",
         )
       ) {
-        toast.danger("To record audio, use browsers like Chrome and Firefox.");
+        $toast.danger("To record audio, use browsers like Chrome and Firefox.");
       }
 
-      toast.danger(recorder.getErrorMessage(error));
+      $toast.danger(recorder.getErrorMessage(error));
 
       setIdleState();
       activateRecorder();
@@ -184,7 +183,7 @@ const storeAudio = (audioAsBlob: void | Blob): void => {
       refreshDialogList();
     })
     .catch((error: Error) => {
-      toast.danger(error.message);
+      $toast.danger(error.message);
 
       activateRecorder();
     });
@@ -222,7 +221,7 @@ watch(seconds, (seconds) => {
 </script>
 
 <template>
-  <LoadingMask :is-visible="!canBeActivated">
+  <LoadingMask id="audio-recorder-mask" :is-visible="!canBeActivated">
     <div class="w-full flex items-center justify-center px-2 py-2">
       <div class="relative mx-2 my-2 px-4 py-4 w-1/4">
         <div class="w-full items-center justify-center text-center">
