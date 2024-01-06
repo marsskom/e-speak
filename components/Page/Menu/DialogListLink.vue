@@ -134,7 +134,7 @@ const onDeleteDialog = (dialog: Dialog): void => {
       </template>
 
       <template #content>
-        <LoadingMask :is-visisble="isLoadingDialogList">
+        <LoadingMask id="dialog-loading" :is-visible="isLoadingDialogList">
           <div class="flex flex-col text-sm">
             <table class="table-auto">
               <thead>

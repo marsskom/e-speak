@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { ref as storageRef } from "firebase/storage";
 import { useFirebaseStorage, useStorageFileUrl } from "vuefire";
-import { useToast } from "tailvue";
 
 import {
   type AudioDownloadRequest,
@@ -10,7 +9,7 @@ import {
 import { AudioPlayerState } from "~/types/Audio/AudioPlayer";
 import { type Message } from "~/types/Dialog/Message";
 
-const toast = useToast();
+const { $toast } = useNuxtApp();
 
 const props = defineProps({
   message: {
@@ -38,7 +37,7 @@ const loadAudioFile = (): void => {
   if (!audioFileUrl.value) {
     audioFileContent.value = "";
     state.value = AudioPlayerState.Error;
-    toast.danger("No audio file found.");
+    $toast.danger("No audio file found.");
 
     return;
   }
@@ -67,7 +66,7 @@ const loadAudioFile = (): void => {
     })
     .catch((error) => {
       state.value = AudioPlayerState.Error;
-      toast.danger(error.message);
+      $toast.danger(error.message);
     });
 };
 
@@ -87,7 +86,10 @@ const showLoadButton: ComputedRef<boolean> = computed((): boolean => {
 
 <template>
   <div v-if="hasAudioFile">
-    <LoadingMask :is-visible="state === AudioPlayerState.Loading">
+    <LoadingMask
+      id="audio-player-mask"
+      :is-visible="state === AudioPlayerState.Loading"
+    >
       <a v-if="showLoadButton" href="#" @click="loadAudioFile">
         <fa
           :icon="['fas', 'ear-listen']"

@@ -1,50 +1,44 @@
 <script setup lang="ts">
+import LoadingMask from "~/components/LoadingMask.vue";
+import AgreementCheckbox from "~/components/Form/Input/Checkbox/AgreementCheckbox.vue";
+import AuthListComponent from "~/components/Auth/AuthListComponent.vue";
 import { useLoginFormStore } from "~/stores/Form/login-form";
 
-import { useSkeletonStore } from "~/stores/skeleton";
-
-import GoogleAuthComponent from "~/components/Auth/GoogleAuthComponent.vue";
-import AnonymousAuthComponent from "~/components/Auth/AnonymousAuthComponent.vue";
-import AgreementCheckbox from "~/components/Form/Input/Checkbox/AgreementCheckbox.vue";
+definePageMeta({
+  title: "E-Speak - Sing In",
+});
 
 const loginFormStore = useLoginFormStore();
-const isInProcess = computed(() => loginFormStore.isInProcess);
-
-const { hide: hideSkeleton } = useSkeletonStore();
+const { declineAgreement } = loginFormStore;
 
 onMounted(() => {
   if (useIsGuest()) {
-    hideSkeleton();
+    declineAgreement();
   }
 });
 </script>
 
 <template>
-  <PageSkeleton>
-    <template #page>
-      <LoadingMask :is-visible="isInProcess">
-        <section
-          id="login"
-          class="h-screen flex flex-col items-center justify-center space-y-5"
-        >
-          <p class="text-pink-500 text-xl mb-3">Welcome to E-Speak</p>
+  <LoadingMask id="login-loading" :is-visible="!useIsGuest()">
+    <section
+      id="login"
+      class="h-screen flex flex-col items-center justify-center space-y-5"
+    >
+      <p class="text-pink-500 text-xl mb-3">Welcome to E-Speak</p>
 
-          <form v-if="useIsGuest()" autocomplete="off">
-            <div class="grid gap-6 mb-6 md:grid-cols-2">
-              <AgreementCheckbox />
-            </div>
+      <form v-if="useIsGuest()" autocomplete="off">
+        <div class="grid gap-6 mb-6 md:grid-cols-2">
+          <AgreementCheckbox />
+        </div>
 
-            <GoogleAuthComponent />
-            <AnonymousAuthComponent v-if="$config.public.envIsDev" />
-          </form>
+        <AuthListComponent />
+      </form>
 
-          <div v-else>
-            <p class="text-pink-500 text-xl mb-3">You have logged in</p>
-          </div>
-        </section>
-      </LoadingMask>
-    </template>
-  </PageSkeleton>
+      <div v-if="!useIsGuest()">
+        <p class="text-pink-500 text-xl mb-3">You have logged in</p>
+      </div>
+    </section>
+  </LoadingMask>
 </template>
 
 <style scoped></style>

@@ -1,23 +1,20 @@
 <script setup lang="ts">
 import { useLoginFormStore } from "~/stores/Form/login-form";
-
 import { type EventChange } from "~/types/Form/Input/Checkbox";
 import FormCheckbox from "~/components/Form/Input/Checkbox/FormCheckbox.vue";
 
 const loginFormStore = useLoginFormStore();
 const { acceptAgreement, declineAgreement } = loginFormStore;
-const isAgreementAccepted = computed(() => loginFormStore.isAgreementAccepted);
 
-const onCheckboxChange = function (event: EventChange) {
+const onCheckboxChange = (event: EventChange) =>
   event.isChecked ? acceptAgreement() : declineAgreement();
-};
 </script>
 
 <template>
   <FormCheckbox
     id="agreement-checkbox"
     value="1"
-    :checked="isAgreementAccepted"
+    :checked="false"
     :required="true"
     @change="onCheckboxChange"
   >

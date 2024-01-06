@@ -1,10 +1,12 @@
 <script setup lang="ts">
 import { useModal } from "tailvue";
+import { useFirebaseAuth } from "vuefire";
 
 import { useAuthStore } from "~/stores/Auth/auth";
 
 const { writeUserData } = useAuthStore();
 
+const auth = useFirebaseAuth()!;
 const modal = useModal();
 
 const logOut = (event: Event): void => {
@@ -17,8 +19,6 @@ const logOut = (event: Event): void => {
       label: "Yes",
       theme: "red",
       action: () => {
-        const auth = useFirebaseAuth()!;
-
         auth.signOut();
 
         writeUserData(null);

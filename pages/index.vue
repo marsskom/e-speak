@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import { useToast } from "tailvue";
-
 import { type Dialog } from "~/types/Dialog/Dialog";
 import { type Message, OpenAIRole } from "~/types/Dialog/Message";
 import { type EventChange } from "~/types/Form/Text/TextInput";
@@ -9,6 +7,7 @@ import { useSettingsStore } from "~/stores/settings";
 import { useDialogListStore } from "~/stores/Dialog/dialogList";
 import { useDialogStore } from "~/stores/Dialog/dialog";
 import { usePromptStore } from "~/stores/Dialog/prompt";
+import { useLoadingMaskStore } from "~/stores/loading-mask";
 
 import CopyLink from "~/components/Page/CopyLink.vue";
 import MenuSidebar from "~/components/Layout/MenuSidebar.vue";
@@ -21,10 +20,11 @@ definePageMeta({
   middleware: "auth",
 });
 
-const toast = useToast();
+const { $toast } = useNuxtApp();
 
 const { init: initSettings } = useSettingsStore();
 const { init: initPrompt } = usePromptStore();
+const { setVisibility: setMaskVisibility } = useLoadingMaskStore();
 
 const isAdvancedMode: ComputedRef<boolean> = useIsAdvancedMode();
 
@@ -72,16 +72,12 @@ const isDialogLoading: ComputedRef<boolean> = computed(() =>
   useIsDialogLoading(),
 );
 watch(isDialogLoading, (isLoading) => {
-  if (isLoading) {
-    document.getElementById("app-loading")?.classList.remove("hidden");
-  } else {
-    document.getElementById("app-loading")?.classList.add("hidden");
-  }
+  setMaskVisibility("app-loading", isLoading);
 });
 
 const onDialogNameChange = (e: EventChange) => {
   if (!e.value.length) {
-    toast.danger("Dialog name cannot be empty.");
+    $toast.danger("Dialog name cannot be empty.");
 
     return;
   }
@@ -91,7 +87,7 @@ const onDialogNameChange = (e: EventChange) => {
 };
 
 onMounted(() => {
-  document.getElementById("app-loading")?.classList.remove("hidden");
+  setMaskVisibility("app-loading", true);
 
   initSettings().then(() => initPrompt());
   initDialogList();
