@@ -62,10 +62,11 @@ const togglePromptPopupVisibility = () => {
     </div>
     <div
       class="fixed right-0 top-0 h-full bg-white shadow-lg transition-all duration-300 border border-gray-200 rounded"
-      :class="isSettingsPopupVisible ? 'w-1/5' : 'w-0'"
+      :class="isSettingsPopupVisible ? 'w-1/5 min-w-[250px]' : 'w-0'"
     >
       <h2 class="p-2">
-        <fa :icon="['fas', 'toolbox']" class="text-red-600" /> Settings
+        <fa :icon="['fas', 'toolbox']" class="text-red-600" />
+        Settings
 
         <button
           v-if="isSettingsPopupVisible"

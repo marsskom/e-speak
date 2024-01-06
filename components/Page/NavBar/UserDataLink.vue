@@ -42,26 +42,12 @@ onBeforeUnmount(() => {
         :src="user.photoURL"
         :alt="user.displayName || ''"
       />
-      {{ user.displayName || "Anonymous" }}
-      <svg
-        class="w-2.5 h-2.5 ml-2.5"
-        aria-hidden="true"
-        xmlns="http://www.w3.org/2000/svg"
-        fill="none"
-        viewBox="0 0 10 6"
-      >
-        <path
-          stroke="currentColor"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          stroke-width="2"
-          d="m1 1 4 4 4-4"
-        />
-      </svg>
+      {{ user.displayName || "Anonymous" }}&nbsp;
+      <fa :icon="['fas', 'angles-down']" class="text-pink-600 fa-xs" />
     </button>
     <div
       id="dropdownUserData"
-      class="z-10 border-gray-200 rounded-b-lg bg-gray-50 dark:border-gray-600 hover:bg-gray-100 dark:bg-gray-700 dark:hover:bg-gray-600 rounded-lg shadow w-44 absolute text-right"
+      class="z-10 border-gray-500 rounded-b-lg bg-gray-100 dark:border-gray-600 hover:bg-gray-100 dark:bg-gray-700 dark:hover:bg-gray-600 rounded-lg shadow w-44 absolute text-right md:right-0"
       :class="{
         block: isVisibleDropdown,
         hidden: !isVisibleDropdown,
@@ -71,10 +57,10 @@ onBeforeUnmount(() => {
         class="py-2 text-sm text-gray-700 dark:text-gray-200"
         aria-labelledby="dropdownDefaultButton"
       >
-        <li class="px-2 py-2 text-xs">
+        <li v-if="user.email?.length" class="px-2 py-2 text-xs">
           {{ user.email }}
         </li>
-        <li class="px-2 py-2">
+        <li class="px-2 py-2 mr-5">
           <LogOutLink />
         </li>
       </ul>
