@@ -113,8 +113,8 @@ const onDeleteDialog = (dialog: Dialog): void => {
           >
             <fa
               :icon="['fas', 'list']"
-              class="w-4 h-4 text-gray-600 hover:text-gray-900 dark:text-white"
-            ></fa>
+              class="w-3 h-3 text-gray-600 hover:text-gray-900 dark:text-white"
+            />
 
             <span class="ml-3">Dialog List</span>
           </a>
@@ -127,8 +127,7 @@ const onDeleteDialog = (dialog: Dialog): void => {
             <fa
               :icon="['fas', 'plus']"
               class="w-4 h-4 text-green-600 hover:text-green-800 dark:text-white font-bold text-lg"
-            >
-            </fa>
+            />
           </a>
         </div>
       </template>
