@@ -103,12 +103,12 @@ const dialogMessageViewModel: DialogMessageViewModel =
       </p>
       <div class="flex w-full items-center justify-center">
         <div class="w-full m-5">
+          <!-- eslint-disable vue/no-v-html -->
           <p
             v-if="!props.message.correctedContent.length"
             class="text-lg prose max-w-full"
-          >
-            {{ props.message.content }}
-          </p>
+            v-html="props.message.content"
+          ></p>
 
           <p
             v-if="props.message.correctedContent.length"
@@ -118,14 +118,14 @@ const dialogMessageViewModel: DialogMessageViewModel =
               :icon="['fas', 'pencil-alt']"
               class="mr-2"
               title="Corrected Message"
-            />&nbsp;{{ props.message.correctedContent }}
+            />&nbsp;<span v-html="props.message.correctedContent"></span>
           </p>
           <p
             v-if="props.message.correctedContent.length"
             class="text-lg prose max-w-full mt-5 mb-3 text-gray-400 hover:text-gray-600"
-          >
-            {{ props.message.content }}
-          </p>
+            v-html="props.message.content"
+          ></p>
+          <!--eslint-enable-->
         </div>
       </div>
       <div
@@ -167,6 +167,7 @@ const dialogMessageViewModel: DialogMessageViewModel =
         </a>
 
         <DialogMessagePopupDetails
+          v-if="useIsAdvancedMode()"
           :message="props.message"
           :is-user-message="dialogMessageViewModel.isUserMessage.value"
         />

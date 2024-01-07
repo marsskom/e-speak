@@ -25,8 +25,6 @@ const { $toast } = useNuxtApp();
 const { init: initSettings } = useSettingsStore();
 const { setVisibility: setMaskVisibility } = useLoadingMaskStore();
 
-const isAdvancedMode: ComputedRef<boolean> = useIsAdvancedMode();
-
 const dialogListStore = useDialogListStore();
 const { init: initDialogList, refresh: refreshDialogList } = dialogListStore;
 
@@ -41,7 +39,7 @@ useSeoMeta({
 });
 
 const messages: ComputedRef<Message[]> = computed(() => {
-  if (isAdvancedMode.value) {
+  if (useIsAdvancedMode()) {
     return dialogStore.currentDialog.messages;
   }
 
@@ -134,7 +132,7 @@ onMounted(() => {
 
             <span class="text-xs text-gray-500 float-right self-end">
               <ul>
-                <li v-if="isAdvancedMode">
+                <li v-if="useIsAdvancedMode()">
                   <strong>UID:</strong>&nbsp;
                   <span class="float-right"
                     >{{ currentDialog.uid }}
@@ -146,7 +144,7 @@ onMounted(() => {
                     >{{ formatDateTime(currentDialog.createdAt) }}
                   </span>
                 </li>
-                <li v-if="isAdvancedMode">
+                <li v-if="useIsAdvancedMode()">
                   <strong>Updated:</strong>&nbsp;<span class="float-right"
                     >{{ formatDateTime(currentDialog.updatedAt) }}
                   </span>
