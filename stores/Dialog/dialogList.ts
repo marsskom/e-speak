@@ -1,47 +1,29 @@
-import { type User } from "firebase/auth";
-import {
-  collection,
-  getDocs,
-  query,
-  where,
-  DocumentSnapshot,
-  QuerySnapshot,
-} from "firebase/firestore";
-import { useFirestore } from "vuefire";
-
 import { type Dialog } from "~/types/Dialog/Dialog";
-import { dialogFirebaseConverter } from "~/models/Dialog/DialogFirebaseConverter";
+import DialogListFirebase from "~/firebase/Dialog/DialogListFirebase";
 
 export const useDialogListStore = defineStore("dialogList", () => {
-  const user: User = useGetUser();
-
-  const db = useFirestore();
-  const dialogsRef = collection(db, "dialogs").withConverter(
-    dialogFirebaseConverter,
-  );
+  const storeModel: DialogListFirebase = new DialogListFirebase();
 
   const isLoadingInProgress: Ref<boolean> = ref(false);
-  const dialogs: Ref<Dialog[]> = ref([]);
+  const dialogListValue: Ref<Dialog[]> = ref([]);
 
-  const loadDialogList = (): Promise<void> => {
+  const loadDialogList = async (): Promise<void> => {
     isLoadingInProgress.value = true;
 
-    dialogs.value = [];
+    dialogListValue.value = [];
 
-    return getDocs(query(dialogsRef, where("userUid", "==", user.uid)))
-      .then((querySnapshot: QuerySnapshot<Dialog>) => {
-        querySnapshot.forEach((docSnap: DocumentSnapshot<Dialog>) => {
-          dialogs.value.push(docSnap.data() as Dialog);
-        });
-      })
-      .finally(() => (isLoadingInProgress.value = false));
+    try {
+      dialogListValue.value = await storeModel.select(useGetUser().uid);
+    } finally {
+      isLoadingInProgress.value = false;
+    }
   };
 
-  const init = () => {
+  const init = (): void => {
     loadDialogList();
   };
 
-  const dialogList = computed(() => dialogs.value);
+  const dialogList = computed(() => dialogListValue.value);
   const isLoading: ComputedRef<boolean> = computed(
     () => isLoadingInProgress.value,
   );
@@ -49,8 +31,6 @@ export const useDialogListStore = defineStore("dialogList", () => {
   const refresh = (): Promise<void> => loadDialogList();
 
   return {
-    dialogs,
-
     dialogList,
     isLoading,
 

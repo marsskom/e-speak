@@ -1,70 +1,35 @@
-import { type User } from "firebase/auth";
-import {
-  collection,
-  doc,
-  DocumentReference,
-  DocumentSnapshot,
-  getDoc,
-  setDoc,
-} from "firebase/firestore";
-import { useFirestore } from "vuefire";
-
-import { ChatDriver, type Settings } from "~/types/Settings";
-import { type Prompt } from "~/types/Dialog/Prompt";
-import { settingsFirebaseConverter } from "~/models/SettingsFirebaseConverter";
-import { usePromptStore } from "~/stores/Dialog/prompt";
+import { type Settings } from "~/types/Settings";
+import SettingsFirebase from "~/firebase/Settings/SettingsFirebase";
+import type { Prompt } from "~/types/Dialog/Prompt";
 
 export const useSettingsStore = defineStore("settings", () => {
-  const user: User = useGetUser();
+  const storeModel: SettingsFirebase = new SettingsFirebase();
 
-  const defaultSettings: Settings = {
-    recorder: {
-      minDuration: 2,
-      maxDuration: 60,
-      audioParams: {
-        mimeType: "audio/webm",
-        prefix: "%date%/%dialog_uid%/%message_uid%",
-      },
-    },
-    chat: {
-      driver: ChatDriver.OpenAI,
-    },
-    advanced: {
-      enabled: false,
-    },
-    promptList: usePromptStore().defaultPromptList.value,
-  } as Settings;
-
-  const db = useFirestore();
-  const settingsRef = collection(db, "settings").withConverter(
-    settingsFirebaseConverter,
+  const settingsValue: Ref<Settings> = ref(
+    useDeepClone(storeModel.defaultSettings) as Settings,
   );
-  const document: Ref<null | DocumentReference> = ref(null);
+  const isEditableValue: Ref<boolean> = ref(false);
 
-  const settings: Ref<Settings> = ref(
-    useDeepClone(defaultSettings) as Settings,
-  );
-  const isEditableSettings: Ref<boolean> = ref(false);
-
-  const getSettings: ComputedRef<Settings> = computed(
-    (): Settings => settings.value,
+  const settings: ComputedRef<Settings> = computed(
+    (): Settings => settingsValue.value,
   );
   const isEditable: ComputedRef<boolean> = computed(
-    (): boolean => isEditableSettings.value,
+    (): boolean => isEditableValue.value,
   );
 
   let syncTimeoutId: ReturnType<typeof setTimeout>;
-  const syncSettings = (syncSettingsValue: Settings): void => {
+  const syncSettings = (newSettingsValue: Settings): void => {
     clearTimeout(syncTimeoutId);
+
     syncTimeoutId = setTimeout(() => {
-      setDoc(document.value, syncSettingsValue);
+      storeModel.save(newSettingsValue);
     }, 1000);
   };
 
   watch(
-    settings,
+    settingsValue,
     (value: Settings) => {
-      if (!isEditableSettings.value || document.value === null) {
+      if (!isEditableValue.value || !storeModel.isSynced) {
         return;
       }
 
@@ -73,35 +38,30 @@ export const useSettingsStore = defineStore("settings", () => {
     { deep: true },
   );
 
-  const init = async () => {
-    document.value = doc(settingsRef, user.uid);
+  const init = async (): Promise<void> => {
+    try {
+      const settings = await storeModel.select(useGetUser().uid);
+      settingsValue.value = useDeepClone(settings) as Settings;
 
-    await getDoc(document.value).then((docSnap: DocumentSnapshot) => {
-      if (docSnap.exists()) {
-        settings.value = useDeepClone(docSnap.data() as Settings);
+      if (!settingsValue.value.promptList.length) {
+        settingsValue.value.promptList = useDeepClone(
+          storeModel.defaultSettings.promptList,
+        ) as Prompt[];
       }
-
-      isEditableSettings.value = true;
-    });
+    } finally {
+      isEditableValue.value = true;
+    }
   };
 
   const reset = (): void => {
-    settings.value = useDeepClone(defaultSettings) as Settings;
-  };
-
-  const setPromptList = (promptList: Prompt[]): void => {
-    settings.value.promptList = promptList;
+    settingsValue.value = useDeepClone(storeModel.defaultSettings) as Settings;
   };
 
   return {
     settings,
-    isEditableSettings,
-
-    getSettings,
     isEditable,
 
     init,
     reset,
-    setPromptList,
   };
 });

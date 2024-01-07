@@ -1,12 +1,12 @@
 import { ref as storageRef } from "firebase/storage";
 
+import type { AudioTranscriptionRequest } from "~/types/Api/Request";
 import type { Settings } from "~/types/Settings";
-import AudioFileFactory from "~/models/Audio/AudioFileFactory";
 import { useAudioRecorderStore } from "~/stores/Audio/recorder";
 import { useDialogListStore } from "~/stores/Dialog/dialogList";
 import { useDialogStore } from "~/stores/Dialog/dialog";
+import AudioFileFactory from "~/models/Audio/AudioFileFactory";
 import MessageFactory from "~/models/Dialog/MessageFactory";
-import type { AudioTranscriptionRequest } from "~/types/Api/Request";
 
 const settings: Settings = useGetSettings();
 
@@ -72,7 +72,9 @@ export default class AudioUploaderViewModel {
           transcription,
           dialogStore.currentMessageInProgress,
         ),
-      );
+      ).finally(() => {
+        setRecorderCanBeActivated();
+      });
 
       return refreshDialogList();
     } catch (error) {

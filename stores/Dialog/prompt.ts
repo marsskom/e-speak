@@ -1,12 +1,11 @@
 import type { ComputedRef } from "vue";
 
 import { type Prompt, PrompType } from "~/types/Dialog/Prompt";
-import PromptFactory from "~/models/Dialog/PromptFactory";
 import { useSettingsStore } from "~/stores/settings";
+import PromptFactory from "~/models/Dialog/PromptFactory";
 
 export const usePromptStore = defineStore("prompt", () => {
   const settingsStore = useSettingsStore();
-  const { setPromptList } = settingsStore;
 
   const promptFactory = new PromptFactory();
 
@@ -26,15 +25,8 @@ export const usePromptStore = defineStore("prompt", () => {
   ]);
 
   const promptList: ComputedRef<Prompt[]> = computed(
-    () => settingsStore.getSettings.promptList || defaultPromptList.value,
+    () => settingsStore.settings.promptList || defaultPromptList.value,
   );
-
-  const init = () => {
-    if (promptList.value && !promptList.value.length) {
-      // Init prompts.
-      setPromptList(defaultPromptList.value);
-    }
-  };
 
   const promptsOnDialogStart: ComputedRef<Prompt[]> = computed((): Prompt[] =>
     promptList.value.filter(
@@ -69,7 +61,6 @@ export const usePromptStore = defineStore("prompt", () => {
     promptsOnDialogContinue,
     promptsOnMessageCorrect,
 
-    init,
     filter,
   };
 });

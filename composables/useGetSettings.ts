@@ -4,5 +4,5 @@ import { useSettingsStore } from "~/stores/settings";
 export default function (): Settings {
   const settingsStore = useSettingsStore();
 
-  return computed(() => settingsStore.getSettings).value;
+  return computed(() => settingsStore.settings).value;
 }

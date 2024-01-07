@@ -8,6 +8,7 @@ import { useDialogStore } from "~/stores/Dialog/dialog";
 import PopupModal from "~/components/Page/PopupModal.vue";
 import CopyLink from "~/components/Page/CopyLink.vue";
 
+const { $toast } = useNuxtApp();
 const modal = useModal();
 
 const isAdvancedMode: ComputedRef<boolean> = useIsAdvancedMode();
@@ -66,7 +67,13 @@ const onLoadDialog = (dialog: Dialog): void => {
       label: "Yes",
       theme: "green",
       action: () => {
-        loadDialog(dialog.uid);
+        try {
+          loadDialog(dialog.uid);
+        } catch (error) {
+          $toast.danger(
+            error instanceof Error ? error.message : "Cannot load dialog",
+          );
+        }
       },
     },
     secondary: {
@@ -84,9 +91,9 @@ const onDeleteDialog = (dialog: Dialog): void => {
     primary: {
       label: "Yes",
       theme: "red",
-      action: () => {
-        deleteDialog(dialog);
-        refreshDialogList();
+      action: async () => {
+        await deleteDialog(dialog);
+        await refreshDialogList();
       },
     },
     secondary: {

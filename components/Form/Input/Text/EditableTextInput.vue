@@ -46,21 +46,21 @@ watch(
 
 <template>
   <div>
-    <fa
-      v-if="isEditing"
-      :icon="['fas', 'floppy-disk']"
-      class="mr-2 text-sm text-green-600"
-      title="Save changes"
-      @click="save"
-    ></fa>
+    <a v-if="isEditing" href="#" @click="save">
+      <fa
+        :icon="['fas', 'floppy-disk']"
+        class="mr-2 text-sm text-green-600"
+        title="Save changes"
+      ></fa>
+    </a>
 
-    <fa
-      v-if="!isEditing"
-      :icon="['fas', 'edit']"
-      class="mr-2 text-sm text-blue-600"
-      title="Edit value"
-      @click="toggleEditing"
-    ></fa>
+    <a v-if="!isEditing" href="#" @click="toggleEditing">
+      <fa
+        :icon="['fas', 'edit']"
+        class="mr-2 text-sm text-blue-600"
+        title="Edit value"
+      ></fa>
+    </a>
 
     <div v-if="!isEditing" class="inline-block">
       <slot>
@@ -79,20 +79,27 @@ watch(
         type="text"
         class="w-full px-3 py-1 text-sm text-gray-900 placeholder-gray-500 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:bg-gray-700 dark:border-gray-600"
         @keyup.enter="save"
-        @keyup.escape="toggleEditing"
+        @keyup.escape="
+          inputText = props.text;
+          toggleEditing();
+        "
       />
     </div>
 
-    <fa
+    <a
       v-if="isEditing"
-      :icon="['fas', 'times']"
-      class="ml-2 text-lg text-red-600"
-      title="Cancel editing"
+      href="#"
       @click="
         inputText = props.text;
         toggleEditing();
       "
-    ></fa>
+    >
+      <fa
+        :icon="['fas', 'times']"
+        class="ml-2 text-lg text-red-600"
+        title="Cancel editing"
+      ></fa>
+    </a>
   </div>
 </template>
 
