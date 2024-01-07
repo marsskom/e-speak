@@ -2,7 +2,7 @@
 import { useModal } from "tailvue";
 
 import { type Prompt, PrompType } from "~/types/Dialog/Prompt";
-import PromptFactory from "~/models/Dialog/PromptFactory";
+import PromptFactory from "~/factories/PromptFactory";
 import { usePromptStore } from "~/stores/Dialog/prompt";
 
 const modal = useModal();

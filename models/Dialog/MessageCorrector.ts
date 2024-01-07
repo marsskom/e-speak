@@ -3,7 +3,7 @@ import { type ChatCompletion } from "openai/resources/chat/completions";
 import { type Message, OpenAIRole } from "~/types/Dialog/Message";
 import { type Prompt, PrompType } from "~/types/Dialog/Prompt";
 import MessageTransform from "~/models/Dialog/MessageTransform";
-import MessageFactory from "~/models/Dialog/MessageFactory";
+import MessageFactory from "~/factories/Dialog/MessageFactory";
 import { usePromptStore } from "~/stores/Dialog/prompt";
 import { useDialogStore } from "~/stores/Dialog/dialog";
 import { type Dialog } from "~/types/Dialog/Dialog";

@@ -5,8 +5,8 @@ import type { Settings } from "~/types/Settings";
 import { useAudioRecorderStore } from "~/stores/Audio/recorder";
 import { useDialogListStore } from "~/stores/Dialog/dialogList";
 import { useDialogStore } from "~/stores/Dialog/dialog";
-import AudioFileFactory from "~/models/Audio/AudioFileFactory";
-import MessageFactory from "~/models/Dialog/MessageFactory";
+import AudioFileFactory from "~/factories/Audio/AudioFileFactory";
+import MessageFactory from "~/factories/Dialog/MessageFactory";
 
 const settings: Settings = useGetSettings();
 
