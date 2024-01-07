@@ -1,15 +1,10 @@
 <script setup lang="ts">
 import { ref as storageRef } from "firebase/storage";
 import { useFirebaseStorage, useStorageFileUrl } from "vuefire";
-
-import {
-  type AudioDownloadRequest,
-  type AudioDownloadResponse,
-} from "~/types/Api/Request";
 import { AudioPlayerState } from "~/types/Audio/AudioPlayer";
 import { type Message } from "~/types/Dialog/Message";
-
-const { $toast } = useNuxtApp();
+import AudioPlayerViewModel from "~/viewmodels/Audio/AudioPlayerViewModel";
+import { useLoadingMaskStore } from "~/stores/loading-mask";
 
 const props = defineProps({
   message: {
@@ -18,6 +13,8 @@ const props = defineProps({
   },
 });
 
+const { $toast } = useNuxtApp();
+
 const storage = useFirebaseStorage();
 const fileRef = storageRef(storage, props.message.audioFile || "");
 const { url: audioFileUrl } = useStorageFileUrl(fileRef);
@@ -25,6 +22,7 @@ const { url: audioFileUrl } = useStorageFileUrl(fileRef);
 const hasAudioFile: ComputedRef<boolean> = computed((): boolean => {
   return props.message.audioFile !== undefined;
 });
+const { setVisibility: setMaskVisibility } = useLoadingMaskStore();
 
 const state: Ref<AudioPlayerState> = ref(AudioPlayerState.Idle);
 const audioFileContent: Ref<string> = ref("");
@@ -34,37 +32,16 @@ const loadAudioFile = (): void => {
     return;
   }
 
-  if (!audioFileUrl.value) {
-    audioFileContent.value = "";
-    state.value = AudioPlayerState.Error;
-    $toast.danger("No audio file found.");
-
-    return;
-  }
-
   state.value = AudioPlayerState.Loading;
 
-  fetch("/api/download-audio", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      filename: audioFileUrl.value,
-    } as AudioDownloadRequest),
-  })
-    .then(async (response) => {
-      if (!response.ok) {
-        throw new Error("An error occured while fetching the audio file.");
-      }
-
-      return await response.json();
-    })
-    .then((result: AudioDownloadResponse) => {
-      audioFileContent.value = result.fileBase64;
+  new AudioPlayerViewModel(audioFileUrl.value)
+    .downloadAudio()
+    .then((fileBase64: string) => {
+      audioFileContent.value = fileBase64;
       state.value = AudioPlayerState.Loaded;
     })
-    .catch((error) => {
+    .catch((error: Error) => {
+      audioFileContent.value = "";
       state.value = AudioPlayerState.Error;
       $toast.danger(error.message);
     });
@@ -82,6 +59,10 @@ const showLoadButton: ComputedRef<boolean> = computed((): boolean => {
     state.value !== AudioPlayerState.Loaded
   );
 });
+
+watch(state, (state) => {
+  setMaskVisibility("audio-player-mask", state === AudioPlayerState.Loading);
+});
 </script>
 
 <template>
@@ -98,13 +79,6 @@ const showLoadButton: ComputedRef<boolean> = computed((): boolean => {
           class="text-orange-700"
         />
       </a>
-      <fa
-        v-if="state === AudioPlayerState.Loaded"
-        :icon="['fas', 'ear-deaf']"
-        size="sm"
-        title="Audio was loaded"
-        class="text-orange-700"
-      />
 
       <fa
         v-if="state === AudioPlayerState.Error"

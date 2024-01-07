@@ -1,4 +1,5 @@
 # About
+
 ---
 
 ## Introduction
@@ -21,8 +22,8 @@ grammar.
 
 1. Start the program.
 2. Speak with AI assistant.
-4. Receive real-time feedback and make the necessary corrections.
-5. Track your progress over time.
+3. Receive real-time feedback and make the necessary corrections.
+4. Track your progress over time.
 
 ## Requirements
 

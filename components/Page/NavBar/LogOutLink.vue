@@ -36,7 +36,10 @@ const logOut = (event: Event): void => {
 <template>
   <a href="#" class="hover:underline" @click="logOut">
     Logout&nbsp;
-    <fa :icon="['fas', 'arrow-right-from-bracket']" class="text-pink-600 fa-xs" />
+    <fa
+      :icon="['fas', 'arrow-right-from-bracket']"
+      class="text-pink-600 fa-xs"
+    />
   </a>
 </template>
 
