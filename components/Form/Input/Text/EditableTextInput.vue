@@ -13,7 +13,7 @@ const emit = defineEmits<{
 }>();
 
 const editInput = ref(null);
-const text: Ref<string> = ref(props.text);
+const inputText: Ref<string> = ref(props.text);
 const isEditing: Ref<boolean> = ref(false);
 
 const toggleEditing = () => {
@@ -32,14 +32,14 @@ const save = () => {
   toggleEditing();
 
   emit("change", {
-    value: text.value,
+    value: inputText.value,
   } as EventChange);
 };
 
 watch(
   () => props.text,
-  (newText) => {
-    text.value = newText;
+  (text) => {
+    inputText.value = text;
   },
 );
 </script>
@@ -66,7 +66,7 @@ watch(
       <slot>
         <div>
           <span class="text-xl font-bold text-gray-800">
-            {{ text }}
+            {{ inputText }}
           </span>
         </div>
       </slot>
@@ -75,10 +75,11 @@ watch(
     <div v-if="isEditing" class="inline-block">
       <input
         ref="editInput"
-        v-model="text"
+        v-model="inputText"
         type="text"
         class="w-full px-3 py-1 text-sm text-gray-900 placeholder-gray-500 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:bg-gray-700 dark:border-gray-600"
         @keyup.enter="save"
+        @keyup.escape="toggleEditing"
       />
     </div>
 
@@ -88,7 +89,7 @@ watch(
       class="ml-2 text-lg text-red-600"
       title="Cancel editing"
       @click="
-        text = props.text;
+        inputText = props.text;
         toggleEditing();
       "
     ></fa>
