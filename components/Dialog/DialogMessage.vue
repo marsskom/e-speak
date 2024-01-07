@@ -1,10 +1,8 @@
 <script setup lang="ts">
-import { type Message } from "~/types/Dialog/Message";
-import PopupModal from "~/components/Page/PopupModal.vue";
-import AudioPlayer from "~/components/Audio/AudioPlayer.vue";
-import CopyLink from "~/components/Page/CopyLink.vue";
-import PreJson from "~/components/Page/Text/PreJson.vue";
 import { formatDateTime } from "~/utils/date";
+import { type Message } from "~/types/Dialog/Message";
+import AudioPlayer from "~/components/Audio/AudioPlayer.vue";
+import DialogMessagePopupDetails from "~/components/Dialog/DialogMessage/DialogMessagePopupDetails.vue";
 import DialogMessageViewModel from "~/viewmodels/Dialog/DialogMessageViewModel";
 
 const props = defineProps({
@@ -14,20 +12,8 @@ const props = defineProps({
   },
 });
 
-const isAdvancedMode: ComputedRef<boolean> = useIsAdvancedMode();
-
 const dialogMessageViewModel: DialogMessageViewModel =
   new DialogMessageViewModel(props.message);
-
-const messagePopup: Ref<null | typeof PopupModal> = ref(null);
-
-const togglePopupVisibility = () => {
-  if (!messagePopup.value) {
-    return;
-  }
-
-  messagePopup.value.toggleVisibility();
-};
 </script>
 
 <template>
@@ -158,6 +144,7 @@ const togglePopupVisibility = () => {
             class="text-pink-600"
           />
         </AudioPlayer>
+
         <a
           v-if="dialogMessageViewModel.isUserMessage.value"
           href="#"
@@ -176,100 +163,11 @@ const togglePopupVisibility = () => {
           />
           <fa v-else :icon="['fas', 'spinner']" spin />
         </a>
-        <PopupModal
-          v-if="isAdvancedMode"
-          ref="messagePopup"
-          title="Message Details"
-          width="max-w-4xl"
-        >
-          <template #button>
-            <a
-              href="#"
-              class="inline-block"
-              :class="
-                dialogMessageViewModel.isUserMessage.value
-                  ? 'text-pink-600'
-                  : 'text-violet-500'
-              "
-              title="Message Information"
-              @click="togglePopupVisibility"
-            >
-              <fa :icon="['fas', 'info-circle']" />
-            </a>
-          </template>
 
-          <template #content>
-            <div class="flex flex-col text-sm">
-              <div class="flex flex-row flex-wrap">
-                <div class="w-1/6 font-bold px-4 py-2">UID:</div>
-                <div class="w-5/6 border px-4 py-2">
-                  <CopyLink :content="props.message.uid" />&nbsp;{{
-                    props.message.uid
-                  }}
-                </div>
-              </div>
-              <div class="flex flex-row flex-wrap">
-                <div class="w-1/6 font-bold px-4 py-2">Content:</div>
-                <div class="w-5/6 border px-4 py-2">
-                  {{ props.message.content }}
-                </div>
-              </div>
-              <div class="flex flex-row flex-wrap">
-                <div class="w-1/6 font-bold px-4 py-2">Role:</div>
-                <div class="w-5/6 border px-4 py-2">
-                  {{ props.message.role }}
-                </div>
-              </div>
-              <div class="flex flex-row flex-wrap">
-                <div class="w-1/6 font-bold px-4 py-2">Created At:</div>
-                <div class="w-5/6 border px-4 py-2">
-                  {{ formatDateTime(props.message.createdAt) }}
-                </div>
-              </div>
-              <div class="flex flex-row flex-wrap">
-                <div class="w-1/6 font-bold px-4 py-2">Updated At:</div>
-                <div class="w-5/6 border px-4 py-2">
-                  {{ formatDateTime(props.message.updatedAt) }}
-                </div>
-              </div>
-              <div class="flex flex-row flex-wrap">
-                <div class="w-1/6 font-bold px-4 py-2">Audio File:</div>
-                <div class="w-5/6 border px-4 py-2">
-                  <CopyLink :content="props.message.audioFile || ''" />&nbsp;
-                  {{ props.message.audioFile || "" }}
-                </div>
-              </div>
-              <div class="flex flex-row flex-wrap">
-                <div class="w-1/6 font-bold px-4 py-2">Chat Completion:</div>
-                <div class="w-5/6 border px-4 py-2">
-                  <PreJson :content="props.message.chatCompletion || ''" />
-                </div>
-              </div>
-              <div class="flex flex-row flex-wrap">
-                <div class="w-1/6 font-bold px-4 py-2">Prompt:</div>
-                <div class="w-5/6 border px-4 py-2">
-                  <PreJson :content="props.message.promptList || ''" />
-                </div>
-              </div>
-              <div class="flex flex-row flex-wrap">
-                <div class="w-1/6 font-bold px-4 py-2">Corrected Content:</div>
-                <div class="w-5/6 border px-4 py-2">
-                  {{ props.message.correctedContent || "" }}
-                </div>
-              </div>
-              <div class="flex flex-row flex-wrap">
-                <div class="w-1/6 font-bold px-4 py-2">
-                  Corrected Messages List:
-                </div>
-                <div class="w-5/6 border px-4 py-2">
-                  <PreJson
-                    :content="props.message.correctedMessageList || ''"
-                  />
-                </div>
-              </div>
-            </div>
-          </template>
-        </PopupModal>
+        <DialogMessagePopupDetails
+          :message="props.message"
+          :is-user-message="dialogMessageViewModel.isUserMessage.value"
+        />
       </div>
     </div>
   </section>

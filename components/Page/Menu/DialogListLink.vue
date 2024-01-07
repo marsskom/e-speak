@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import { useModal } from "tailvue";
 
+import { formatDateTime } from "~/utils/date";
 import { type Dialog } from "~/types/Dialog/Dialog";
-import PopupModal from "~/components/Page/PopupModal.vue";
-import CopyLink from "~/components/Page/CopyLink.vue";
-
 import { useDialogListStore } from "~/stores/Dialog/dialogList";
 import { useDialogStore } from "~/stores/Dialog/dialog";
+import PopupModal from "~/components/Page/PopupModal.vue";
+import CopyLink from "~/components/Page/CopyLink.vue";
 
 const modal = useModal();
 
@@ -78,8 +78,6 @@ const onLoadDialog = (dialog: Dialog): void => {
 };
 
 const onDeleteDialog = (dialog: Dialog): void => {
-  togglePopupVisibility();
-
   modal.show({
     type: "danger",
     title: `Delete "${dialog.name}" dialog?`,
@@ -157,8 +155,8 @@ const onDeleteDialog = (dialog: Dialog): void => {
                 >
                   <td class="border px-4 py-2">
                     {{ dialog.name }}
-                    <p class="mt-1 text-gray-500 text-xs">
-                      {{ dialog.createdAt.toISOString() }}
+                    <p class="mt-1 text-gray-500 text-xs mt-2">
+                      {{ formatDateTime(dialog.createdAt) }}
                     </p>
                     <p v-if="isAdvancedMode" class="mt-1 text-gray-500 text-xs">
                       <CopyLink :content="dialog.uid" />
@@ -166,18 +164,18 @@ const onDeleteDialog = (dialog: Dialog): void => {
                     </p>
                   </td>
                   <td class="border px-4 py-2 text-center">
-                    <a v-if="dialog.isSynced" href="#" title="Synced">
-                      <fa
-                        :icon="['far', 'square-check']"
-                        class="ml-2 w-4 h-4 text-green-600 hover:text-green-900 dark:text-white font-bold"
-                      ></fa>
-                    </a>
-                    <a v-if="!dialog.isSynced" href="#" title="Not Synced">
-                      <fa
-                        :icon="['far', 'square-minus']"
-                        class="ml-2 w-4 h-4 text-yellow-600 hover:text-yellow-900 dark:text-white font-bold"
-                      ></fa>
-                    </a>
+                    <fa
+                      v-if="dialog.isSynced"
+                      title="Synced"
+                      :icon="['far', 'square-check']"
+                      class="ml-2 w-4 h-4 text-green-600 hover:text-green-900 dark:text-white font-bold text-lg"
+                    ></fa>
+                    <fa
+                      v-if="!dialog.isSynced"
+                      title="Not Synced"
+                      :icon="['far', 'square-minus']"
+                      class="ml-2 w-4 h-4 text-yellow-600 hover:text-yellow-900 dark:text-white font-bold text-lg"
+                    ></fa>
                   </td>
                   <td class="border px-4 py-2 text-right">
                     <a
@@ -188,7 +186,7 @@ const onDeleteDialog = (dialog: Dialog): void => {
                     >
                       <fa
                         :icon="['fas', 'external-link-alt']"
-                        class="w-4 h-4"
+                        class="w-4 h-4 text-lg"
                       ></fa>
                     </a>
                     <span class="mx-2">|</span>
@@ -198,7 +196,10 @@ const onDeleteDialog = (dialog: Dialog): void => {
                       title="Delete"
                       @click="onDeleteDialog(dialog)"
                     >
-                      <fa :icon="['fas', 'trash-alt']" class="w-4 h-4"></fa>
+                      <fa
+                        :icon="['fas', 'trash-alt']"
+                        class="w-4 h-4 text-lg"
+                      ></fa>
                     </a>
                   </td>
                 </tr>

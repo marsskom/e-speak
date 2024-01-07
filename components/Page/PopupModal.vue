@@ -20,7 +20,7 @@ const toggleVisibility = () => {
   isVisible.value = !isVisible.value;
 };
 
-const closeModal = (event: MouseEvent) => {
+const closePopup = (event: MouseEvent) => {
   if (event.target !== event.currentTarget) {
     return;
   }
@@ -46,11 +46,11 @@ defineExpose({
     </slot>
 
     <div
+      v-if="isVisible"
       tabindex="-1"
       aria-hidden="true"
-      class="fixed top-0 left-0 right-0 z-50 w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full bg-black bg-opacity-50 transition-opacity flex items-center justify-center modal-background"
-      :class="isVisible ? '' : 'hidden'"
-      @click="closeModal"
+      class="fixed top-0 left-0 right-0 z-10 w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full bg-black bg-opacity-50 transition-opacity flex items-center justify-center modal-background"
+      @click="closePopup"
     >
       <div class="relative w-full max-h-full" :class="props.width">
         <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
