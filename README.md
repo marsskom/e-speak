@@ -16,11 +16,15 @@
 
 ## Node Version
 
-The project works on no version 16.20.2.
+There was:
 
-Firstly, I used to use version 18 latest, but I had some problems with `fetch` to OpenAI API. I tried to fix it, but I didn't find any solution. So I decided to downgrade node version to 16.20.2 and it helped.
+> The project works on no version 16.20.2.
+>
+> Firstly, I used to use version 18 latest, but I had some problems with `fetch` to OpenAI API. I tried to fix it, but I didn't find any solution. So I decided to downgrade node version to 16.20.2 and it helped.
+>
+> Except, you should install dependencies with `yarn install --ignore-engines` command, since latest version of `vuefire` doesn't support node version 16. Older `vuefire` vesions don't work.
 
-Except, you should install dependencies with `yarn install --ignore-engines` command, since latest version of `vuefire` doesn't support node version 16. Older `vuefire` vesions don't work.
+Now it works on **Node 18**.
 
 ## Docker
 
@@ -30,7 +34,7 @@ The problem some kind of strange, since nuxt doesn't use 3000 port and choses it
 
 ## Contributors
 
-- Andrii Prakapas - **owner**
+- [Andrii Prakapas](https://github.com/marsskom) - **owner**
 - [Copilot](https://github.com/features/copilot) - **contributor**
 
 ## Snippets
