@@ -72,12 +72,7 @@ watch(state, (state) => {
       :is-visible="state === AudioPlayerState.Loading"
     >
       <a v-if="showLoadButton" href="#" @click="loadAudioFile">
-        <fa
-          :icon="['fas', 'ear-listen']"
-          size="sm"
-          title="Listen original audio"
-          class="text-orange-700"
-        />
+        <slot></slot>
       </a>
 
       <fa

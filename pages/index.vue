@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { formatDateTime } from "../utils/date";
 import { type Dialog } from "~/types/Dialog/Dialog";
 import { type Message, OpenAIRole } from "~/types/Dialog/Message";
 import { type EventChange } from "~/types/Form/Text/TextInput";
@@ -144,12 +145,12 @@ onMounted(() => {
                 </li>
                 <li>
                   <strong>Created:</strong>&nbsp;<span class="float-right"
-                    >{{ currentDialog.createdAt.toISOString() }}
+                    >{{ formatDateTime(currentDialog.createdAt) }}
                   </span>
                 </li>
                 <li v-if="isAdvancedMode">
                   <strong>Updated:</strong>&nbsp;<span class="float-right"
-                    >{{ currentDialog.updatedAt.toISOString() }}
+                    >{{ formatDateTime(currentDialog.updatedAt) }}
                   </span>
                 </li>
               </ul>
