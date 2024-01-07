@@ -2,7 +2,7 @@ import { type Transcription } from "openai/resources/audio";
 
 import type CustomHeaders from "~/types/Headers";
 import { type AudioTranscriptionRequest } from "~/types/Api/Request";
-import AudioFileFactory from "~/models/Audio/AudioFileFactory";
+import AudioFileFactory from "~/factories/Audio/AudioFileFactory";
 import { getTranscription } from "~/server/utils/ai";
 import useHeaders from "~/server/utils/headers";
 

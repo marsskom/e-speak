@@ -2,7 +2,7 @@ import type { ComputedRef } from "vue";
 
 import { type Prompt, PrompType } from "~/types/Dialog/Prompt";
 import { useSettingsStore } from "~/stores/settings";
-import PromptFactory from "~/models/Dialog/PromptFactory";
+import PromptFactory from "~/factories/PromptFactory";
 
 export const usePromptStore = defineStore("prompt", () => {
   const settingsStore = useSettingsStore();

@@ -1,7 +1,7 @@
 import { type Dialog } from "~/types/Dialog/Dialog";
 import { type Message } from "~/types/Dialog/Message";
-import DialogFactory from "~/models/Dialog/DialogFactory";
-import MessageFactory from "~/models/Dialog/MessageFactory";
+import DialogFactory from "~/factories/Dialog/DialogFactory";
+import MessageFactory from "~/factories/Dialog/MessageFactory";
 import MessageResolver from "~/models/Dialog/MessageResolver";
 import DialogFirebase from "~/firebase/Dialog/DialogFirebase";
 
