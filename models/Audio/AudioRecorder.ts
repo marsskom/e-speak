@@ -5,33 +5,23 @@ export default class AudioRecorder {
 
   async start(): Promise<void> {
     if (!(navigator.mediaDevices && navigator.mediaDevices.getUserMedia)) {
-      return Promise.reject(
-        new Error(
-          "mediaDevices API or getUserMedia method is not supported in this browser.",
-        ),
+      throw new Error(
+        "mediaDevices API or getUserMedia method is not supported in this browser.",
       );
     }
 
-    try {
-      return await navigator.mediaDevices
-        .getUserMedia({ audio: true })
-        .then((stream) => {
-          this.#stream = stream;
-          this.#mediaRecorder = new MediaRecorder(stream);
-          this.#audioBlobList = [];
+    this.#stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+    this.#mediaRecorder = new MediaRecorder(this.#stream);
+    this.#audioBlobList = [];
 
-          this.#mediaRecorder.addEventListener(
-            "dataavailable",
-            (event: BlobEvent) => {
-              this.#audioBlobList.push(event.data);
-            },
-          );
+    this.#mediaRecorder.addEventListener(
+      "dataavailable",
+      (event: BlobEvent) => {
+        this.#audioBlobList.push(event.data);
+      },
+    );
 
-          this.#mediaRecorder.start();
-        });
-    } catch (error) {
-      return Promise.reject(error);
-    }
+    this.#mediaRecorder.start();
   }
 
   stop(): Promise<void | Blob> {
@@ -39,9 +29,7 @@ export default class AudioRecorder {
       const mimeType = this.#mediaRecorder?.mimeType;
 
       this.#mediaRecorder?.addEventListener("stop", () => {
-        const audioBlob = new Blob(this.#audioBlobList, { type: mimeType });
-
-        resolve(audioBlob);
+        resolve(new Blob(this.#audioBlobList, { type: mimeType }));
       });
 
       this.#mediaRecorder?.stop();

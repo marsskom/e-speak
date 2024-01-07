@@ -1,7 +1,7 @@
 import { type ChatCompletion } from "openai/resources/chat/completions";
 
 import { type Message, OpenAIRole } from "~/types/Dialog/Message";
-import { PrompType, type Prompt } from "~/types/Dialog/Prompt";
+import { type Prompt, PrompType } from "~/types/Dialog/Prompt";
 import MessageTransform from "~/models/Dialog/MessageTransform";
 import MessageFactory from "~/models/Dialog/MessageFactory";
 import { usePromptStore } from "~/stores/Dialog/prompt";
@@ -14,46 +14,43 @@ export default class MessageCorrector {
   // eslint-disable-next-line no-useless-constructor
   constructor(private message: Message) {}
 
-  correctMessage(): Promise<Message> {
+  public async correctMessage(): Promise<Message> {
     if (
       this.message.role !== OpenAIRole.User ||
       this.message.correctedContent.length > 0 ||
       this.message.content.length === 0
     ) {
-      return Promise.resolve(this.message);
+      return this.message;
     }
 
-    const messageList = this.mutateWithPrompts();
+    const messageList: Message[] = this.mutateWithPrompts();
     messageList.push(this.message);
 
     const openAIMessageList =
       new MessageTransform().messageListToOpenAIMessageList(messageList);
 
-    return fetch("/api/correction", {
+    const response: Response = await fetch("/api/correction", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
         ...useHeaders(),
       },
       body: JSON.stringify({ messages: openAIMessageList }),
-    })
-      .then(async (response) => {
-        if (!response.ok) {
-          throw new Error("An error occured while fetching the answer.");
-        }
+    });
 
-        return await response.json();
-      })
-      .then((chatCompletion: ChatCompletion) => {
-        const message =
-          this.messageFactory.createFromChatCompletion(chatCompletion);
-        message.content = message.content.replace(/\\n/g, "<br />");
+    if (!response.ok) {
+      throw new Error("An error occured while fetching the answer.");
+    }
 
-        messageList.pop();
-        message.correctedMessageList = messageList;
+    const chatCompletion: ChatCompletion = await response.json();
+    const message =
+      this.messageFactory.createFromChatCompletion(chatCompletion);
+    message.content = message.content.replace(/\\n/g, "<br />");
 
-        return message;
-      });
+    messageList.pop();
+    message.correctedMessageList = messageList;
+
+    return message;
   }
 
   private mutateWithPrompts(): Message[] {

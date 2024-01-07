@@ -55,10 +55,8 @@ export default class AudioFileFactory {
       byteArrays.push(byteCharacters.charCodeAt(i));
     }
 
-    const blob = new Blob([new Uint8Array(byteArrays)], {
+    return new Blob([new Uint8Array(byteArrays)], {
       type: this.params.mimeType,
     });
-
-    return blob;
   }
 }
