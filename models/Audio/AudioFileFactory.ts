@@ -8,7 +8,7 @@ export default class AudioFileFactory {
     private readonly messageUid: string,
   ) {}
 
-  generateFileName(extension: string, prefix: string = ""): string {
+  public generateFileName(extension: string, prefix: string = ""): string {
     const date = new Date();
     const dayString = `${date.getFullYear()}-${(date.getMonth() + 1)
       .toString()
@@ -28,7 +28,7 @@ export default class AudioFileFactory {
       .padStart(2, "0")}.${extension}`;
   }
 
-  createAudioFile(audioBlob: Blob, filename?: string): File {
+  public createAudioFile(audioBlob: Blob, filename?: string): File {
     const mimeType = this.params.mimeType;
     const prefix = this.params.prefix;
 
@@ -38,7 +38,7 @@ export default class AudioFileFactory {
     return new File([audioBlob], fileName, { type: mimeType });
   }
 
-  audioToBase64(audio: File): Promise<string> {
+  public audioToBase64(audio: File): Promise<string> {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
       reader.readAsDataURL(audio);
@@ -48,7 +48,7 @@ export default class AudioFileFactory {
     });
   }
 
-  base64ToAudioBlob(base64: string): Blob {
+  public base64ToAudioBlob(base64: string): Blob {
     const byteCharacters = atob(base64.split(",")[1]); // remove data:audio/webm;base64,
     const byteArrays = [];
     for (let i = 0; i < byteCharacters.length; i++) {

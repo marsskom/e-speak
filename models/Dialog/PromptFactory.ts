@@ -7,7 +7,11 @@ import {
 } from "~/types/Dialog/Prompt";
 
 export default class PromptFactory {
-  create(prompt: string, type: PrompType, category?: PromptCategory): Prompt {
+  public create(
+    prompt: string,
+    type: PrompType,
+    category?: PromptCategory,
+  ): Prompt {
     return {
       uid: uuidv4(),
       prompt,
@@ -17,7 +21,7 @@ export default class PromptFactory {
     } as Prompt;
   }
 
-  createCustom(
+  public createCustom(
     prompt: string,
     type: PrompType,
     category?: PromptCategory,
@@ -30,7 +34,7 @@ export default class PromptFactory {
 }
 
 export class PromptCategoryFactory {
-  create(name: string, prompt: string): PromptCategory {
+  public create(name: string, prompt: string): PromptCategory {
     return {
       uid: uuidv4(),
       name,

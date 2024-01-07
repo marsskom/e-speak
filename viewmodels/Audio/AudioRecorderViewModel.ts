@@ -11,45 +11,45 @@ const canBeActivated = computed(() => audioRecorderStore.canBeActivated);
 const { setState, activate: setRecorderCanBeActivated } = audioRecorderStore;
 
 export default class AudioRecorderViewModel {
-  #timeoutId: ReturnType<typeof setTimeout> = null;
-  #seconds: Ref<number> = ref(0);
-  #recorder: AudioRecorder;
+  private timeoutId: null | ReturnType<typeof setTimeout> = null;
+  private seconds: Ref<number> = ref(0);
+  private readonly recorder: AudioRecorder;
 
   constructor() {
-    this.#recorder = new AudioRecorder();
+    this.recorder = new AudioRecorder();
   }
 
-  #startIterateSeconds(): void {
-    ++this.#seconds.value;
+  private startIterateSeconds(): void {
+    ++this.seconds.value;
 
-    this.#timeoutId = setTimeout(() => {
-      this.#startIterateSeconds();
+    this.timeoutId = setTimeout(() => {
+      this.startIterateSeconds();
     }, 1000);
   }
 
-  #setIdleState(): void {
+  private setIdleState(): void {
     setState(AudioRecorderState.Idle);
-    clearTimeout(this.#timeoutId);
-    this.#seconds.value = 0;
+    clearTimeout(this.timeoutId);
+    this.seconds.value = 0;
   }
 
-  get seconds(): Readonly<Ref<number>> {
-    return this.#seconds;
+  public get getSeconds(): Readonly<Ref<number>> {
+    return this.seconds;
   }
 
-  get isRecording(): Readonly<ComputedRef<boolean>> {
+  public get isRecording(): Readonly<ComputedRef<boolean>> {
     return isRecording;
   }
 
-  get canBeActivated(): Readonly<ComputedRef<boolean>> {
+  public get canBeActivated(): Readonly<ComputedRef<boolean>> {
     return canBeActivated;
   }
 
-  async startRecording(): Promise<void> {
+  public async startRecording(): Promise<void> {
     try {
-      await this.#recorder.start();
+      await this.recorder.start();
       setState(AudioRecorderState.Recording);
-      this.#startIterateSeconds();
+      this.startIterateSeconds();
     } catch (error) {
       if (error instanceof Error) {
         if (
@@ -61,30 +61,30 @@ export default class AudioRecorderViewModel {
             "To record audio, use browsers like Chrome and Firefox.";
         }
 
-        error.message += `\n${this.#recorder.getErrorMessage(error)}`;
+        error.message += `\n${this.recorder.getErrorMessage(error)}`;
       }
 
-      this.#setIdleState();
+      this.setIdleState();
       setRecorderCanBeActivated();
 
       throw error;
     }
   }
 
-  async stopRecording(): Promise<Blob> {
+  public async stopRecording(): Promise<Blob> {
     if (!isRecording.value) {
       return Promise.reject(new Error("Audio recorder is not recording."));
     }
 
     try {
-      const audioAsBlob: void | Blob = await this.#recorder.stop();
-      if (this.#seconds.value < settings.recorder.minDuration) {
+      const audioAsBlob: void | Blob = await this.recorder.stop();
+      if (this.seconds.value < settings.recorder.minDuration) {
         throw new Error(
           `The recording must be at least ${settings.recorder.minDuration} seconds long.`,
         );
       }
 
-      if (this.#seconds.value > settings.recorder.maxDuration) {
+      if (this.seconds.value > settings.recorder.maxDuration) {
         throw new Error(
           `The recording must be at most ${settings.recorder.maxDuration} seconds long.`,
         );
@@ -94,7 +94,7 @@ export default class AudioRecorderViewModel {
         throw new Error("Audio blob is not defined.");
       }
 
-      this.#setIdleState();
+      this.setIdleState();
 
       return audioAsBlob;
     } catch (error) {
@@ -106,16 +106,16 @@ export default class AudioRecorderViewModel {
         }
       }
 
-      this.#setIdleState();
+      this.setIdleState();
       setRecorderCanBeActivated();
 
       throw error;
     }
   }
 
-  cancelRecording(): void {
-    this.#recorder.cancel();
-    this.#setIdleState();
+  public cancelRecording(): void {
+    this.recorder.cancel();
+    this.setIdleState();
     setRecorderCanBeActivated();
   }
 }

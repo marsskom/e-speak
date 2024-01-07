@@ -1,61 +1,56 @@
 export default class AudioRecorder {
-  #mediaRecorder: null | MediaRecorder = null;
-  #audioBlobList: Blob[] = [];
-  #stream: null | MediaStream = null;
+  private mediaRecorder: null | MediaRecorder = null;
+  private audioBlobList: Blob[] = [];
+  private stream: null | MediaStream = null;
 
-  async start(): Promise<void> {
+  public async start(): Promise<void> {
     if (!(navigator.mediaDevices && navigator.mediaDevices.getUserMedia)) {
       throw new Error(
         "mediaDevices API or getUserMedia method is not supported in this browser.",
       );
     }
 
-    this.#stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-    this.#mediaRecorder = new MediaRecorder(this.#stream);
-    this.#audioBlobList = [];
+    this.stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+    this.mediaRecorder = new MediaRecorder(this.stream);
+    this.audioBlobList = [];
 
-    this.#mediaRecorder.addEventListener(
-      "dataavailable",
-      (event: BlobEvent) => {
-        this.#audioBlobList.push(event.data);
-      },
-    );
+    this.mediaRecorder.addEventListener("dataavailable", (event: BlobEvent) => {
+      this.audioBlobList.push(event.data);
+    });
 
-    this.#mediaRecorder.start();
+    this.mediaRecorder.start();
   }
 
-  stop(): Promise<void | Blob> {
+  public stop(): Promise<void | Blob> {
     return new Promise((resolve) => {
-      const mimeType = this.#mediaRecorder?.mimeType;
+      const mimeType = this.mediaRecorder?.mimeType;
 
-      this.#mediaRecorder?.addEventListener("stop", () => {
-        resolve(new Blob(this.#audioBlobList, { type: mimeType }));
+      this.mediaRecorder?.addEventListener("stop", () => {
+        resolve(new Blob(this.audioBlobList, { type: mimeType }));
       });
 
-      this.#mediaRecorder?.stop();
-      this.#stopStream();
-      this.#resetRecordingProperties();
+      this.mediaRecorder?.stop();
+      this.stopStream();
+      this.resetRecordingProperties();
     });
   }
 
-  #stopStream(): void {
-    this.#stream
-      ?.getTracks()
-      .forEach((track: MediaStreamTrack) => track.stop());
+  private stopStream(): void {
+    this.stream?.getTracks().forEach((track: MediaStreamTrack) => track.stop());
   }
 
-  #resetRecordingProperties(): void {
-    this.#mediaRecorder = null;
-    this.#stream = null;
+  private resetRecordingProperties(): void {
+    this.mediaRecorder = null;
+    this.stream = null;
   }
 
-  cancel(): void {
-    this.#mediaRecorder?.stop();
-    this.#stopStream();
-    this.#resetRecordingProperties();
+  public cancel(): void {
+    this.mediaRecorder?.stop();
+    this.stopStream();
+    this.resetRecordingProperties();
   }
 
-  getErrorMessage(error: Error): string {
+  public getErrorMessage(error: Error): string {
     switch (error.name) {
       case "AbortError": // error from navigator.mediaDevices.getUserMedia
         return "An AbortError has occured.";

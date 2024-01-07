@@ -13,18 +13,18 @@ import { dialogFirebaseConverter } from "~/firebase/Dialog/DialogFirebaseConvert
 import type { Dialog } from "~/types/Dialog/Dialog";
 
 export default class DialogListFirebase {
-  #db: Firestore = useFirestore();
-  #dialogListRef: CollectionReference<Dialog>;
+  private readonly db: Firestore = useFirestore();
+  private readonly dialogListRef: CollectionReference<Dialog>;
 
   constructor() {
-    this.#dialogListRef = collection(this.#db, "dialogs").withConverter(
+    this.dialogListRef = collection(this.db, "dialogs").withConverter(
       dialogFirebaseConverter,
     );
   }
 
-  async select(userId: string): Promise<Dialog[]> {
+  public async select(userId: string): Promise<Dialog[]> {
     const querySnapshot: QuerySnapshot<Dialog> = await getDocs(
-      query(this.#dialogListRef, where("userUid", "==", userId)),
+      query(this.dialogListRef, where("userUid", "==", userId)),
     );
 
     const dialogList: Dialog[] = [];

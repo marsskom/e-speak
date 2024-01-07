@@ -3,7 +3,7 @@ import { v4 as uuidv4 } from "uuid";
 import { type Dialog } from "~/types/Dialog/Dialog";
 
 export default class DialogFactory {
-  create(userUid: string = ""): Dialog {
+  public create(userUid: string = ""): Dialog {
     return {
       userUid,
       uid: uuidv4(),

@@ -42,17 +42,17 @@ const getTime = (varSeconds: number) => {
 
 const secondsLabel = computed(() => {
   const time = getTime(
-    settings.recorder.maxDuration - audioRecorderViewModel.seconds.value,
+    settings.recorder.maxDuration - audioRecorderViewModel.getSeconds.value,
   );
   return `${time.minutes}:${time.seconds} left`;
 });
 
 const secondsAcceptLabel = computed(() => {
-  const time = getTime(audioRecorderViewModel.seconds.value);
+  const time = getTime(audioRecorderViewModel.getSeconds.value);
   return `Recorded ${time.minutes}:${time.seconds}`;
 });
 
-watch(audioRecorderViewModel.seconds, (seconds) => {
+watch(audioRecorderViewModel.getSeconds, (seconds) => {
   if (seconds >= settings.recorder.maxDuration) {
     audioRecorderViewModel.stopRecording();
   }
@@ -100,7 +100,7 @@ watch(audioRecorderViewModel.canBeActivated, (canBeActivated) => {
         </div>
         <div class="mt-1 text-center h-[20px]">
           <span
-            v-show="audioRecorderViewModel.seconds.value > 0"
+            v-show="audioRecorderViewModel.getSeconds.value > 0"
             class="text-xs text-green-500"
           >
             {{

@@ -9,12 +9,12 @@ const dialogStore = useDialogStore();
 const { updateMessage } = dialogStore;
 
 export default class DialogMessageViewModel {
-  #isCorrectionInProgress: Ref<boolean> = ref(false);
+  private isCorrectionInProgressValue: Ref<boolean> = ref(false);
 
   // eslint-disable-next-line no-useless-constructor
   constructor(private readonly message: Message) {}
 
-  get avatar(): ComputedRef<string> {
+  public get avatar(): ComputedRef<string> {
     return computed((): string => {
       switch (this.message.role) {
         case OpenAIRole.User:
@@ -25,7 +25,7 @@ export default class DialogMessageViewModel {
     });
   }
 
-  get author(): ComputedRef<string> {
+  public get author(): ComputedRef<string> {
     return computed((): string => {
       switch (this.message.role) {
         case OpenAIRole.User:
@@ -38,34 +38,34 @@ export default class DialogMessageViewModel {
     });
   }
 
-  get isUserMessage(): ComputedRef<boolean> {
+  public get isUserMessage(): ComputedRef<boolean> {
     return computed((): boolean => {
       return this.message.role === OpenAIRole.User;
     });
   }
 
-  get isSystemMessage(): ComputedRef<boolean> {
+  public get isSystemMessage(): ComputedRef<boolean> {
     return computed((): boolean => {
       return this.message.role === OpenAIRole.System;
     });
   }
 
-  get isCorrectionInProgress(): ComputedRef<boolean> {
+  public get isCorrectionInProgress(): ComputedRef<boolean> {
     return computed((): boolean => {
-      return this.#isCorrectionInProgress.value;
+      return this.isCorrectionInProgressValue.value;
     });
   }
 
-  correctMessage() {
+  public correctMessage() {
     if (
-      this.#isCorrectionInProgress.value ||
+      this.isCorrectionInProgressValue.value ||
       !this.isUserMessage.value ||
       this.message.correctedContent.length > 0
     ) {
       return;
     }
 
-    this.#isCorrectionInProgress.value = true;
+    this.isCorrectionInProgressValue.value = true;
 
     const messageCorrector = new MessageCorrector(this.message);
 
@@ -83,7 +83,7 @@ export default class DialogMessageViewModel {
         updateMessage(message);
       })
       .finally(() => {
-        this.#isCorrectionInProgress.value = false;
+        this.isCorrectionInProgressValue.value = false;
       });
   }
 }
