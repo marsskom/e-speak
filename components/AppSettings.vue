@@ -1,8 +1,12 @@
 <script setup lang="ts">
+import { useModal } from "tailvue";
+
 import { ChatDriver, type Settings } from "~/types/Settings";
 import PopupModal from "~/components/Page/PopupModal.vue";
 import PromptEditComponent from "~/components/Dialog/PromptEditComponent.vue";
 import { useSettingsStore } from "~/stores/settings";
+
+const modal = useModal();
 
 const settingsStore = useSettingsStore();
 const { reset } = settingsStore;
@@ -25,7 +29,24 @@ const closeSettings = (event: Event) => {
   isSettingsPopupVisible.value = false;
 };
 
-const resetSettings = (): void => reset();
+const resetSettings = (): void => {
+  modal.show({
+    type: "danger",
+    title: "Are you sure to reset settings to default?",
+    primary: {
+      label: "Yes",
+      theme: "green",
+      action: () => {
+        reset();
+      },
+    },
+    secondary: {
+      label: "Cancel",
+      theme: "white",
+      action: () => null,
+    },
+  });
+};
 
 const isAdvancedMode: ComputedRef<boolean> = computed(
   () => settings.value.advanced.enabled,
