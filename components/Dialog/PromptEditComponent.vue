@@ -156,7 +156,7 @@ const onCancelEdit = (): void => {
           :key="prompt.uid"
           :class="
             null !== currentEditPrompt && currentEditPrompt.uid === prompt.uid
-              ? 'bg-orange-100'
+              ? 'bg-gray-100'
               : ''
           "
         >
@@ -203,6 +203,7 @@ const onCancelEdit = (): void => {
             <textarea
               v-model.lazy="currentEditPrompt.prompt"
               class="border border-gray-300 rounded p-2 text-sm w-full"
+              rows="10"
             ></textarea>
           </td>
           <td class="border px-4 py-2">
