@@ -38,15 +38,13 @@ export const useSettingsStore = defineStore("settings", () => {
     { deep: true },
   );
 
-  const init = (): void => {
-    storeModel
-      .select(useGetUser().uid)
-      .then((settings: Settings) => {
-        settingsValue.value = useDeepClone(settings) as Settings;
-      })
-      .finally(() => {
-        isEditableValue.value = true;
-      });
+  const init = async (): Promise<void> => {
+    try {
+      const settings = await storeModel.select(useGetUser().uid);
+      settingsValue.value = useDeepClone(settings) as Settings;
+    } finally {
+      isEditableValue.value = true;
+    }
   };
 
   const reset = (): void => {
