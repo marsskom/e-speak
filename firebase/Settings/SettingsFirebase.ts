@@ -15,17 +15,17 @@ import { usePromptStore } from "~/stores/Dialog/prompt";
 import { settingsFirebaseConverter } from "~/firebase/Settings/SettingsFirebaseConverter";
 
 export default class SettingsFirebase {
-  #db: Firestore = useFirestore();
-  #document: Ref<null | DocumentReference> = ref(null);
-  #settingsRef: CollectionReference<Settings>;
+  private readonly db: Firestore = useFirestore();
+  private readonly document: Ref<null | DocumentReference> = ref(null);
+  private readonly settingsRef: CollectionReference<Settings>;
 
   constructor() {
-    this.#settingsRef = collection(this.#db, "settings").withConverter(
+    this.settingsRef = collection(this.db, "settings").withConverter(
       settingsFirebaseConverter,
     );
   }
 
-  get defaultSettings(): Settings {
+  public get defaultSettings(): Settings {
     return {
       recorder: {
         minDuration: 2,
@@ -46,13 +46,13 @@ export default class SettingsFirebase {
   }
 
   get isSynced(): boolean {
-    return this.#document.value !== null;
+    return this.document.value !== null;
   }
 
-  async select(userId: string): Promise<Settings> {
-    this.#document.value = doc(this.#settingsRef, userId);
+  public async select(userId: string): Promise<Settings> {
+    this.document.value = doc(this.settingsRef, userId);
 
-    const docSnap: DocumentSnapshot = await getDoc(this.#document.value);
+    const docSnap: DocumentSnapshot = await getDoc(this.document.value);
     if (docSnap.exists()) {
       return docSnap.data() as Settings;
     }
@@ -60,11 +60,11 @@ export default class SettingsFirebase {
     throw new Error("Settings not found");
   }
 
-  save(settings: Settings): Promise<void> {
-    if (this.#document.value === null) {
+  public save(settings: Settings): Promise<void> {
+    if (this.document.value === null) {
       throw new Error("Settings not selected");
     }
 
-    return setDoc(this.#document.value, settings);
+    return setDoc(this.document.value, settings);
   }
 }

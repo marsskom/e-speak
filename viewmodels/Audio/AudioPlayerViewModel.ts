@@ -7,7 +7,7 @@ export default class AudioPlayerViewModel {
   // eslint-disable-next-line no-useless-constructor
   constructor(private readonly audioFileUrl: null | undefined | string) {}
 
-  async downloadAudio(): Promise<string> {
+  public async downloadAudio(): Promise<string> {
     if (!this.audioFileUrl || !this.audioFileUrl.length) {
       throw new Error("No audio file URL provided.");
     }

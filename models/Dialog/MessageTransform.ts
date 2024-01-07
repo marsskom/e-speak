@@ -3,7 +3,7 @@ import { type ChatCompletionMessageParam } from "openai/resources/chat/completio
 import { type Message } from "~/types/Dialog/Message";
 
 export default class MessageTransform {
-  messageListToOpenAIMessageList(
+  public messageListToOpenAIMessageList(
     messageList: Message[],
   ): ChatCompletionMessageParam[] {
     return messageList.map(

@@ -27,32 +27,34 @@ import {
 } from "~/firebase/Dialog/DialogFirebaseConverter";
 
 export default class DialogFirebase {
-  #db: Firestore = useFirestore();
-  #dialogRef: CollectionReference<Dialog>;
-  #messageRef: CollectionReference<Message>;
+  private readonly db: Firestore = useFirestore();
+  private readonly dialogRef: CollectionReference<Dialog>;
+  private readonly messageRef: CollectionReference<Message>;
 
   constructor() {
-    this.#dialogRef = collection(this.#db, "dialogs").withConverter(
+    this.dialogRef = collection(this.db, "dialogs").withConverter(
       dialogFirebaseConverter,
     );
-    this.#messageRef = collection(this.#db, "messages").withConverter(
+    this.messageRef = collection(this.db, "messages").withConverter(
       messageFirebaseConverter,
     );
   }
 
-  #getMessageQuerySnapshot(dialogId: string): Promise<QuerySnapshot<Message>> {
+  private getMessageQuerySnapshot(
+    dialogId: string,
+  ): Promise<QuerySnapshot<Message>> {
     return getDocs(
       query(
-        this.#messageRef,
+        this.messageRef,
         where("dialogUid", "==", dialogId),
         orderBy("createdAt", "asc"),
       ),
     );
   }
 
-  async select(dialogId: string): Promise<Dialog> {
+  public async select(dialogId: string): Promise<Dialog> {
     const dialogDocument: DocumentReference<Dialog> = doc(
-      this.#dialogRef,
+      this.dialogRef,
       dialogId,
     );
     const docSnap: DocumentSnapshot<Dialog> = await getDoc(dialogDocument);
@@ -64,7 +66,7 @@ export default class DialogFirebase {
     dialog.messages = [];
 
     const messageQuerySnapshot: QuerySnapshot<Message> =
-      await this.#getMessageQuerySnapshot(dialog.uid);
+      await this.getMessageQuerySnapshot(dialog.uid);
 
     messageQuerySnapshot.forEach((docSnap: DocumentSnapshot<Message>): void => {
       dialog.messages.push(docSnap.data() as Message);
@@ -73,32 +75,32 @@ export default class DialogFirebase {
     return dialog;
   }
 
-  save(dialog: Dialog): Promise<void> {
-    return setDoc(doc(this.#dialogRef, dialog.uid), dialog);
+  public save(dialog: Dialog): Promise<void> {
+    return setDoc(doc(this.dialogRef, dialog.uid), dialog);
   }
 
-  saveMessages(messages: Message[]): Promise<void> {
-    const messageBatch: WriteBatch = writeBatch(this.#db);
+  public saveMessages(messages: Message[]): Promise<void> {
+    const messageBatch: WriteBatch = writeBatch(this.db);
 
     messages.forEach((message: Message) => {
-      messageBatch.set(doc(this.#messageRef, message.uid), message);
+      messageBatch.set(doc(this.messageRef, message.uid), message);
     });
 
     return messageBatch.commit();
   }
 
-  delete(dialog: Dialog): Promise<void> {
+  public delete(dialog: Dialog): Promise<void> {
     return runTransaction(
-      this.#db,
+      this.db,
       async (transaction: Transaction): Promise<void> => {
-        transaction.delete(doc(this.#dialogRef, dialog.uid));
+        transaction.delete(doc(this.dialogRef, dialog.uid));
 
         const messageQuerySnapshot: QuerySnapshot<Message> =
-          await this.#getMessageQuerySnapshot(dialog.uid);
+          await this.getMessageQuerySnapshot(dialog.uid);
 
         messageQuerySnapshot.forEach(
           (docSnap: DocumentSnapshot<Message>): void => {
-            transaction.delete(doc(this.#messageRef, docSnap.id));
+            transaction.delete(doc(this.messageRef, docSnap.id));
           },
         );
       },

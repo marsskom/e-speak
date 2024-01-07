@@ -7,7 +7,7 @@ import { type Message, OpenAIRole } from "~/types/Dialog/Message";
 import { type Prompt } from "~/types/Dialog/Prompt";
 
 export default class MessageFactory {
-  createEmpty(): Message {
+  public createEmpty(): Message {
     return {
       uid: uuidv4(),
       content: "",
@@ -17,7 +17,7 @@ export default class MessageFactory {
     } as Message;
   }
 
-  fillWithTranscription(
+  public fillWithTranscription(
     data: AudioTranscriptionRequest,
     transcription: Transcription,
     message?: Message,
@@ -33,7 +33,7 @@ export default class MessageFactory {
     return message;
   }
 
-  createFromChatCompletion(chatCompletion: ChatCompletion): Message {
+  public createFromChatCompletion(chatCompletion: ChatCompletion): Message {
     const message = this.createEmpty();
     message.chatCompletion = chatCompletion;
 
@@ -47,7 +47,7 @@ export default class MessageFactory {
     return message;
   }
 
-  createFromPrompts(prompts: Prompt[]): Message[] {
+  public createFromPrompts(prompts: Prompt[]): Message[] {
     return prompts.map((prompt: Prompt) => {
       const message = this.createEmpty();
       message.content = prompt.prompt;

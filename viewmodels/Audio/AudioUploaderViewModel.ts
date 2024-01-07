@@ -23,20 +23,20 @@ const {
 } = audioRecorderStore;
 
 export default class AudioUploaderViewModel {
-  #audioFactory: AudioFileFactory = new AudioFileFactory(
+  private readonly audioFactory: AudioFileFactory = new AudioFileFactory(
     settings.recorder.audioParams,
     dialogStore.currentDialog.uid,
     dialogStore.currentMessageInProgress.uid,
   );
 
-  async upload(audioAsBlob: Blob): Promise<void> {
+  public async upload(audioAsBlob: Blob): Promise<void> {
     if (!audioAsBlob) {
       return Promise.reject(new Error("Audio blob is not defined."));
     }
 
     setRecorderCannotBeActivated();
 
-    const audio: File = this.#audioFactory.createAudioFile(audioAsBlob);
+    const audio: File = this.audioFactory.createAudioFile(audioAsBlob);
 
     const user = useGetUser();
     const storage = useFirebaseStorage();
@@ -50,7 +50,7 @@ export default class AudioUploaderViewModel {
       await upload(audio);
       audioTranscriptionRequestData = {
         filename: fileFullPath,
-        fileBase64: await this.#audioFactory.audioToBase64(audio),
+        fileBase64: await this.audioFactory.audioToBase64(audio),
       } as AudioTranscriptionRequest;
 
       const response: Response = await fetch("/api/transcription", {
