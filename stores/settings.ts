@@ -1,6 +1,6 @@
 import { type Settings } from "~/types/Settings";
-import { type Prompt } from "~/types/Dialog/Prompt";
 import SettingsFirebase from "~/firebase/Settings/SettingsFirebase";
+import type { Prompt } from "~/types/Dialog/Prompt";
 
 export const useSettingsStore = defineStore("settings", () => {
   const storeModel: SettingsFirebase = new SettingsFirebase();
@@ -42,6 +42,12 @@ export const useSettingsStore = defineStore("settings", () => {
     try {
       const settings = await storeModel.select(useGetUser().uid);
       settingsValue.value = useDeepClone(settings) as Settings;
+
+      if (!settingsValue.value.promptList.length) {
+        settingsValue.value.promptList = useDeepClone(
+          storeModel.defaultSettings.promptList,
+        ) as Prompt[];
+      }
     } finally {
       isEditableValue.value = true;
     }
@@ -51,16 +57,11 @@ export const useSettingsStore = defineStore("settings", () => {
     settingsValue.value = useDeepClone(storeModel.defaultSettings) as Settings;
   };
 
-  const setPromptList = (promptList: Prompt[]): void => {
-    settingsValue.value.promptList = promptList;
-  };
-
   return {
     settings,
     isEditable,
 
     init,
     reset,
-    setPromptList,
   };
 });

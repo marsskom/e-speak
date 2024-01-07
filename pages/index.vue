@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { formatDateTime } from "../utils/date";
+import { formatDateTime } from "~/utils/date";
 import { type Dialog } from "~/types/Dialog/Dialog";
 import { type Message, OpenAIRole } from "~/types/Dialog/Message";
 import { type EventChange } from "~/types/Form/Text/TextInput";
@@ -7,7 +7,6 @@ import { type EventChange } from "~/types/Form/Text/TextInput";
 import { useSettingsStore } from "~/stores/settings";
 import { useDialogListStore } from "~/stores/Dialog/dialogList";
 import { useDialogStore } from "~/stores/Dialog/dialog";
-import { usePromptStore } from "~/stores/Dialog/prompt";
 import { useLoadingMaskStore } from "~/stores/loading-mask";
 
 import CopyLink from "~/components/Page/CopyLink.vue";
@@ -24,7 +23,6 @@ definePageMeta({
 const { $toast } = useNuxtApp();
 
 const { init: initSettings } = useSettingsStore();
-const { init: initPrompt } = usePromptStore();
 const { setVisibility: setMaskVisibility } = useLoadingMaskStore();
 
 const isAdvancedMode: ComputedRef<boolean> = useIsAdvancedMode();
@@ -76,21 +74,21 @@ watch(isDialogLoading, (isLoading) => {
   setMaskVisibility("app-loading", isLoading);
 });
 
-const onDialogNameChange = (e: EventChange) => {
-  if (!e.value.length) {
+const onDialogNameChange = (event: EventChange) => {
+  if (!event.value.length) {
     $toast.danger("Dialog name cannot be empty.");
 
     return;
   }
 
-  updateDialog(e.value);
+  updateDialog(event.value);
   refreshDialogList();
 };
 
 onMounted(() => {
   setMaskVisibility("app-loading", true);
 
-  initSettings().then(() => initPrompt());
+  initSettings();
   initDialogList();
   initDialog();
 });

@@ -3,6 +3,7 @@ import {
   collection,
   CollectionReference,
   DocumentSnapshot,
+  Firestore,
   getDocs,
   query,
   QuerySnapshot,
@@ -12,7 +13,7 @@ import { dialogFirebaseConverter } from "~/firebase/Dialog/DialogFirebaseConvert
 import type { Dialog } from "~/types/Dialog/Dialog";
 
 export default class DialogListFirebase {
-  #db = useFirestore();
+  #db: Firestore = useFirestore();
   #dialogListRef: CollectionReference<Dialog>;
 
   constructor() {

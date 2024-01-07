@@ -82,32 +82,47 @@ const togglePopupVisibility = () => {
             {{ formatDateTime(props.message.updatedAt) }}
           </div>
         </div>
-        <div class="flex flex-row flex-wrap">
+        <div
+          v-if="props.message.audioFile?.length ?? false"
+          class="flex flex-row flex-wrap"
+        >
           <div class="w-1/6 font-bold px-4 py-2">Audio File:</div>
           <div class="w-5/6 border px-4 py-2">
             <CopyLink :content="props.message.audioFile || ''" />&nbsp;
             {{ props.message.audioFile || "" }}
           </div>
         </div>
-        <div class="flex flex-row flex-wrap">
+        <div
+          v-if="props.message.chatCompletion ?? false"
+          class="flex flex-row flex-wrap"
+        >
           <div class="w-1/6 font-bold px-4 py-2">Chat Completion:</div>
           <div class="w-5/6 border px-4 py-2">
             <PreJson :content="props.message.chatCompletion || ''" />
           </div>
         </div>
-        <div class="flex flex-row flex-wrap">
+        <div
+          v-if="props.message.promptList?.length ?? false"
+          class="flex flex-row flex-wrap"
+        >
           <div class="w-1/6 font-bold px-4 py-2">Prompt:</div>
           <div class="w-5/6 border px-4 py-2">
             <PreJson :content="props.message.promptList || ''" />
           </div>
         </div>
-        <div class="flex flex-row flex-wrap">
+        <div
+          v-if="props.message.correctedContent?.length ?? false"
+          class="flex flex-row flex-wrap"
+        >
           <div class="w-1/6 font-bold px-4 py-2">Corrected Content:</div>
           <div class="w-5/6 border px-4 py-2">
             {{ props.message.correctedContent || "" }}
           </div>
         </div>
-        <div class="flex flex-row flex-wrap">
+        <div
+          v-if="props.message.correctedMessageList?.length ?? false"
+          class="flex flex-row flex-wrap"
+        >
           <div class="w-1/6 font-bold px-4 py-2">Corrected Messages List:</div>
           <div class="w-5/6 border px-4 py-2">
             <PreJson :content="props.message.correctedMessageList || ''" />

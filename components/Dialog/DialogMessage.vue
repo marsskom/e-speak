@@ -114,9 +114,11 @@ const dialogMessageViewModel: DialogMessageViewModel =
             v-if="props.message.correctedContent.length"
             class="text-lg prose max-w-full"
           >
-            <fa :icon="['fas', 'pencil-alt']" class="mr-2" />&nbsp;{{
-              props.message.correctedContent
-            }}
+            <fa
+              :icon="['fas', 'pencil-alt']"
+              class="mr-2"
+              title="Corrected Message"
+            />&nbsp;{{ props.message.correctedContent }}
           </p>
           <p
             v-if="props.message.correctedContent.length"

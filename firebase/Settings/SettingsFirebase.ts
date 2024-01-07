@@ -5,6 +5,7 @@ import {
   doc,
   DocumentReference,
   DocumentSnapshot,
+  Firestore,
   getDoc,
   setDoc,
 } from "firebase/firestore";
@@ -14,7 +15,7 @@ import { usePromptStore } from "~/stores/Dialog/prompt";
 import { settingsFirebaseConverter } from "~/firebase/Settings/SettingsFirebaseConverter";
 
 export default class SettingsFirebase {
-  #db = useFirestore();
+  #db: Firestore = useFirestore();
   #document: Ref<null | DocumentReference> = ref(null);
   #settingsRef: CollectionReference<Settings>;
 

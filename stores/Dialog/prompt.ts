@@ -6,7 +6,6 @@ import PromptFactory from "~/models/Dialog/PromptFactory";
 
 export const usePromptStore = defineStore("prompt", () => {
   const settingsStore = useSettingsStore();
-  const { setPromptList } = settingsStore;
 
   const promptFactory = new PromptFactory();
 
@@ -28,13 +27,6 @@ export const usePromptStore = defineStore("prompt", () => {
   const promptList: ComputedRef<Prompt[]> = computed(
     () => settingsStore.settings.promptList || defaultPromptList.value,
   );
-
-  const init = () => {
-    if (promptList.value && !promptList.value.length) {
-      // Init prompts.
-      setPromptList(defaultPromptList.value);
-    }
-  };
 
   const promptsOnDialogStart: ComputedRef<Prompt[]> = computed((): Prompt[] =>
     promptList.value.filter(
@@ -69,7 +61,6 @@ export const usePromptStore = defineStore("prompt", () => {
     promptsOnDialogContinue,
     promptsOnMessageCorrect,
 
-    init,
     filter,
   };
 });
