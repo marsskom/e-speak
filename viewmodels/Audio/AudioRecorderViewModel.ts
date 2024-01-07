@@ -45,14 +45,13 @@ export default class AudioRecorderViewModel {
     return canBeActivated;
   }
 
-  startRecording(): Promise<void> {
-    return this.#recorder
-      .start()
-      .then(() => {
-        setState(AudioRecorderState.Recording);
-        this.#startIterateSeconds();
-      })
-      .catch((error: Error) => {
+  async startRecording(): Promise<void> {
+    try {
+      await this.#recorder.start();
+      setState(AudioRecorderState.Recording);
+      this.#startIterateSeconds();
+    } catch (error) {
+      if (error instanceof Error) {
         if (
           error.message.includes(
             "mediaDevices API or getUserMedia method is not supported in this browser.",
@@ -63,54 +62,55 @@ export default class AudioRecorderViewModel {
         }
 
         error.message += `\n${this.#recorder.getErrorMessage(error)}`;
+      }
 
-        this.#setIdleState();
-        setRecorderCanBeActivated();
+      this.#setIdleState();
+      setRecorderCanBeActivated();
 
-        throw error;
-      });
+      throw error;
+    }
   }
 
-  stopRecording(): Promise<Blob> {
+  async stopRecording(): Promise<Blob> {
     if (!isRecording.value) {
       return Promise.reject(new Error("Audio recorder is not recording."));
     }
 
-    return this.#recorder
-      .stop()
-      .then((audioAsBlob: void | Blob) => {
-        if (this.#seconds.value < settings.recorder.minDuration) {
-          throw new Error(
-            `The recording must be at least ${settings.recorder.minDuration} seconds long.`,
-          );
-        }
+    try {
+      const audioAsBlob = await this.#recorder.stop();
+      if (this.#seconds.value < settings.recorder.minDuration) {
+        throw new Error(
+          `The recording must be at least ${settings.recorder.minDuration} seconds long.`,
+        );
+      }
 
-        if (this.#seconds.value > settings.recorder.maxDuration) {
-          throw new Error(
-            `The recording must be at most ${settings.recorder.maxDuration} seconds long.`,
-          );
-        }
+      if (this.#seconds.value > settings.recorder.maxDuration) {
+        throw new Error(
+          `The recording must be at most ${settings.recorder.maxDuration} seconds long.`,
+        );
+      }
 
-        if (!audioAsBlob) {
-          throw new Error("Audio blob is not defined.");
-        }
+      if (!audioAsBlob) {
+        throw new Error("Audio blob is not defined.");
+      }
 
-        this.#setIdleState();
+      this.#setIdleState();
 
-        return audioAsBlob;
-      })
-      .catch((error: Error) => {
+      return audioAsBlob;
+    } catch (error) {
+      if (error instanceof Error) {
         switch (error.name) {
           case "InvalidStateError":
             error.message = "An InvalidStateError has occurred.";
             break;
         }
+      }
 
-        this.#setIdleState();
-        setRecorderCanBeActivated();
+      this.#setIdleState();
+      setRecorderCanBeActivated();
 
-        throw error;
-      });
+      throw error;
+    }
   }
 
   cancelRecording(): void {

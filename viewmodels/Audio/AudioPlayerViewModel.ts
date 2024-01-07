@@ -7,12 +7,12 @@ export default class AudioPlayerViewModel {
   // eslint-disable-next-line no-useless-constructor
   constructor(private readonly audioFileUrl: null | undefined | string) {}
 
-  downloadAudio(): Promise<string> {
+  async downloadAudio(): Promise<string> {
     if (!this.audioFileUrl || !this.audioFileUrl.length) {
       throw new Error("No audio file URL provided.");
     }
 
-    return fetch("/api/download-audio", {
+    const response = await fetch("/api/download-audio", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -20,16 +20,12 @@ export default class AudioPlayerViewModel {
       body: JSON.stringify({
         filename: this.audioFileUrl,
       } as AudioDownloadRequest),
-    })
-      .then(async (response) => {
-        if (!response.ok) {
-          throw new Error("An error occurred while fetching the audio file.");
-        }
-
-        return await response.json();
-      })
-      .then((result: AudioDownloadResponse) => {
-        return result.fileBase64;
-      });
+    });
+    if (!response.ok) {
+      throw new Error("An error occurred while fetching the audio file.");
+    }
+    const result: AudioDownloadResponse =
+      (await response.json()) as AudioDownloadResponse;
+    return result.fileBase64;
   }
 }
