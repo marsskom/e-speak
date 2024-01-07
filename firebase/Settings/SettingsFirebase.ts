@@ -11,7 +11,7 @@ import {
 
 import { ChatDriver, type Settings } from "~/types/Settings";
 import { usePromptStore } from "~/stores/Dialog/prompt";
-import { settingsFirebaseConverter } from "~/models/SettingsFirebaseConverter";
+import { settingsFirebaseConverter } from "~/firebase/Settings/SettingsFirebaseConverter";
 
 export default class SettingsFirebase {
   #db = useFirestore();

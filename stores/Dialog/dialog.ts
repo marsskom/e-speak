@@ -24,7 +24,7 @@ import MessageResolver from "~/models/Dialog/MessageResolver";
 import {
   dialogFirebaseConverter,
   messageFirebaseConverter,
-} from "~/models/Dialog/DialogFirebaseConverter";
+} from "~/firebase/Dialog/DialogFirebaseConverter";
 
 import { useAudioRecorderStore } from "~/stores/Audio/recorder";
 

@@ -1,6 +1,6 @@
 import { type Settings } from "~/types/Settings";
 import { type Prompt } from "~/types/Dialog/Prompt";
-import SettingsFirebase from "~/firebase/SettingsFirebase";
+import SettingsFirebase from "~/firebase/Settings/SettingsFirebase";
 
 export const useSettingsStore = defineStore("settings", () => {
   const storeModel: SettingsFirebase = new SettingsFirebase();

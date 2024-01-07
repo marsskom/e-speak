@@ -1,23 +1,8 @@
-import { type User } from "firebase/auth";
-import {
-  collection,
-  DocumentSnapshot,
-  getDocs,
-  query,
-  where,
-} from "firebase/firestore";
-import { useFirestore } from "vuefire";
-
 import { type Dialog } from "~/types/Dialog/Dialog";
-import { dialogFirebaseConverter } from "~/models/Dialog/DialogFirebaseConverter";
+import DialogListFirebase from "~/firebase/Dialog/DialogListFirebase";
 
 export const useDialogListStore = defineStore("dialogList", () => {
-  const user: User = useGetUser();
-
-  const db = useFirestore();
-  const dialogListRef = collection(db, "dialogs").withConverter(
-    dialogFirebaseConverter,
-  );
+  const storeModel: DialogListFirebase = new DialogListFirebase();
 
   const isLoadingInProgress: Ref<boolean> = ref(false);
   const dialogListValue: Ref<Dialog[]> = ref([]);
@@ -28,18 +13,13 @@ export const useDialogListStore = defineStore("dialogList", () => {
     dialogListValue.value = [];
 
     try {
-      const querySnapshot = await getDocs(
-        query(dialogListRef, where("userUid", "==", user.uid)),
-      );
-      querySnapshot.forEach((docSnap: DocumentSnapshot<Dialog>) => {
-        dialogListValue.value.push(docSnap.data() as Dialog);
-      });
+      dialogListValue.value = await storeModel.select(useGetUser().uid);
     } finally {
       isLoadingInProgress.value = false;
     }
   };
 
-  const init = () => {
+  const init = (): void => {
     loadDialogList();
   };
 
