@@ -1,17 +1,18 @@
 import { type User } from "firebase/auth";
 import {
   collection,
-  getDoc,
   doc,
-  setDoc,
   DocumentReference,
   DocumentSnapshot,
+  getDoc,
+  setDoc,
 } from "firebase/firestore";
 import { useFirestore } from "vuefire";
 
 import { ChatDriver, type Settings } from "~/types/Settings";
 import { type Prompt } from "~/types/Dialog/Prompt";
 import { settingsFirebaseConverter } from "~/models/SettingsFirebaseConverter";
+import { usePromptStore } from "~/stores/Dialog/prompt";
 
 export const useSettingsStore = defineStore("settings", () => {
   const user: User = useGetUser();
@@ -31,7 +32,7 @@ export const useSettingsStore = defineStore("settings", () => {
     advanced: {
       enabled: false,
     },
-    promptList: [],
+    promptList: usePromptStore().defaultPromptList.value,
   } as Settings;
 
   const db = useFirestore();

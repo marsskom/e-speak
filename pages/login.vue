@@ -26,7 +26,11 @@ onMounted(() => {
     >
       <p class="text-pink-500 text-xl mb-3">Welcome to E-Speak</p>
 
-      <form v-if="useIsGuest()" autocomplete="off" class="lg:w-[30%] md:w-[65%] sm:w-[70%] min-w-[300px] max-w-[420px]">
+      <form
+        v-if="useIsGuest()"
+        autocomplete="off"
+        class="lg:w-[30%] md:w-[65%] sm:w-[70%] min-w-[300px] max-w-[420px]"
+      >
         <div class="grid gap-6 mb-6 md:grid-cols-2 w-full">
           <AgreementCheckbox />
         </div>
