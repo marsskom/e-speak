@@ -22,7 +22,7 @@ const props = defineProps({
 
 const isTruncated: Ref<boolean> = ref(true);
 
-const toggleTruncate: Function = (): void => {
+const toggleTruncate = (): void => {
   isTruncated.value = !isTruncated.value;
 };
 
@@ -39,7 +39,7 @@ const json: ComputedRef<string> = computed(() =>
 );
 
 const isJsonExisted: ComputedRef<boolean> = computed(
-  () => json.value.length && json.value !== '""',
+  () => !!(json.value.length && json.value !== '""'),
 );
 </script>
 
@@ -57,8 +57,11 @@ const isJsonExisted: ComputedRef<boolean> = computed(
       />
     </button>
     <pre
-      :class="isTruncated ? 'truncate line-clamp-' + props.lineClamp : ''"
-      class="whitespace-pre-wrap"
+      :class="
+        isTruncated
+          ? 'truncate line-clamp-' + props.lineClamp
+          : 'whitespace-pre-wrap'
+      "
       >{{ json }}</pre
     >
   </div>
