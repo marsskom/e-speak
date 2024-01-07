@@ -16,8 +16,6 @@ const props = defineProps({
   },
 });
 
-const isAdvancedMode: ComputedRef<boolean> = useIsAdvancedMode();
-
 const messagePopup: Ref<null | typeof PopupModal> = ref(null);
 
 const togglePopupVisibility = () => {
@@ -30,12 +28,7 @@ const togglePopupVisibility = () => {
 </script>
 
 <template>
-  <PopupModal
-    v-if="isAdvancedMode"
-    ref="messagePopup"
-    title="Message Details"
-    width="max-w-4xl"
-  >
+  <PopupModal ref="messagePopup" title="Message Details" width="max-w-4xl">
     <template #button>
       <a
         href="#"

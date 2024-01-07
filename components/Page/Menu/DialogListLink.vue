@@ -11,8 +11,6 @@ import CopyLink from "~/components/Page/CopyLink.vue";
 const { $toast } = useNuxtApp();
 const modal = useModal();
 
-const isAdvancedMode: ComputedRef<boolean> = useIsAdvancedMode();
-
 const dialogListStore = useDialogListStore();
 const { refresh: refreshDialogList } = dialogListStore;
 const dialogList: ComputedRef<Dialog[]> = computed(
@@ -165,7 +163,10 @@ const onDeleteDialog = (dialog: Dialog): void => {
                     <p class="mt-1 text-gray-500 text-xs mt-2">
                       {{ formatDateTime(dialog.createdAt) }}
                     </p>
-                    <p v-if="isAdvancedMode" class="mt-1 text-gray-500 text-xs">
+                    <p
+                      v-if="useIsAdvancedMode()"
+                      class="mt-1 text-gray-500 text-xs"
+                    >
                       <CopyLink :content="dialog.uid" />
                       {{ dialog.uid }}
                     </p>
