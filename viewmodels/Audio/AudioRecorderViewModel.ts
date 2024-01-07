@@ -77,7 +77,7 @@ export default class AudioRecorderViewModel {
     }
 
     try {
-      const audioAsBlob = await this.#recorder.stop();
+      const audioAsBlob: void | Blob = await this.#recorder.stop();
       if (this.#seconds.value < settings.recorder.minDuration) {
         throw new Error(
           `The recording must be at least ${settings.recorder.minDuration} seconds long.`,
