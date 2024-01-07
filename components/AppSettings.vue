@@ -10,9 +10,7 @@ const modal = useModal();
 
 const settingsStore = useSettingsStore();
 const { reset } = settingsStore;
-const settings: ComputedRef<Settings> = computed(
-  () => settingsStore.getSettings,
-);
+const settings: ComputedRef<Settings> = computed(() => settingsStore.settings);
 
 const el: Ref<null | HTMLDivElement> = ref(null);
 const isSettingsPopupVisible: Ref<boolean> = ref(false);

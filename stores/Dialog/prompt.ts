@@ -1,8 +1,8 @@
 import type { ComputedRef } from "vue";
 
 import { type Prompt, PrompType } from "~/types/Dialog/Prompt";
-import PromptFactory from "~/models/Dialog/PromptFactory";
 import { useSettingsStore } from "~/stores/settings";
+import PromptFactory from "~/models/Dialog/PromptFactory";
 
 export const usePromptStore = defineStore("prompt", () => {
   const settingsStore = useSettingsStore();
@@ -26,7 +26,7 @@ export const usePromptStore = defineStore("prompt", () => {
   ]);
 
   const promptList: ComputedRef<Prompt[]> = computed(
-    () => settingsStore.getSettings.promptList || defaultPromptList.value,
+    () => settingsStore.settings.promptList || defaultPromptList.value,
   );
 
   const init = () => {
