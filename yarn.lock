@@ -11581,15 +11581,15 @@ vue-component-type-helpers@^1.8.21:
   resolved "https://registry.yarnpkg.com/vue-component-type-helpers/-/vue-component-type-helpers-1.8.27.tgz#e816c82dcffac8bca58833c120ba395c325dfa68"
   integrity sha512-0vOfAtI67UjeO1G6UiX5Kd76CqaQ67wrRZiOe7UAb9Jm6GzlUr/fC7CV90XfwapJRjpCMaZFhv1V0ajWRmE9Dg==
 
-vue-demi@>=0.14.5, vue-demi@>=0.14.7, vue-demi@latest:
-  version "0.14.7"
-  resolved "https://registry.yarnpkg.com/vue-demi/-/vue-demi-0.14.7.tgz#8317536b3ef74c5b09f268f7782e70194567d8f2"
-  integrity sha512-EOG8KXDQNwkJILkx/gPcoL/7vH+hORoBaKgGe+6W7VFMvCYJfmF2dGbvgDroVnI8LU7/kTu8mbjRZGBU1z9NTA==
-
-vue-demi@>=0.14.8:
+vue-demi@>=0.14.5, vue-demi@>=0.14.7, vue-demi@>=0.14.8:
   version "0.14.8"
   resolved "https://registry.yarnpkg.com/vue-demi/-/vue-demi-0.14.8.tgz#00335e9317b45e4a68d3528aaf58e0cec3d5640a"
   integrity sha512-Uuqnk9YE9SsWeReYqK2alDI5YzciATE0r2SkA6iMAtuXvNTMNACJLJEXNXaEy94ECuBe4Sk6RzRU80kjdbIo1Q==
+
+vue-demi@latest:
+  version "0.14.7"
+  resolved "https://registry.yarnpkg.com/vue-demi/-/vue-demi-0.14.7.tgz#8317536b3ef74c5b09f268f7782e70194567d8f2"
+  integrity sha512-EOG8KXDQNwkJILkx/gPcoL/7vH+hORoBaKgGe+6W7VFMvCYJfmF2dGbvgDroVnI8LU7/kTu8mbjRZGBU1z9NTA==
 
 vue-devtools-stub@^0.1.0:
   version "0.1.0"
@@ -11646,10 +11646,10 @@ vue@^3.2.21, vue@^3.4.29:
     "@vue/server-renderer" "3.4.29"
     "@vue/shared" "3.4.29"
 
-vuefire@^3.1.19:
-  version "3.1.23"
-  resolved "https://registry.yarnpkg.com/vuefire/-/vuefire-3.1.23.tgz#632758d3d2468691bda7938e8d3bfb8f93692d71"
-  integrity sha512-bCz/3hw50+oilLBrUWQRRQccfhj0VeU8E+NZmFRnUe6D70yAMblRahLrQLmG6KBesJJeXexOEpRElP4pMq6zxA==
+vuefire@^3.1.24:
+  version "3.1.24"
+  resolved "https://registry.yarnpkg.com/vuefire/-/vuefire-3.1.24.tgz#982e0405a393239e7eccbbdeb08ec8ec90b34181"
+  integrity sha512-tG7eKGXIjOL2ybQSWQ8ntEoeTuxzMCUK3zFdHge+FqyeYjLmTnoEiBfXJvLcsOZlUEz3gUYfDDc/sMbXAS9wZA==
   dependencies:
     vue-demi latest
 
