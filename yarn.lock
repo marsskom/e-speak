@@ -8761,12 +8761,10 @@ nth-check@^2.0.1, nth-check@^2.1.1:
   dependencies:
     boolbase "^1.0.0"
 
-nuxi@^3.10.0, nuxi@^3.13.2:
-  version "3.13.2"
-  resolved "https://registry.yarnpkg.com/nuxi/-/nuxi-3.13.2.tgz#6c29ff067f78eddf9f118b2e321ffbab27123faf"
-  integrity sha512-yAgpxBcIB2/DWL7dWRZOQa5ULLZQ4AWgYdqtUDbeOZ3KxmY/+fqm8/UJuU7QK81JrccNaZeSI+GLe5BY7RR3cQ==
-  optionalDependencies:
-    fsevents "~2.3.3"
+nuxi@^3.13.2, nuxi@^3.15.0:
+  version "3.15.0"
+  resolved "https://registry.yarnpkg.com/nuxi/-/nuxi-3.15.0.tgz#ed54923ca46727c6e7df10495143db340d9791c9"
+  integrity sha512-ZVu45nuDrdb7nzKW2kLGY/N1vvFYLLbUVX6gUYw4BApKGGu4+GktTR5o48dGVgMYX9A8chaugl7TL9ZYmwC9Mg==
 
 nuxt-vuefire@^1.0.0:
   version "1.0.2"
