@@ -72,7 +72,6 @@
     "@grpc/grpc-js": "^1.10.9",
     "ws": "^8.17.1",
     "rollup": "^4.22.4",
-    "@nuxt/vite-builder/vite": "5.2.14",
     "@fortawesome/vue-fontawesome": "3.0.8"
   }
 }
