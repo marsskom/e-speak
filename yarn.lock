@@ -4175,14 +4175,7 @@ check-error@^1.0.3:
   optionalDependencies:
     fsevents "~2.3.2"
 
-chokidar@^4.0.1:
-  version "4.0.1"
-  resolved "https://registry.yarnpkg.com/chokidar/-/chokidar-4.0.1.tgz#4a6dff66798fb0f72a94f616abbd7e1a19f31d41"
-  integrity sha512-n8enUVCED/KVRQlab1hr3MVpcVMvxtZjmEa956u+4YijlmQED223XMSYj2tLuKvr4jcCTzNNMpQDUer72MMmzA==
-  dependencies:
-    readdirp "^4.0.1"
-
-chokidar@^4.0.3:
+chokidar@^4.0.1, chokidar@^4.0.3:
   version "4.0.3"
   resolved "https://registry.yarnpkg.com/chokidar/-/chokidar-4.0.3.tgz#7be37a4c03c9aee1ecfe862a4a23b2c70c205d30"
   integrity sha512-Qgzu8kfBvo+cA4962jnP1KkS6Dop5NS6g7R5LFYJr4b8Ub94PPQXUksCw9PvXoeXPRRddRNC5C1JQUR2SMGtnA==
@@ -5591,18 +5584,7 @@ fast-fifo@^1.1.0, fast-fifo@^1.2.0:
   resolved "https://registry.yarnpkg.com/fast-fifo/-/fast-fifo-1.3.2.tgz#286e31de96eb96d38a97899815740ba2a4f3640c"
   integrity sha512-/d9sfos4yxzpwkDkuN7k2SqFKtYNmCTzgfEpz82x34IM9/zc8KGxQoXg1liNC/izpRM/MBdt44Nmx41ZWqk+FQ==
 
-fast-glob@^3.2.7, fast-glob@^3.2.9, fast-glob@^3.3.0, fast-glob@^3.3.1, fast-glob@^3.3.2:
-  version "3.3.2"
-  resolved "https://registry.yarnpkg.com/fast-glob/-/fast-glob-3.3.2.tgz#a904501e57cfdd2ffcded45e99a54fef55e46129"
-  integrity sha512-oX2ruAFQwf/Orj8m737Y5adxDQO0LAB7/S5MnxCdTNDd4p6BsyIVsv9JQsATbTSq8KHRpLwIHbVlUNatxd+1Ow==
-  dependencies:
-    "@nodelib/fs.stat" "^2.0.2"
-    "@nodelib/fs.walk" "^1.2.3"
-    glob-parent "^5.1.2"
-    merge2 "^1.3.0"
-    micromatch "^4.0.4"
-
-fast-glob@^3.3.3:
+fast-glob@^3.2.7, fast-glob@^3.2.9, fast-glob@^3.3.0, fast-glob@^3.3.1, fast-glob@^3.3.2, fast-glob@^3.3.3:
   version "3.3.3"
   resolved "https://registry.yarnpkg.com/fast-glob/-/fast-glob-3.3.3.tgz#d06d585ce8dba90a16b0505c543c3ccfb3aeb818"
   integrity sha512-7MptL8U0cqcFdzIzwOTHoilX9x5BrNqye7Z/LuC7kCMRio1EMSyqRK3BEAUD7sXRq4iT4AzTVuZdhgQ2TCvYLg==
@@ -7545,7 +7527,7 @@ magic-string-ast@^0.6.3:
   dependencies:
     magic-string "^0.30.13"
 
-magic-string@^0.30.0, magic-string@^0.30.10, magic-string@^0.30.11, magic-string@^0.30.12, magic-string@^0.30.13, magic-string@^0.30.14, magic-string@^0.30.15, magic-string@^0.30.17, magic-string@^0.30.3, magic-string@^0.30.4, magic-string@^0.30.5, magic-string@^0.30.7, magic-string@^0.30.8:
+magic-string@^0.30.0, magic-string@^0.30.10, magic-string@^0.30.11, magic-string@^0.30.12, magic-string@^0.30.13, magic-string@^0.30.14, magic-string@^0.30.17, magic-string@^0.30.3, magic-string@^0.30.4, magic-string@^0.30.5, magic-string@^0.30.7, magic-string@^0.30.8:
   version "0.30.17"
   resolved "https://registry.yarnpkg.com/magic-string/-/magic-string-0.30.17.tgz#450a449673d2460e5bbcfba9a61916a1714c7453"
   integrity sha512-sNPKHvyjVf7gyjwS4xGTaW/mCnF8wnjtifKBEhxfZ7E/S8tQ0rssrwGNn6q8JH/ohItJfSQp9mBtQYuTlH5QnA==
@@ -8050,7 +8032,7 @@ micromark@^4.0.0:
     micromark-util-symbol "^2.0.0"
     micromark-util-types "^2.0.0"
 
-micromatch@^4.0.4, micromatch@^4.0.5, micromatch@^4.0.8:
+micromatch@^4.0.5, micromatch@^4.0.8:
   version "4.0.8"
   resolved "https://registry.yarnpkg.com/micromatch/-/micromatch-4.0.8.tgz#d66fa18f3a47076789320b9b1af32bd86d9fa202"
   integrity sha512-PXwfBhYu0hBCPw8Dn0E+WDYb7af3dSLVWKi3HGv84IdF4TyFoC0ysxFd0Goxw7nSv4T/PzEJQxsYsEiFCKo2BA==
@@ -8200,17 +8182,7 @@ mkdirp@^3.0.1:
   resolved "https://registry.yarnpkg.com/mkdirp/-/mkdirp-3.0.1.tgz#e44e4c5607fb279c168241713cc6e0fea9adcb50"
   integrity sha512-+NsyUUAZDmo6YVHzL/stxSu3t9YS1iljliy3BSDrXJ/dkn1KYdmtZODGGjLcc9XLgVVpH4KshHB8XmZgMhaBXg==
 
-mlly@^1.3.0, mlly@^1.4.2, mlly@^1.6.1, mlly@^1.7.1, mlly@^1.7.2, mlly@^1.7.3:
-  version "1.7.3"
-  resolved "https://registry.yarnpkg.com/mlly/-/mlly-1.7.3.tgz#d86c0fcd8ad8e16395eb764a5f4b831590cee48c"
-  integrity sha512-xUsx5n/mN0uQf4V548PKQ+YShA4/IW0KI1dZhrNrPCLG+xizETbHTkOa1f8/xut9JRPp8kQuMnz0oqwkTiLo/A==
-  dependencies:
-    acorn "^8.14.0"
-    pathe "^1.1.2"
-    pkg-types "^1.2.1"
-    ufo "^1.5.4"
-
-mlly@^1.7.4:
+mlly@^1.3.0, mlly@^1.4.2, mlly@^1.6.1, mlly@^1.7.1, mlly@^1.7.2, mlly@^1.7.3, mlly@^1.7.4:
   version "1.7.4"
   resolved "https://registry.yarnpkg.com/mlly/-/mlly-1.7.4.tgz#3d7295ea2358ec7a271eaa5d000a0f84febe100f"
   integrity sha512-qmdSIPC4bDJXgZTCR7XosJiNKySV7O215tsPtDN9iEO/7q/76b/ijtgRu/+epFXSJhijtTCCGp3DWS549P3xKw==
@@ -11232,21 +11204,21 @@ unplugin-auto-import@^0.18.0:
     unimport "^3.7.2"
     unplugin "^1.11.0"
 
-unplugin-vue-components@^0.28.0:
-  version "0.28.0"
-  resolved "https://registry.yarnpkg.com/unplugin-vue-components/-/unplugin-vue-components-0.28.0.tgz#36108e4808c6e6bb36403613d3084338e2f6a4c0"
-  integrity sha512-jiTGtJ3JsRFBjgvyilfrX7yUoGKScFgbdNw+6p6kEXU+Spf/rhxzgvdfuMcvhCcLmflB/dY3pGQshYBVGOUx7Q==
+unplugin-vue-components@^28.0.0:
+  version "28.0.0"
+  resolved "https://registry.yarnpkg.com/unplugin-vue-components/-/unplugin-vue-components-28.0.0.tgz#02ec18e505feca09a2cb47e2a03b57cb3148f59c"
+  integrity sha512-vYe0wSyqTVhyNFIad1iiGyQGhG++tDOMgohqenMDOAooMJP9vvzCdXTqCVx20A0rCQXFNjgoRbSeDAioLPH36Q==
   dependencies:
     "@antfu/utils" "^0.7.10"
     "@rollup/pluginutils" "^5.1.4"
     chokidar "^3.6.0"
     debug "^4.4.0"
-    fast-glob "^3.3.2"
+    fast-glob "^3.3.3"
     local-pkg "^0.5.1"
-    magic-string "^0.30.15"
+    magic-string "^0.30.17"
     minimatch "^9.0.5"
     mlly "^1.7.3"
-    unplugin "^2.1.0"
+    unplugin "^2.1.2"
 
 unplugin-vue-router@^0.10.9:
   version "0.10.9"
@@ -11276,15 +11248,7 @@ unplugin@2.0.0-beta.1:
     acorn "^8.14.0"
     webpack-virtual-modules "^0.6.2"
 
-unplugin@^1.10.0, unplugin@^1.11.0, unplugin@^1.14.1, unplugin@^1.3.1:
-  version "1.14.1"
-  resolved "https://registry.yarnpkg.com/unplugin/-/unplugin-1.14.1.tgz#c76d6155a661e43e6a897bce6b767a1ecc344c1a"
-  integrity sha512-lBlHbfSFPToDYp9pjXlUEFVxYLaue9f9T1HC+4OHlmj+HnMDdz9oZY+erXfoCe/5V/7gKUSY2jpXPb9S7f0f/w==
-  dependencies:
-    acorn "^8.12.1"
-    webpack-virtual-modules "^0.6.2"
-
-unplugin@^1.16.1:
+unplugin@^1.10.0, unplugin@^1.11.0, unplugin@^1.14.1, unplugin@^1.16.1, unplugin@^1.3.1:
   version "1.16.1"
   resolved "https://registry.yarnpkg.com/unplugin/-/unplugin-1.16.1.tgz#a844d2e3c3b14a4ac2945c42be80409321b61199"
   integrity sha512-4/u/j4FrCKdi17jaxuJA0jClGxB1AvU2hw/IuayPc4ay1XGaJs/rbb4v5WKwAjNifjmXK9PIFyuPiaK8azyR9w==
@@ -11292,15 +11256,7 @@ unplugin@^1.16.1:
     acorn "^8.14.0"
     webpack-virtual-modules "^0.6.2"
 
-unplugin@^2.1.0:
-  version "2.1.0"
-  resolved "https://registry.yarnpkg.com/unplugin/-/unplugin-2.1.0.tgz#c093c34bf52812131125b67d0724bd57685c830a"
-  integrity sha512-us4j03/499KhbGP8BU7Hrzrgseo+KdfJYWcbcajCOqsAyb8Gk0Yn2kiUIcZISYCb1JFaZfIuG3b42HmguVOKCQ==
-  dependencies:
-    acorn "^8.14.0"
-    webpack-virtual-modules "^0.6.2"
-
-unplugin@^2.1.2:
+unplugin@^2.1.0, unplugin@^2.1.2:
   version "2.1.2"
   resolved "https://registry.yarnpkg.com/unplugin/-/unplugin-2.1.2.tgz#3a0939061c0076f1a8178e5d4223df63ee62c741"
   integrity sha512-Q3LU0e4zxKfRko1wMV2HmP8lB9KWislY7hxXpxd+lGx0PRInE4vhMBVEZwpdVYHvtqzhSrzuIfErsob6bQfCzw==
