@@ -20,11 +20,6 @@
     "@jridgewell/gen-mapping" "^0.3.5"
     "@jridgewell/trace-mapping" "^0.3.24"
 
-"@antfu/utils@^0.7.10":
-  version "0.7.10"
-  resolved "https://registry.yarnpkg.com/@antfu/utils/-/utils-0.7.10.tgz#ae829f170158e297a9b6a28f161a8e487d00814d"
-  integrity sha512-+562v9k4aI80m1+VuMHehNJWLOFjBnXn3tdOitzD0il5b7smkSBal4+a3oKiQTbrwMmN/TBUMDvbdoWDehgOww==
-
 "@babel/code-frame@^7.0.0", "@babel/code-frame@^7.23.5":
   version "7.23.5"
   resolved "https://registry.yarnpkg.com/@babel/code-frame/-/code-frame-7.23.5.tgz#9009b69a8c602293476ad598ff53e4562e15c244"
@@ -7121,7 +7116,7 @@ local-pkg@^0.4.2:
   resolved "https://registry.yarnpkg.com/local-pkg/-/local-pkg-0.4.3.tgz#0ff361ab3ae7f1c19113d9bb97b98b905dbc4963"
   integrity sha512-SFppqq5p42fe2qcZQqqEOiVRXl+WCP1MdT6k7BDEW1j++sp5fIY+/fdRQitvKgB5BrBcmrs5m/L0v2FrU5MY1g==
 
-local-pkg@^0.5.0, local-pkg@^0.5.1:
+local-pkg@^0.5.0:
   version "0.5.1"
   resolved "https://registry.yarnpkg.com/local-pkg/-/local-pkg-0.5.1.tgz#69658638d2a95287534d4c2fff757980100dbb6d"
   integrity sha512-9rrA30MRRP3gBD3HTGnC6cDFpaE1kVDWxWgqWJUN0RvDNAo+Nz/9GxB+nHOH0ifbVFy0hSA1V6vFDvnx54lTEQ==
@@ -7938,7 +7933,7 @@ minimatch@^5.1.0:
   dependencies:
     brace-expansion "^2.0.1"
 
-minimatch@^9.0.1, minimatch@^9.0.3, minimatch@^9.0.4, minimatch@^9.0.5:
+minimatch@^9.0.1, minimatch@^9.0.3, minimatch@^9.0.4:
   version "9.0.5"
   resolved "https://registry.yarnpkg.com/minimatch/-/minimatch-9.0.5.tgz#d74f9dd6b57d83d8e98cfb82133b03978bc929e5"
   integrity sha512-G6T0ZX48xgozx7587koeX9Ys2NYy6Gmv//P89sEte9V9whIapMNF4idKxnW2QtCcLiTWlb/wfCabAtAFWhhBow==
@@ -11156,21 +11151,19 @@ unplugin-utils@^0.2.0, unplugin-utils@^0.2.3, unplugin-utils@^0.2.4:
     pathe "^2.0.2"
     picomatch "^4.0.2"
 
-unplugin-vue-components@^28.0.0:
-  version "28.0.0"
-  resolved "https://registry.yarnpkg.com/unplugin-vue-components/-/unplugin-vue-components-28.0.0.tgz#02ec18e505feca09a2cb47e2a03b57cb3148f59c"
-  integrity sha512-vYe0wSyqTVhyNFIad1iiGyQGhG++tDOMgohqenMDOAooMJP9vvzCdXTqCVx20A0rCQXFNjgoRbSeDAioLPH36Q==
+unplugin-vue-components@^28.5.0:
+  version "28.5.0"
+  resolved "https://registry.yarnpkg.com/unplugin-vue-components/-/unplugin-vue-components-28.5.0.tgz#33585a24c98939d1abe56bd69217bc7187ba329f"
+  integrity sha512-o7fMKU/uI8NiP+E0W62zoduuguWqB0obTfHFtbr1AP2uo2lhUPnPttWUE92yesdiYfo9/0hxIrj38FMc1eaySg==
   dependencies:
-    "@antfu/utils" "^0.7.10"
-    "@rollup/pluginutils" "^5.1.4"
     chokidar "^3.6.0"
     debug "^4.4.0"
-    fast-glob "^3.3.3"
-    local-pkg "^0.5.1"
+    local-pkg "^1.1.1"
     magic-string "^0.30.17"
-    minimatch "^9.0.5"
-    mlly "^1.7.3"
-    unplugin "^2.1.2"
+    mlly "^1.7.4"
+    tinyglobby "^0.2.12"
+    unplugin "^2.3.2"
+    unplugin-utils "^0.2.4"
 
 unplugin-vue-router@^0.12.0:
   version "0.12.0"
@@ -11201,16 +11194,7 @@ unplugin@^1.10.0, unplugin@^1.14.1:
     acorn "^8.14.0"
     webpack-virtual-modules "^0.6.2"
 
-unplugin@^2.1.0, unplugin@^2.1.2, unplugin@^2.2.0, unplugin@^2.2.2:
-  version "2.3.0"
-  resolved "https://registry.yarnpkg.com/unplugin/-/unplugin-2.3.0.tgz#90c304962a5840625cbf1f2e7384931624008a78"
-  integrity sha512-zNTDfbzOZzkbgXvH1QgQFW5nAyvjA0q3q9FGPFx2sKpDnaoU09VP1wT1mE+LYa6EF2rfezfd1y2EPLLR8ka6nw==
-  dependencies:
-    acorn "^8.14.1"
-    picomatch "^4.0.2"
-    webpack-virtual-modules "^0.6.2"
-
-unplugin@^2.3.2:
+unplugin@^2.1.0, unplugin@^2.1.2, unplugin@^2.2.0, unplugin@^2.2.2, unplugin@^2.3.2:
   version "2.3.2"
   resolved "https://registry.yarnpkg.com/unplugin/-/unplugin-2.3.2.tgz#36c93a1662b70c97a2e2fc45c0e78fa09f7a4984"
   integrity sha512-3n7YA46rROb3zSj8fFxtxC/PqoyvYQ0llwz9wtUPUutr9ig09C8gGo5CWCwHrUzlqC1LLR43kxp5vEIyH1ac1w==
