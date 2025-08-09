@@ -37,7 +37,7 @@
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-prettier": "^5.2.1",
     "eslint-plugin-vitest": "0.5.4",
-    "jsdom": "^24.1.0",
+    "jsdom": "^26.1.0",
     "nuxi": "^3.25.0",
     "nuxt": "^3.16.2",
     "prettier": "^3.2.5",
