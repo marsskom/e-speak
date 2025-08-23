@@ -59,7 +59,7 @@
     "firebase-admin": "^13.4.0",
     "form-data": "^4.0.4",
     "node-fetch": "^3.3.2",
-    "nuxt-vuefire": "^1.0.0",
+    "nuxt-vuefire": "^1.1.0",
     "openai": "^5.11.0",
     "pinia": "^3.0.2",
     "postcss": "^8.5.3",
