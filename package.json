@@ -28,7 +28,7 @@
     "@tailwindcss/line-clamp": "^0.4.4",
     "@tailwindcss/typography": "^0.5.16",
     "@types/node": "^24.3.0",
-    "@typescript-eslint/parser": "8.29.0",
+    "@typescript-eslint/parser": "8.42.0",
     "@vitejs/plugin-vue": "^6.0.0",
     "@vitest/coverage-v8": "^3.2.4",
     "@vitest/ui": "^3.2.4",
