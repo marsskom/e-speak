@@ -61,7 +61,7 @@
     "node-fetch": "^3.3.2",
     "nuxt-vuefire": "^1.1.0",
     "openai": "^5.11.0",
-    "pinia": "^3.0.2",
+    "pinia": "^3.0.3",
     "postcss": "^8.5.3",
     "sass": "^1.87.0",
     "uuid": "^11.1.0",
